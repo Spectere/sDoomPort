@@ -27,6 +27,10 @@
 #include <stdio.h>
 #include <string.h>
 
+// The only thing from unistd.h that we actually need.
+// TODO: See if this can be removed/changed somehow.
+#define R_OK 4
+
 //
 // Global parameters/defines.
 //
