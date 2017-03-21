@@ -25,6 +25,7 @@
 static const char
 rcsid[] = "$Id: i_x.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 
+#include <SDL.h>
 #include <stdarg.h>
 
 #include <signal.h>
@@ -36,6 +37,21 @@ rcsid[] = "$Id: i_x.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 
 #include "doomdef.h"
 
+
+typedef struct {
+	Uint8 r;
+	Uint8 g;
+	Uint8 b;
+} color;
+
+static color g_palette[256];
+
+static SDL_Window *window;
+static SDL_Renderer *renderer;
+static SDL_Texture *texture;
+static Uint32 *pixels;
+
+const Uint16 w_width = 320, w_height = 200;
 
 void I_ShutdownGraphics(void)
 {
@@ -99,7 +115,17 @@ void I_FinishUpdate (void)
 			screens[0][ (SCREENHEIGHT-1)*SCREENWIDTH + i] = 0x0;
     }
 
-	// TODO: draw the image
+	/* Convert the palettized buffer to a 32-bit ARGB texture. */
+	for(i = 0; i < w_width * w_height; i++) {
+		/* TODO: Make this endian-agnostic. */
+		color c = g_palette[screens[0][i]];
+		pixels[i] = c.r << 24 && c.g << 16 && c.b;
+	}
+
+	SDL_UpdateTexture(texture, NULL, pixels, w_width * sizeof(Uint8));
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, texture, NULL, NULL);
+	SDL_RenderPresent(renderer);
 }
 
 
@@ -117,9 +143,31 @@ void I_ReadScreen (byte* scr)
 //
 void I_SetPalette (byte* palette)
 {
+	memcpy(g_palette, palette, sizeof(palette));
 }
 
 
 void I_InitGraphics(void)
 {
+	/* Create the SDL window. */
+	window = SDL_CreateWindow(
+		"sDoomPort",
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+		w_width, w_height,
+		0
+	);
+	if(window == NULL) I_Error("I_InitGraphics(): Error creating window!");
+
+	/* Create a hardware renderer if possible. Otherwise, try to fall back to software.*/
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	if(renderer == NULL) {
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+		if(renderer == NULL) I_Error("I_InitGraphics(): Error creating renderer!");
+	}
+
+	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w_width, w_height);
+	if(texture == NULL) I_Error("I_InitGraphics(): Error creating texture!");
+	
+	screens[0] = (Uint8*)malloc(w_width * w_height);
+	pixels = (Uint32*)malloc(w_width * w_height * sizeof(Uint32));
 }
