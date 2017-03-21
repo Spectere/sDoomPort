@@ -227,8 +227,8 @@
 #define HUSTR_PLRRED		"ROUGE: "
 
 #define HUSTR_KEYGREEN	'g'	// french key should be "V"
-#define HUSTR_KEYINDIGO	'i'	
-#define HUSTR_KEYBROWN	'b'	
+#define HUSTR_KEYINDIGO	'i'
+#define HUSTR_KEYBROWN	'b'
 #define HUSTR_KEYRED		'r'
 
 //
@@ -283,7 +283,7 @@
 "POUR VIVRE LA SUITE DE DOOM, JOUEZ\n"\
 "A 'AUX PORTES DE L'ENFER' ET A\n"\
 "L'EPISODE SUIVANT, 'L'ENFER'!\n"
-				
+
 #define E2TEXT	"VOUS AVEZ REUSSI. L'INFAME DEMON\n"\
 "QUI CONTROLAIT LA BASE LUNAIRE DE\n"\
 "DEIMOS EST MORT, ET VOUS AVEZ\n"\
@@ -319,7 +319,6 @@
 "COMBATTU LE DEMON. HEUREUSEMENT,\n"\
 "AUCUN GERME DU MAL N'A FRANCHI\n"\
 "CETTE PORTE AVEC VOUS..."
-
 
 
 // after level 6, put this:
@@ -423,12 +422,9 @@
 #define CC_HERO		"NOTRE HEROS"
 
 
-
 #endif
 //-----------------------------------------------------------------------------
 //
 // $Log:$
 //
 //-----------------------------------------------------------------------------
-
-
