@@ -28,6 +28,8 @@
 static const char
 rcsid[] = "$Id: r_data.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
 
+#include <malloc.h>
+
 #include "i_system.h"
 #include "z_zone.h"
 
@@ -42,9 +44,6 @@ rcsid[] = "$Id: r_data.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
 #include "doomstat.h"
 #include "r_sky.h"
 
-#ifdef LINUX
-#include  <alloca.h>
-#endif
 
 
 #include "r_data.h"
@@ -703,7 +702,7 @@ int	R_CheckTextureNumForName (char *name)
 	return 0;
 		
     for (i=0 ; i<numtextures ; i++)
-	if (!strncasecmp (textures[i]->name, name, 8) )
+	if (!_strnicmp (textures[i]->name, name, 8) )
 	    return i;
 		
     return -1;

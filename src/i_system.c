@@ -24,7 +24,7 @@
 static const char
 rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
-
+#include <SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -127,15 +127,8 @@ void I_Quit (void)
 
 void I_WaitVBL(int count)
 {
-#ifdef SGI
-    sginap(1);                                           
-#else
-#ifdef SUN
-    sleep(0);
-#else
-    usleep (count * (1000000/70) );                                
-#endif
-#endif
+	/* TODO: Probably not the best approach. */
+    SDL_Delay(count * (1000/70) );                                
 }
 
 void I_BeginRead(void)
