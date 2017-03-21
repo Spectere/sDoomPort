@@ -79,19 +79,8 @@ byte* I_ZoneBase(int* size) {
 // returns time in 1/70th second tics
 //
 int I_GetTime(void) {
-	/* TODO: Reimplement this. */
-	/*
-    struct timeval	tp;
-    struct timezone	tzp;
-    int			newtics;
-    static int		basetime=0;
-  
-    gettimeofday(&tp, &tzp);
-    if (!basetime)
-	basetime = tp.tv_sec;
-    newtics = (tp.tv_sec-basetime)*TICRATE + tp.tv_usec*TICRATE/1000000;
-    return newtics;
-	*/
+	/* TODO: Update this to use "wall clock" time instead. */
+	return SDL_GetTicks() / 70;
 }
 
 
