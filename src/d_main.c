@@ -32,6 +32,9 @@ static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 #define	FGCOLOR		8
 
 
+#include <direct.h>
+#include <corecrt_io.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -391,15 +394,8 @@ void D_DoomLoop (void)
 	// Update display, next frame, with current state.
 	D_Display ();
 
-#ifndef SNDSERV
-	// Sound mixing for the buffer is snychronous.
-	I_UpdateSound();
-#endif	
-	// Synchronous sound output is explicitly called.
-#ifndef SNDINTR
 	// Update sound output.
 	I_SubmitSound();
-#endif
     }
 }
 
@@ -569,7 +565,6 @@ void IdentifyVersion (void)
     char*	plutoniawad;
     char*	tntwad;
 
-#ifdef NORMALUNIX
     char *home;
     char *doomwaddir;
     doomwaddir = getenv("DOOMWADDIR");
@@ -604,12 +599,6 @@ void IdentifyVersion (void)
     // French stuff.
     doom2fwad = malloc(strlen(doomwaddir)+1+10+1);
     sprintf(doom2fwad, "%s/doom2f.wad", doomwaddir);
-
-    home = getenv("HOME");
-    if (!home)
-      I_Error("Please set $HOME to your home directory");
-    sprintf(basedefault, "%s/.doomrc", home);
-#endif
 
     if (M_CheckParm ("-shdev"))
     {
@@ -652,7 +641,7 @@ void IdentifyVersion (void)
 	return;
     }
 
-    if ( !access (doom2fwad,R_OK) )
+    if ( !_access (doom2fwad,R_OK) )
     {
 	gamemode = commercial;
 	// C'est ridicule!
@@ -663,42 +652,42 @@ void IdentifyVersion (void)
 	return;
     }
 
-    if ( !access (doom2wad,R_OK) )
+    if ( !_access (doom2wad,R_OK) )
     {
 	gamemode = commercial;
 	D_AddFile (doom2wad);
 	return;
     }
 
-    if ( !access (plutoniawad, R_OK ) )
+    if ( !_access (plutoniawad, R_OK ) )
     {
       gamemode = commercial;
       D_AddFile (plutoniawad);
       return;
     }
 
-    if ( !access ( tntwad, R_OK ) )
+    if ( !_access ( tntwad, R_OK ) )
     {
       gamemode = commercial;
       D_AddFile (tntwad);
       return;
     }
 
-    if ( !access (doomuwad,R_OK) )
+    if ( !_access (doomuwad,R_OK) )
     {
       gamemode = retail;
       D_AddFile (doomuwad);
       return;
     }
 
-    if ( !access (doomwad,R_OK) )
+    if ( !_access (doomwad,R_OK) )
     {
       gamemode = registered;
       D_AddFile (doomwad);
       return;
     }
 
-    if ( !access (doom1wad,R_OK) )
+    if ( !_access (doom1wad,R_OK) )
     {
       gamemode = shareware;
       D_AddFile (doom1wad);
@@ -874,7 +863,7 @@ void D_DoomMain (void)
     if (M_CheckParm("-cdrom"))
     {
 	printf(D_CDROM);
-	mkdir("c:\\doomdata",0);
+	_mkdir("c:\\doomdata");
 	strcpy (basedefault,"c:/doomdata/default.cfg");
     }	
     
