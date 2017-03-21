@@ -61,12 +61,90 @@ void I_ShutdownGraphics(void) {}
 //
 void I_StartFrame(void) {}
 
+int MapSDLKey(SDL_Keysym keysym) {
+	/* Handles everything from Space to Tilde. */
+	if(keysym.sym >= 0x20 && keysym.sym <= 0x7E)
+		return keysym.sym;
+
+	/* Try to handle everything else. */
+	switch(keysym.sym) {
+	case SDLK_LCTRL: case SDLK_RCTRL:
+		return KEY_RCTRL;
+	case SDLK_LSHIFT: case SDLK_RSHIFT:
+		return KEY_RSHIFT;
+	case SDLK_LALT: case SDLK_RALT:
+		return KEY_RALT;
+	case SDLK_UP:
+		return KEY_UPARROW;
+	case SDLK_DOWN:
+		return KEY_DOWNARROW;
+	case SDLK_LEFT:
+		return KEY_LEFTARROW;
+	case SDLK_RIGHT:
+		return KEY_RIGHTARROW;
+	case SDLK_RETURN2:
+		return KEY_ENTER;
+	case SDLK_BACKSPACE:	
+		return KEY_BACKSPACE;
+	case SDLK_ESCAPE:
+		return KEY_ESCAPE;
+	case SDLK_PAUSE:
+		return KEY_PAUSE;
+	case SDLK_TAB:
+		return KEY_TAB;
+	case SDLK_F1:
+		return KEY_F1;
+	case SDLK_F2:
+		return KEY_F2;
+	case SDLK_F3:
+		return KEY_F3;
+	case SDLK_F4:
+		return KEY_F4;
+	case SDLK_F5:
+		return KEY_F5;
+	case SDLK_F6:
+		return KEY_F6;
+	case SDLK_F7:
+		return KEY_F7;
+	case SDLK_F8:
+		return KEY_F8;
+	case SDLK_F9:
+		return KEY_F9;
+	case SDLK_F10:
+		return KEY_F10;
+	case SDLK_F11:
+		return KEY_F11;
+	case SDLK_F12:
+		return KEY_F12;
+	}
+
+	/* The player hit...something, I guess. */
+	return -1;
+}
+
 void I_GetEvent(void) {
-	event_t event;
+	event_t d_event;
+	SDL_Event sdl_event;
 
-	/* TODO: Actually process events. :) */
+	/* TODO: Add support for other event types. */
+	while(SDL_PollEvent(&sdl_event)) {
+		switch(sdl_event.type) {
+		case SDL_KEYDOWN:
+			d_event.type = ev_keydown;
+			break;
+		case SDL_KEYUP:
+			d_event.type = ev_keyup;
+			break;
+		default:
+			continue;
+		}
 
-	D_PostEvent(&event);
+		/* Handle keyboard events. */
+		d_event.data1 = MapSDLKey(sdl_event.key.keysym);
+
+		if(d_event.data1 != -1)
+			D_PostEvent(&d_event);
+	}
 }
 
 //
