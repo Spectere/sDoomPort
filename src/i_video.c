@@ -140,9 +140,7 @@ void I_GetEvent(void) {
 		}
 
 		/* Handle keyboard events. */
-		d_event.data1 = MapSDLKey(sdl_event.key.keysym);
-
-		if(d_event.data1 != -1)
+		if((d_event.data1 = MapSDLKey(sdl_event.key.keysym)) != -1)
 			D_PostEvent(&d_event);
 	}
 }
@@ -208,7 +206,12 @@ void I_ReadScreen(byte* scr) {
 // I_SetPalette
 //
 void I_SetPalette(byte* palette) {
-	memcpy(g_palette, palette, sizeof(palette));
+	int i;
+	for(i = 0; i < 256; i++) {
+		g_palette[i].r = gammatable[usegamma][*palette++];
+		g_palette[i].g = gammatable[usegamma][*palette++];
+		g_palette[i].b = gammatable[usegamma][*palette++];
+	}
 }
 
 
