@@ -45,47 +45,40 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 #include "i_system.h"
 
 
-
-
-int	mb_used = 6;
+int mb_used = 6;
 
 
 void
 I_Tactile
-( int	on,
-  int	off,
-  int	total )
-{
-  // UNUSED.
-  on = off = total = 0;
+(int on,
+ int off,
+ int total) {
+	// UNUSED.
+	on = off = total = 0;
 }
 
-ticcmd_t	emptycmd;
-ticcmd_t*	I_BaseTiccmd(void)
-{
-    return &emptycmd;
+ticcmd_t emptycmd;
+
+ticcmd_t* I_BaseTiccmd(void) {
+	return &emptycmd;
 }
 
 
-int  I_GetHeapSize (void)
-{
-    return mb_used*1024*1024;
+int I_GetHeapSize(void) {
+	return mb_used * 1024 * 1024;
 }
 
-byte* I_ZoneBase (int*	size)
-{
-    *size = mb_used*1024*1024;
-    return (byte *) malloc (*size);
+byte* I_ZoneBase(int* size) {
+	*size = mb_used * 1024 * 1024;
+	return (byte *) malloc(*size);
 }
-
 
 
 //
 // I_GetTime
 // returns time in 1/70th second tics
 //
-int  I_GetTime (void)
-{
+int I_GetTime(void) {
 	/* TODO: Reimplement this. */
 	/*
     struct timeval	tp;
@@ -102,50 +95,41 @@ int  I_GetTime (void)
 }
 
 
-
 //
 // I_Init
 //
-void I_Init (void)
-{
-    I_InitSound();
-    //  I_InitGraphics();
+void I_Init(void) {
+	I_InitSound();
+	//  I_InitGraphics();
 }
 
 //
 // I_Quit
 //
-void I_Quit (void)
-{
-    D_QuitNetGame ();
-    I_ShutdownSound();
-    I_ShutdownMusic();
-    M_SaveDefaults ();
-    I_ShutdownGraphics();
-    exit(0);
+void I_Quit(void) {
+	D_QuitNetGame();
+	I_ShutdownSound();
+	I_ShutdownMusic();
+	M_SaveDefaults();
+	I_ShutdownGraphics();
+	exit(0);
 }
 
-void I_WaitVBL(int count)
-{
+void I_WaitVBL(int count) {
 	/* TODO: Probably not the best approach. */
-    SDL_Delay(count * (1000/70) );                                
+	SDL_Delay(count * (1000 / 70));
 }
 
-void I_BeginRead(void)
-{
-}
+void I_BeginRead(void) {}
 
-void I_EndRead(void)
-{
-}
+void I_EndRead(void) {}
 
-byte*	I_AllocLow(int length)
-{
-    byte*	mem;
-        
-    mem = (byte *)malloc (length);
-    memset (mem,0,length);
-    return mem;
+byte* I_AllocLow(int length) {
+	byte* mem;
+
+	mem = (byte *)malloc(length);
+	memset(mem, 0, length);
+	return mem;
 }
 
 
@@ -154,25 +138,24 @@ byte*	I_AllocLow(int length)
 //
 extern boolean demorecording;
 
-void I_Error (char *error, ...)
-{
-    va_list	argptr;
+void I_Error(char* error, ...) {
+	va_list argptr;
 
-    // Message first.
-    va_start (argptr,error);
-    fprintf (stderr, "Error: ");
-    vfprintf (stderr,error,argptr);
-    fprintf (stderr, "\n");
-    va_end (argptr);
+	// Message first.
+	va_start (argptr,error);
+	fprintf(stderr, "Error: ");
+	vfprintf(stderr, error, argptr);
+	fprintf(stderr, "\n");
+	va_end (argptr);
 
-    fflush( stderr );
+	fflush(stderr);
 
-    // Shutdown. Here might be other errors.
-    if (demorecording)
-	G_CheckDemoStatus();
+	// Shutdown. Here might be other errors.
+	if(demorecording)
+		G_CheckDemoStatus();
 
-    D_QuitNetGame ();
-    I_ShutdownGraphics();
-    
-    exit(-1);
+	D_QuitNetGame();
+	I_ShutdownGraphics();
+
+	exit(-1);
 }

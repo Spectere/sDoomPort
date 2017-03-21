@@ -506,7 +506,6 @@
 "LOT MORE FUN THAN RUINING IT WAS.\n"
 
 
-
 // Before level 31, put this:
 
 #define C5TEXT \
@@ -669,7 +668,6 @@
 "\n"\
 "As you step off the transport, you hear\n"\
 "the stomp of a cyberdemon's iron shoe."
-
 
 
 //

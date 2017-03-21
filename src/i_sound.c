@@ -70,27 +70,27 @@ static int flag = 0;
 #define SAMPLESIZE		2   	// 16bit
 
 // The actual lengths of all sound effects.
-int 		lengths[NUMSFX];
+int lengths[NUMSFX];
 
 // The actual output device.
-int	audio_fd;
+int audio_fd;
 
 // The global mixing buffer.
 // Basically, samples from all active internal channels
 //  are modifed and added, and stored in the buffer
 //  that is submitted to the audio device.
-signed short	mixbuffer[MIXBUFFERSIZE];
+signed short mixbuffer[MIXBUFFERSIZE];
 
 
 // The channel step amount...
-unsigned int	channelstep[NUM_CHANNELS];
+unsigned int channelstep[NUM_CHANNELS];
 // ... and a 0.16 bit remainder of last step.
-unsigned int	channelstepremainder[NUM_CHANNELS];
+unsigned int channelstepremainder[NUM_CHANNELS];
 
 
 // The channel data pointers, start and end.
-unsigned char*	channels[NUM_CHANNELS];
-unsigned char*	channelsend[NUM_CHANNELS];
+unsigned char* channels[NUM_CHANNELS];
+unsigned char* channelsend[NUM_CHANNELS];
 
 
 // Time/gametic that the channel started playing,
@@ -98,29 +98,27 @@ unsigned char*	channelsend[NUM_CHANNELS];
 //  has lowest priority.
 // In case number of active sounds exceeds
 //  available channels.
-int		channelstart[NUM_CHANNELS];
+int channelstart[NUM_CHANNELS];
 
 // The sound in channel handles,
 //  determined on registration,
 //  might be used to unregister/stop/modify,
 //  currently unused.
-int 		channelhandles[NUM_CHANNELS];
+int channelhandles[NUM_CHANNELS];
 
 // SFX id of the playing sound effect.
 // Used to catch duplicates (like chainsaw).
-int		channelids[NUM_CHANNELS];			
+int channelids[NUM_CHANNELS];
 
 // Pitch to stepping lookup, unused.
-int		steptable[256];
+int steptable[256];
 
 // Volume lookups.
-int		vol_lookup[128*256];
+int vol_lookup[128 * 256];
 
 // Hardware left and right channel volume lookup.
-int*		channelleftvol_lookup[NUM_CHANNELS];
-int*		channelrightvol_lookup[NUM_CHANNELS];
-
-
+int* channelleftvol_lookup[NUM_CHANNELS];
+int* channelrightvol_lookup[NUM_CHANNELS];
 
 
 //
@@ -132,16 +130,15 @@ int*		channelrightvol_lookup[NUM_CHANNELS];
 // version.
 // See soundserver initdata().
 //
-void I_SetChannels()
-{
+void I_SetChannels() {
 	// Init internal lookups (raw data, mixing buffer, channels).
 	// This function sets up internal lookups used during
 	//  the mixing process. 
-	int		i;
-	int		j;
-    
-	int*	steptablemid = steptable + 128;
-  
+	int i;
+	int j;
+
+	int* steptablemid = steptable + 128;
+
 	// Okay, reset internal mixing channels to zero.
 	/*for (i=0; i<NUM_CHANNELS; i++)
 	{
@@ -150,21 +147,20 @@ void I_SetChannels()
 
 	// This table provides step widths for pitch parameters.
 	// I fail to see that this is currently used.
-	for (i=-128 ; i<128 ; i++)
-		steptablemid[i] = (int)(pow(2.0, (i/64.0))*65536.0);
-  
-  
+	for(i = -128; i < 128; i++)
+		steptablemid[i] = (int)(pow(2.0, (i / 64.0)) * 65536.0);
+
+
 	// Generates volume lookup tables
 	//  which also turn the unsigned samples
 	//  into signed samples.
-	for (i=0 ; i<128 ; i++)
-		for (j=0 ; j<256 ; j++)
-			vol_lookup[i*256+j] = (i*(j-128)*256)/127;
-}	
+	for(i = 0; i < 128; i++)
+		for(j = 0; j < 256; j++)
+			vol_lookup[i * 256 + j] = (i * (j - 128) * 256) / 127;
+}
 
- 
-void I_SetSfxVolume(int volume)
-{
+
+void I_SetSfxVolume(int volume) {
 	// Identical to DOS.
 	// Basically, this should propagate
 	//  the menu/config file setting
@@ -174,8 +170,7 @@ void I_SetSfxVolume(int volume)
 }
 
 // MUSIC API
-void I_SetMusicVolume(int volume)
-{
+void I_SetMusicVolume(int volume) {
 	// Internal state variable.
 	snd_MusicVolume = volume;
 	// Now set volume on output device.
@@ -187,8 +182,7 @@ void I_SetMusicVolume(int volume)
 // Retrieve the raw data lump index
 //  for a given SFX name.
 //
-int I_GetSfxLumpNum(sfxinfo_t* sfx)
-{
+int I_GetSfxLumpNum(sfxinfo_t* sfx) {
 	char namebuf[9];
 	sprintf(namebuf, "ds%s", sfx->name);
 	return W_GetNumForName(namebuf);
@@ -208,29 +202,22 @@ int I_GetSfxLumpNum(sfxinfo_t* sfx)
 //
 int
 I_StartSound
-( int		id,
-  int		vol,
-  int		sep,
-  int		pitch,
-  int		priority )
-{
+(int id,
+ int vol,
+ int sep,
+ int pitch,
+ int priority) {
 	return 0;
 }
 
 
-
-void I_StopSound (int handle)
-{
-}
+void I_StopSound(int handle) {}
 
 
-int I_SoundIsPlaying(int handle)
-{
+int I_SoundIsPlaying(int handle) {
 	// Ouch.
 	return gametic < handle;
 }
-
-
 
 
 //
@@ -246,9 +233,7 @@ int I_SoundIsPlaying(int handle)
 //
 // This function currently supports only 16bit.
 //
-void I_UpdateSound( void )
-{
-}
+void I_UpdateSound(void) {}
 
 
 // 
@@ -259,40 +244,21 @@ void I_UpdateSound( void )
 // Mixing now done synchronous, and
 //  only output be done asynchronous?
 //
-void
-I_SubmitSound(void)
-{
-}
-
+void I_SubmitSound(void) {}
 
 
 void
 I_UpdateSoundParams
-( int	handle,
-  int	vol,
-  int	sep,
-  int	pitch)
-{
-}
+(int handle,
+ int vol,
+ int sep,
+ int pitch) {}
 
 
+void I_ShutdownSound(void) { }
 
 
-void I_ShutdownSound(void)
-{    
-}
-
-
-
-
-
-
-void
-I_InitSound()
-{ 
-}
-
-
+void I_InitSound() { }
 
 
 //
@@ -300,57 +266,40 @@ I_InitSound()
 // Still no music done.
 // Remains. Dummies.
 //
-void I_InitMusic(void)		{ }
-void I_ShutdownMusic(void)	{ }
+void I_InitMusic(void) { }
+void I_ShutdownMusic(void) { }
 
-static int	looping=0;
-static int	musicdies=-1;
+static int looping = 0;
+static int musicdies = -1;
 
-void I_PlaySong(int handle, int looping)
-{
-}
+void I_PlaySong(int handle, int looping) {}
 
-void I_PauseSong (int handle)
-{
-}
+void I_PauseSong(int handle) {}
 
-void I_ResumeSong (int handle)
-{
-}
+void I_ResumeSong(int handle) {}
 
-void I_StopSong(int handle)
-{
-}
+void I_StopSong(int handle) {}
 
-void I_UnRegisterSong(int handle)
-{
-}
+void I_UnRegisterSong(int handle) {}
 
-int I_RegisterSong(void* data)
-{
+int I_RegisterSong(void* data) {
 	return 1;
 }
 
 // Is the song playing?
-int I_QrySongPlaying(int handle)
-{
+int I_QrySongPlaying(int handle) {
 	return looping || musicdies > gametic;
 }
 
 
 // Interrupt handler.
-void I_HandleSoundTimer( int ignore )
-{
-}
+void I_HandleSoundTimer(int ignore) {}
 
 // Get the interrupt. Set duration in millisecs.
-int I_SoundSetTimer( int duration_of_tick )
-{
+int I_SoundSetTimer(int duration_of_tick) {
 	return 0;
 }
 
 
 // Remove the interrupt. Set duration to zero.
-void I_SoundDelTimer()
-{
-}
+void I_SoundDelTimer() {}

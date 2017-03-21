@@ -46,28 +46,22 @@ typedef struct {
 
 static color g_palette[256];
 
-static SDL_Window *window;
-static SDL_Renderer *renderer;
-static SDL_Texture *texture;
-static Uint32 *pixels;
+static SDL_Window* window;
+static SDL_Renderer* renderer;
+static SDL_Texture* texture;
+static Uint32* pixels;
 
 const Uint16 w_width = 320, w_height = 200;
 
-void I_ShutdownGraphics(void)
-{
-}
-
+void I_ShutdownGraphics(void) {}
 
 
 //
 // I_StartFrame
 //
-void I_StartFrame (void)
-{
-}
+void I_StartFrame(void) {}
 
-void I_GetEvent(void)
-{
+void I_GetEvent(void) {
 	event_t event;
 
 	/* TODO: Actually process events. :) */
@@ -78,8 +72,7 @@ void I_GetEvent(void)
 //
 // I_StartTic
 //
-void I_StartTic (void)
-{
+void I_StartTic(void) {
 	I_GetEvent();
 }
 
@@ -87,33 +80,29 @@ void I_StartTic (void)
 //
 // I_UpdateNoBlit
 //
-void I_UpdateNoBlit (void)
-{
-}
+void I_UpdateNoBlit(void) {}
 
 //
 // I_FinishUpdate
 //
-void I_FinishUpdate (void)
-{
+void I_FinishUpdate(void) {
 
-    static int	lasttic;
-    int		tics;
-    int		i;
+	static int lasttic;
+	int tics;
+	int i;
 
-    // draws little dots on the bottom of the screen
-    if (devparm)
-    {
+	// draws little dots on the bottom of the screen
+	if(devparm) {
 		i = I_GetTime();
 		tics = i - lasttic;
 		lasttic = i;
-		if (tics > 20) tics = 20;
+		if(tics > 20) tics = 20;
 
-		for (i=0 ; i<tics*2 ; i+=2)
-			screens[0][ (SCREENHEIGHT-1)*SCREENWIDTH + i] = 0xff;
-		for ( ; i<20*2 ; i+=2)
-			screens[0][ (SCREENHEIGHT-1)*SCREENWIDTH + i] = 0x0;
-    }
+		for(i = 0; i < tics * 2; i += 2)
+			screens[0][(SCREENHEIGHT - 1) * SCREENWIDTH + i] = 0xff;
+		for(; i < 20 * 2; i += 2)
+			screens[0][(SCREENHEIGHT - 1) * SCREENWIDTH + i] = 0x0;
+	}
 
 	/* Convert the palettized buffer to a 32-bit ARGB texture. */
 	for(i = 0; i < w_width * w_height; i++) {
@@ -132,23 +121,20 @@ void I_FinishUpdate (void)
 //
 // I_ReadScreen
 //
-void I_ReadScreen (byte* scr)
-{
-    memcpy (scr, screens[0], SCREENWIDTH*SCREENHEIGHT);
+void I_ReadScreen(byte* scr) {
+	memcpy(scr, screens[0], SCREENWIDTH * SCREENHEIGHT);
 }
 
 
 //
 // I_SetPalette
 //
-void I_SetPalette (byte* palette)
-{
+void I_SetPalette(byte* palette) {
 	memcpy(g_palette, palette, sizeof(palette));
 }
 
 
-void I_InitGraphics(void)
-{
+void I_InitGraphics(void) {
 	/* Create the SDL window. */
 	window = SDL_CreateWindow(
 		"sDoomPort",
@@ -167,7 +153,7 @@ void I_InitGraphics(void)
 
 	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w_width, w_height);
 	if(texture == NULL) I_Error("I_InitGraphics(): Error creating texture!");
-	
+
 	screens[0] = (Uint8*)malloc(w_width * w_height);
 	pixels = (Uint32*)malloc(w_width * w_height * sizeof(Uint32));
 }
