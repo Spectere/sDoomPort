@@ -92,6 +92,9 @@ int messageToPrint;
 // ...and here is the message string!
 char* messageString;
 
+// Display scaling multipler.
+int scale;
+
 // message x & y
 int messx;
 int messy;

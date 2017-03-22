@@ -49,10 +49,12 @@ static SDL_Window* window;
 static SDL_Renderer* renderer;
 static SDL_Texture* texture;
 
-const Uint16 w_width = 960, w_height = 600;
+Uint16 w_width, w_height;
 const Uint16 t_width = SCREENWIDTH, t_height = SCREENHEIGHT;
 
 void I_ShutdownGraphics(void) {}
+
+extern int scale;
 
 
 //
@@ -222,6 +224,10 @@ void I_SetPalette(byte* palette) {
 
 
 void I_InitGraphics(void) {
+	/* Scale the window appropriately. */
+	w_width = SCREENWIDTH * scale;
+	w_height = SCREENHEIGHT * scale * 1.2;  /* Include aspect ratio correction. */
+
 	/* Create the SDL window. */
 	window = SDL_CreateWindow(
 		"sDoomPort",
