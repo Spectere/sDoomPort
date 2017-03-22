@@ -95,6 +95,13 @@ char* messageString;
 // Display scaling multipler.
 int scale;
 
+// Capture mouse cursor.
+int capture_mouse;
+
+// The sensitivity multiplier.
+int mouse_sensitivity_multiplier_x;
+int mouse_sensitivity_multiplier_y;
+
 // message x & y
 int messx;
 int messy;

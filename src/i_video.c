@@ -55,7 +55,9 @@ const Uint16 t_width = SCREENWIDTH, t_height = SCREENHEIGHT;
 void I_ShutdownGraphics(void) {}
 
 extern int scale;
-
+extern int capture_mouse;
+extern int mouse_sensitivity_multiplier_x;
+extern int mouse_sensitivity_multiplier_y;
 
 //
 // I_StartFrame
@@ -130,9 +132,13 @@ static int MapSDLKey(SDL_Keysym keysym) {
 void I_GetEvent(void) {
 	event_t d_event;
 	SDL_Event sdl_event;
+	Uint32 button_mask;
+	SDL_bool dispatch_event;
 
-	/* TODO: Add support for other event types. */
+	/* TODO: Add gamepad/joystick support. */
 	while(SDL_PollEvent(&sdl_event)) {
+		dispatch_event = false;
+
 		switch(sdl_event.type) {
 		case SDL_KEYDOWN:
 			d_event.type = ev_keydown;
@@ -140,13 +146,41 @@ void I_GetEvent(void) {
 		case SDL_KEYUP:
 			d_event.type = ev_keyup;
 			break;
+		case SDL_MOUSEMOTION:
+			button_mask = SDL_GetMouseState(NULL, NULL);
+
+			d_event.type = ev_mouse;
+			d_event.data1 = button_mask & SDL_BUTTON(SDL_BUTTON_LEFT) ? 1 : 0 |
+				button_mask & SDL_BUTTON(SDL_BUTTON_RIGHT) ? 2 : 0 |
+				button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE) ? 4 : 0;
+			d_event.data2 = sdl_event.motion.xrel << mouse_sensitivity_multiplier_x;
+			d_event.data3 = -sdl_event.motion.yrel << mouse_sensitivity_multiplier_y;
+			
+			dispatch_event = true;
+			break;
+		case SDL_MOUSEBUTTONUP:
+		case SDL_MOUSEBUTTONDOWN:
+			button_mask = SDL_GetMouseState(NULL, NULL);
+
+			d_event.type = ev_mouse;
+			d_event.data1 = button_mask & SDL_BUTTON(SDL_BUTTON_LEFT) ? 1 : 0 |
+				button_mask & SDL_BUTTON(SDL_BUTTON_RIGHT) ? 2 : 0 |
+				button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE) ? 4 : 0;
+			d_event.data2 = d_event.data3 = 0;
+
+			dispatch_event = true;
+			break;
 		default:
 			continue;
 		}
 
 		/* Handle keyboard events. */
-		if((d_event.data1 = MapSDLKey(sdl_event.key.keysym)) != -1)
-			D_PostEvent(&d_event);
+		if(d_event.type == ev_keydown || d_event.type == ev_keyup)
+			if((d_event.data1 = MapSDLKey(sdl_event.key.keysym)) != -1)
+				dispatch_event = true;
+
+		/* Handle mouse events. */
+		D_PostEvent(&d_event);
 	}
 }
 
@@ -246,4 +280,10 @@ void I_InitGraphics(void) {
 
 	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, t_width, t_height);
 	if(texture == NULL) I_Error("I_InitGraphics(): Error creating texture!");
+
+	/* Capture the mouse cursor (if applicable). */
+	if(capture_mouse) {
+		SDL_CaptureMouse(SDL_TRUE);
+		SDL_SetRelativeMouseMode(SDL_TRUE);
+	}
 }
