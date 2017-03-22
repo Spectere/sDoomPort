@@ -520,7 +520,6 @@ void IdentifyVersion(void) {
 	char* plutoniawad;
 	char* tntwad;
 
-	char* home;
 	char* doomwaddir;
 	doomwaddir = getenv("DOOMWADDIR");
 	if(!doomwaddir)
@@ -554,6 +553,9 @@ void IdentifyVersion(void) {
 	// French stuff.
 	doom2fwad = malloc(strlen(doomwaddir) + 1 + 10 + 1);
 	sprintf(doom2fwad, "%s/doom2f.wad", doomwaddir);
+
+	// Configuration File
+	sprintf(basedefault, "%s/default.cfg", doomwaddir);
 
 	if(M_CheckParm("-shdev")) {
 		gamemode = shareware;
