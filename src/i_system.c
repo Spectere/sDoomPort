@@ -76,11 +76,11 @@ byte* I_ZoneBase(int* size) {
 
 //
 // I_GetTime
-// returns time in 1/70th second tics
+// returns time in 1/35th second tics
 //
 int I_GetTime(void) {
 	/* TODO: Update this to use "wall clock" time instead. */
-	return SDL_GetTicks() / 70;
+	return SDL_GetTicks() / 35;
 }
 
 
