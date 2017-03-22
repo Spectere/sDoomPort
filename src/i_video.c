@@ -26,7 +26,6 @@ static const char
 rcsid[] = "$Id: i_x.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 
 #include <SDL.h>
-#include <stdarg.h>
 
 #include <signal.h>
 
@@ -49,7 +48,6 @@ static color g_palette[256];
 static SDL_Window* window;
 static SDL_Renderer* renderer;
 static SDL_Texture* texture;
-static Uint32* pixels;
 
 const Uint16 w_width = 960, w_height = 600;
 const Uint16 t_width = SCREENWIDTH, t_height = SCREENHEIGHT;
@@ -170,7 +168,7 @@ void I_FinishUpdate(void) {
 	static int lasttic;
 	int tics;
 	int i;
-	void *tex_pixels;
+	Uint32 *tex_pixels;
 	int pitch;
 
 	// draws little dots on the bottom of the screen
@@ -186,19 +184,16 @@ void I_FinishUpdate(void) {
 			screens[0][(SCREENHEIGHT - 1) * SCREENWIDTH + i] = 0x0;
 	}
 
-	/* Convert the palettized buffer to a 32-bit ARGB texture. */
+	/* Draw to the texture. */
+	SDL_LockTexture(texture, NULL, (void*)&tex_pixels, &pitch);
 	for(i = 0; i < t_width * t_height; i++) {
 		/* TODO: Make this endian-agnostic. */
 		color c = g_palette[screens[0][i]];
-		Uint32 a = 0xFF000000 | c.r << 16 | c.g << 8 | c.b;
-		pixels[i] = a;
+		tex_pixels[i] = 0xFF000000 | c.r << 16 | c.g << 8 | c.b;
 	}
+	SDL_UnlockTexture(texture);
 
-	/*SDL_LockTexture(texture, NULL, &tex_pixels, &pitch);
-	memcpy(tex_pixels, pixels, t_width * t_height * sizeof(Uint32));
-	SDL_UnlockTexture(texture);*/
-	SDL_UpdateTexture(texture, NULL, pixels, sizeof(Uint32) * t_width);
-
+	/* Update the display. */
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
@@ -245,6 +240,4 @@ void I_InitGraphics(void) {
 
 	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, t_width, t_height);
 	if(texture == NULL) I_Error("I_InitGraphics(): Error creating texture!");
-
-	pixels = (Uint32*)malloc(t_width * t_height * sizeof(Uint32));
 }
