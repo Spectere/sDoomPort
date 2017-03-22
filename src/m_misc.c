@@ -199,6 +199,8 @@ extern int showMessages;
 // machine-independent sound params
 extern int numChannels;
 
+extern int scale;
+
 
 // UNIX hack, to be removed.
 #ifdef SNDSERV
@@ -256,6 +258,8 @@ default_t defaults[] =
 	{"detaillevel",&detailLevel, 0},
 
 	{"snd_channels",&numChannels, 3},
+
+	{"scale",&scale, 2},
 
 
 	{"usegamma",&usegamma, 0},
