@@ -200,6 +200,9 @@ extern int showMessages;
 extern int numChannels;
 
 extern int scale;
+extern int capture_mouse;
+extern int mouse_sensitivity_multiplier_x;
+extern int mouse_sensitivity_multiplier_y;
 
 
 // UNIX hack, to be removed.
@@ -260,6 +263,9 @@ default_t defaults[] =
 	{"snd_channels",&numChannels, 3},
 
 	{"scale",&scale, 2},
+	{"capture_mouse",&capture_mouse, 1},
+	{"mouse_sensitivity_multiplier_x",&mouse_sensitivity_multiplier_x, 5},
+	{"mouse_sensitivity_multiplier_y",&mouse_sensitivity_multiplier_y, 5},
 
 
 	{"usegamma",&usegamma, 0},
