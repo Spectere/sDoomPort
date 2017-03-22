@@ -51,7 +51,8 @@ static SDL_Renderer* renderer;
 static SDL_Texture* texture;
 static Uint32* pixels;
 
-const Uint16 w_width = 320, w_height = 200;
+const Uint16 w_width = 960, w_height = 600;
+const Uint16 t_width = SCREENWIDTH, t_height = SCREENHEIGHT;
 
 void I_ShutdownGraphics(void) {}
 
@@ -61,7 +62,11 @@ void I_ShutdownGraphics(void) {}
 //
 void I_StartFrame(void) {}
 
-int MapSDLKey(SDL_Keysym keysym) {
+static int MapSDLKey(SDL_Keysym keysym) {
+	/* Convert uppercase symbobls into lowercase. */
+	if(keysym.sym >= 'A' && keysym.sym <= 'Z')
+		return keysym.sym + 0x20;
+
 	/* Handles everything from Space to Tilde. */
 	if(keysym.sym >= 0x20 && keysym.sym <= 0x7E)
 		return keysym.sym;
@@ -82,7 +87,7 @@ int MapSDLKey(SDL_Keysym keysym) {
 		return KEY_LEFTARROW;
 	case SDLK_RIGHT:
 		return KEY_RIGHTARROW;
-	case SDLK_RETURN2:
+	case SDLK_RETURN: case SDLK_RETURN2:
 		return KEY_ENTER;
 	case SDLK_BACKSPACE:	
 		return KEY_BACKSPACE;
@@ -162,10 +167,11 @@ void I_UpdateNoBlit(void) {}
 // I_FinishUpdate
 //
 void I_FinishUpdate(void) {
-
 	static int lasttic;
 	int tics;
 	int i;
+	void *tex_pixels;
+	int pitch;
 
 	// draws little dots on the bottom of the screen
 	if(devparm) {
@@ -181,13 +187,18 @@ void I_FinishUpdate(void) {
 	}
 
 	/* Convert the palettized buffer to a 32-bit ARGB texture. */
-	for(i = 0; i < w_width * w_height; i++) {
+	for(i = 0; i < t_width * t_height; i++) {
 		/* TODO: Make this endian-agnostic. */
 		color c = g_palette[screens[0][i]];
-		pixels[i] = c.r << 24 && c.g << 16 && c.b;
+		Uint32 a = 0xFF000000 | c.r << 16 | c.g << 8 | c.b;
+		pixels[i] = a;
 	}
 
-	SDL_UpdateTexture(texture, NULL, pixels, w_width * sizeof(Uint8));
+	/*SDL_LockTexture(texture, NULL, &tex_pixels, &pitch);
+	memcpy(tex_pixels, pixels, t_width * t_height * sizeof(Uint32));
+	SDL_UnlockTexture(texture);*/
+	SDL_UpdateTexture(texture, NULL, pixels, sizeof(Uint32) * t_width);
+
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
@@ -232,9 +243,8 @@ void I_InitGraphics(void) {
 		if(renderer == NULL) I_Error("I_InitGraphics(): Error creating renderer!");
 	}
 
-	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, w_width, w_height);
+	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, t_width, t_height);
 	if(texture == NULL) I_Error("I_InitGraphics(): Error creating texture!");
 
-	screens[0] = (Uint8*)malloc(w_width * w_height);
-	pixels = (Uint32*)malloc(w_width * w_height * sizeof(Uint32));
+	pixels = (Uint32*)malloc(t_width * t_height * sizeof(Uint32));
 }
