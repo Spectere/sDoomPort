@@ -24,11 +24,6 @@
 
 #include "r_data.h"
 
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 // Visplane related.
 extern short* lastopening;
 
@@ -73,10 +68,4 @@ visplane_t* R_CheckPlane
  int start,
  int stop);
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

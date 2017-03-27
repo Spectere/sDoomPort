@@ -30,7 +30,6 @@
 #include "w_wad.h"
 
 #include "doomdef.h"
-#include "r_local.h"
 #include "p_local.h"
 
 #include "doomstat.h"

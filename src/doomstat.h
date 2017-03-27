@@ -34,12 +34,6 @@
 // We need the playr data structure as well.
 #include "d_player.h"
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 // ------------------------
 // Command line parameters.
 //
@@ -265,10 +259,4 @@ extern int nettics[MAXNETNODES];
 extern ticcmd_t netcmds[MAXPLAYERS][BACKUPTICS];
 extern int ticdup;
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

@@ -37,12 +37,6 @@
 // Needs precompiled tables/data structures.
 #include "info.h"
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 //
 // NOTES: mobj_t
 //
@@ -279,10 +273,4 @@ typedef struct mobj_s {
 
 } mobj_t;
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

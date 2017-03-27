@@ -21,11 +21,6 @@
 #ifndef __W_WAD__
 #define __W_WAD__
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
 #include <SDL.h>
 
 //
@@ -74,10 +69,4 @@ void W_ReadLump(int lump, void* dest);
 void* W_CacheLumpNum(int lump, int tag);
 void* W_CacheLumpName(char* name, int tag);
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

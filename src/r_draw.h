@@ -21,12 +21,6 @@
 #ifndef __R_DRAW__
 #define __R_DRAW__
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 extern lighttable_t* dc_colormap;
 extern int dc_x;
 extern int dc_yl;
@@ -102,10 +96,4 @@ void R_FillBackScreen(void);
 // If the view size is not full screen, draws a border around it.
 void R_DrawViewBorder(void);
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

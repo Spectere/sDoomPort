@@ -32,10 +32,6 @@
 #include "p_local.h"
 
 #include "s_sound.h"
-
-#ifdef __GNUG__
-#pragma implementation "p_inter.h"
-#endif
 #include "p_inter.h"
 
 

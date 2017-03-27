@@ -25,12 +25,6 @@
 #include "d_player.h"
 #include "r_data.h"
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 //
 // Refresh internal data structures,
 //  for rendering.
@@ -123,10 +117,4 @@ extern int sscount;
 extern visplane_t* floorplane;
 extern visplane_t* ceilingplane;
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

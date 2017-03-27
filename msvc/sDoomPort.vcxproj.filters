@@ -27,9 +27,6 @@
     <ClCompile Include="..\src\d_net.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\doomdef.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\doomstat.c">
       <Filter>Source Files</Filter>
     </ClCompile>

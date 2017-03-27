@@ -21,11 +21,6 @@
 #ifndef __R_THINGS__
 #define __R_THINGS__
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
 #define MAXVISSPRITES  	128
 
 extern vissprite_t vissprites[MAXVISSPRITES];
@@ -65,10 +60,4 @@ R_ClipVisSprite
  int xl,
  int xh);
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

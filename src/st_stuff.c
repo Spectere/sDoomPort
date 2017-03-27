@@ -35,7 +35,6 @@
 #include "st_lib.h"
 #include "r_local.h"
 
-#include "p_local.h"
 #include "p_inter.h"
 
 #include "am_map.h"

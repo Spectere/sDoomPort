@@ -17,11 +17,7 @@
 // 
 //-----------------------------------------------------------------------------
 
-#ifdef __GNUG__
-#pragma implementation "dstrings.h"
-#endif
 #include "dstrings.h"
-
 
 char* endmsg[NUM_QUITMESSAGES] =
 {
