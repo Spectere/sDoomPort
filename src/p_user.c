@@ -1,7 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
 //-----------------------------------------------------------------------------
-//
-// $Id:$
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
 //
@@ -15,19 +12,12 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// $Log:$
-//
 // DESCRIPTION:
 //	Player related stuff.
 //	Bobbing POV/weapon, movement.
 //	Pending weapon.
 //
 //-----------------------------------------------------------------------------
-
-
-static const char
-rcsid[] = "$Id: p_user.c,v 1.3 1997/01/28 22:08:29 b1 Exp $";
-
 
 #include "doomdef.h"
 #include "d_event.h"
