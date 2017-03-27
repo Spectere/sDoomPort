@@ -36,7 +36,7 @@
 //
 // DOOM version
 enum { VERSION = 110 };
-
+enum { DEMOVER = 109 };
 
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependend animations etc.
