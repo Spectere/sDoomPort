@@ -137,7 +137,7 @@ void I_GetEvent(void) {
 
 	/* TODO: Add gamepad/joystick support. */
 	while(SDL_PollEvent(&sdl_event)) {
-		dispatch_event = false;
+		dispatch_event = SDL_FALSE;
 
 		switch(sdl_event.type) {
 		case SDL_KEYDOWN:
@@ -156,7 +156,7 @@ void I_GetEvent(void) {
 			d_event.data2 = sdl_event.motion.xrel << mouse_sensitivity_multiplier_x;
 			d_event.data3 = -sdl_event.motion.yrel << mouse_sensitivity_multiplier_y;
 			
-			dispatch_event = true;
+			dispatch_event = SDL_TRUE;
 			break;
 		case SDL_MOUSEBUTTONUP:
 		case SDL_MOUSEBUTTONDOWN:
@@ -168,7 +168,7 @@ void I_GetEvent(void) {
 				button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE) ? 4 : 0;
 			d_event.data2 = d_event.data3 = 0;
 
-			dispatch_event = true;
+			dispatch_event = SDL_TRUE;
 			break;
 		default:
 			continue;
@@ -177,10 +177,10 @@ void I_GetEvent(void) {
 		/* Handle keyboard events. */
 		if(d_event.type == ev_keydown || d_event.type == ev_keyup)
 			if((d_event.data1 = MapSDLKey(sdl_event.key.keysym)) != -1)
-				dispatch_event = true;
+				dispatch_event = SDL_TRUE;
 
-		/* Handle mouse events. */
-		D_PostEvent(&d_event);
+		/* Dispatch events, if applicable. */
+		if(dispatch_event) D_PostEvent(&d_event);
 	}
 }
 
