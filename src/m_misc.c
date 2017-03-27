@@ -32,6 +32,7 @@ rcsid[] = "$Id: m_misc.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 #include <sys/types.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <SDL.h>
 
 #include <ctype.h>
 
@@ -45,6 +46,7 @@ rcsid[] = "$Id: m_misc.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 
 #include "w_wad.h"
 
+#include "i_file.h"
 #include "i_system.h"
 #include "i_video.h"
 #include "v_video.h"
@@ -109,18 +111,18 @@ M_WriteFile
 (char const* name,
  void* source,
  int length) {
-	int handle;
+	SDL_RWops* handle;
 	int count;
 
-	handle = open(name, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666);
+	handle = SDL_RWFromFile(name, "wb");
 
-	if(handle == -1)
+	if(handle == NULL)
 		return false;
 
-	count = write(handle, source, length);
-	close(handle);
+	count = SDL_RWwrite(handle, source, length, 1);
+	SDL_RWclose(handle);
 
-	if(count < length)
+	if(count == 0)
 		return false;
 
 	return true;
@@ -134,19 +136,18 @@ int
 M_ReadFile
 (char const* name,
  byte** buffer) {
-	int handle, count, length;
+	SDL_RWops* handle;
+	int count, length;
 	struct stat fileinfo;
 	byte* buf;
 
-	handle = open(name, O_RDONLY | O_BINARY, 0666);
-	if(handle == -1)
+	handle = SDL_RWFromFile(name, "rb");
+	if(handle == NULL)
 		I_Error("Couldn't read file %s", name);
-	if(fstat(handle, &fileinfo) == -1)
-		I_Error("Couldn't read file %s", name);
-	length = fileinfo.st_size;
+	length = SDL_RWsize(handle);
 	buf = Z_Malloc(length, PU_STATIC, NULL);
-	count = read(handle, buf, length);
-	close(handle);
+	count = SDL_RWread(handle, buf, length, 1);
+	SDL_RWclose(handle);
 
 	if(count < length)
 		I_Error("Couldn't read file %s", name);
@@ -484,7 +485,7 @@ void M_ScreenShot(void) {
 	for(i = 0; i <= 99; i++) {
 		lbmname[4] = i / 10 + '0';
 		lbmname[5] = i % 10 + '0';
-		if(access(lbmname, 0) == -1)
+		if(I_FileExists(lbmname) == SDL_FALSE)
 			break; // file doesn't exist
 	}
 	if(i == 100)

@@ -201,6 +201,9 @@
     <ClCompile Include="..\src\z_zone.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\i_file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\am_map.h">
@@ -387,6 +390,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\z_zone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\i_file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
