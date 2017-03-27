@@ -42,7 +42,6 @@
 #include "g_game.h"
 
 #include "m_argv.h"
-#include "m_swap.h"
 
 #include "s_sound.h"
 
@@ -1142,7 +1141,7 @@ int M_StringWidth(char* string) {
 		if(c < 0 || c >= HU_FONTSIZE)
 			w += 4;
 		else
-			w += SHORT (hu_font[c]->width);
+			w += SDL_SwapLE16(hu_font[c]->width);
 	}
 
 	return w;
@@ -1155,7 +1154,7 @@ int M_StringWidth(char* string) {
 int M_StringHeight(char* string) {
 	int i;
 	int h;
-	int height = SHORT(hu_font[0]->height);
+	int height = SDL_SwapLE16(hu_font[0]->height);
 
 	h = height;
 	for(i = 0; i < strlen(string); i++)
@@ -1201,7 +1200,7 @@ M_WriteText
 			continue;
 		}
 
-		w = SHORT (hu_font[c]->width);
+		w = SDL_SwapLE16(hu_font[c]->width);
 		if(cx + w > SCREENWIDTH)
 			break;
 		V_DrawPatchDirect(cx, cy, 0, hu_font[c]);
@@ -1592,7 +1591,7 @@ void M_Drawer(void) {
 
 			x = 160 - M_StringWidth(string) / 2;
 			M_WriteText(x, y, string);
-			y += SHORT(hu_font[0]->height);
+			y += SDL_SwapLE16(hu_font[0]->height);
 		}
 		return;
 	}

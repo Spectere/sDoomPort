@@ -189,7 +189,6 @@
     <ClCompile Include="..\src\m_menu.c" />
     <ClCompile Include="..\src\m_misc.c" />
     <ClCompile Include="..\src\m_random.c" />
-    <ClCompile Include="..\src\m_swap.c" />
     <ClCompile Include="..\src\p_ceilng.c" />
     <ClCompile Include="..\src\p_doors.c" />
     <ClCompile Include="..\src\p_enemy.c" />
@@ -263,7 +262,6 @@
     <ClInclude Include="..\src\m_menu.h" />
     <ClInclude Include="..\src\m_misc.h" />
     <ClInclude Include="..\src\m_random.h" />
-    <ClInclude Include="..\src\m_swap.h" />
     <ClInclude Include="..\src\p_inter.h" />
     <ClInclude Include="..\src\p_local.h" />
     <ClInclude Include="..\src\p_mobj.h" />

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,11 +18,11 @@
 //-----------------------------------------------------------------------------
 
 #include <ctype.h>
+#include <SDL.h>
 
 #include "doomdef.h"
 
 #include "v_video.h"
-#include "m_swap.h"
 
 #include "hu_lib.h"
 #include "r_local.h"
@@ -98,7 +99,7 @@ HUlib_drawTextLine
 		if(c != ' '
 		   && c >= l->sc
 		   && c <= '_') {
-			w = SHORT(l->f[c - l->sc]->width);
+			w = SDL_SwapLE16(l->f[c - l->sc]->width);
 			if(x + w > SCREENWIDTH)
 				break;
 			V_DrawPatchDirect(x, l->y, FG, l->f[c - l->sc]);
@@ -112,7 +113,7 @@ HUlib_drawTextLine
 
 	// draw the cursor if requested
 	if(drawcursor
-	   && x + SHORT(l->f['_' - l->sc]->width) <= SCREENWIDTH) {
+	   && x + SDL_SwapLE16(l->f['_' - l->sc]->width) <= SCREENWIDTH) {
 		V_DrawPatchDirect(x, l->y, FG, l->f['_' - l->sc]);
 	}
 }
@@ -131,7 +132,7 @@ void HUlib_eraseTextLine(hu_textline_t* l) {
 
 	if(!automapactive &&
 	   viewwindowx && l->needsupdate) {
-		lh = SHORT(l->f[0]->height) + 1;
+		lh = SDL_SwapLE16(l->f[0]->height) + 1;
 		for(y = l->y , yoffset = y * SCREENWIDTH; y < l->y + lh; y++ , yoffset += SCREENWIDTH) {
 			if(y < viewwindowy || y >= viewwindowy + viewheight)
 				R_VideoErase(yoffset, SCREENWIDTH); // erase entire line
@@ -166,7 +167,7 @@ HUlib_initSText
 	s->cl = 0;
 	for(i = 0; i < h; i++)
 		HUlib_initTextLine(&s->l[i],
-		                   x, y - i * (SHORT(font[0]->height) + 1),
+		                   x, y - i * (SDL_SwapLE16(font[0]->height) + 1),
 		                   font, startchar);
 
 }

@@ -87,9 +87,6 @@
     <ClCompile Include="..\src\m_random.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\m_swap.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\p_ceilng.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -303,9 +300,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\m_random.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\m_swap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\p_inter.h">
