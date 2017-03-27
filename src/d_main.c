@@ -499,6 +499,7 @@ void D_AddFile(char* file) {
 // should be executed (notably loading PWAD's).
 //
 void IdentifyVersion(void) {
+	/* TODO: Clean this up, because this has gotten kind of messy over the years. */
 	int param;
 
 	char* user_iwad;
@@ -511,6 +512,9 @@ void IdentifyVersion(void) {
 	char* doom2fwad;
 	char* plutoniawad;
 	char* tntwad;
+
+	char* freedoom1wad;
+	char *freedoom2wad;
 
 	char* doomwaddir;
 	doomwaddir = getenv("DOOMWADDIR");
@@ -545,6 +549,14 @@ void IdentifyVersion(void) {
 	doom2fwad = malloc(strlen(doomwaddir) + 1 + 10 + 1);
 	sprintf(doom2fwad, "%s/doom2f.wad", doomwaddir);
 
+	// Freedoom: Phase 1 WAD
+	freedoom1wad = malloc(strlen(doomwaddir) + 1 + 13 + 1);
+	sprintf(freedoom1wad, "%s/freedoom1.wad", doomwaddir);
+
+	// Freedoom: Phase 2 WAD
+	freedoom2wad = malloc(strlen(doomwaddir) + 1 + 13 + 1);
+	sprintf(freedoom2wad, "%s/freedoom2.wad", doomwaddir);
+
 	// Configuration File
 	sprintf(basedefault, "%s/default.cfg", doomwaddir);
 
@@ -566,12 +578,18 @@ void IdentifyVersion(void) {
 		} else if(_stricmp(user_iwad, "doomu.wad") == 0) {
 			gamemode = retail;
 			gamemission = doom;
+		} else if(_stricmp(user_iwad, "freedoom1.wad") == 0) {
+			gamemode = retail;
+			gamemission = freedoom;
 		} else if(_stricmp(user_iwad, "plutonia.wad") == 0) {
 			gamemode = commercial;
 			gamemission = pack_plut;
 		} else if(_stricmp(user_iwad, "tnt.wad") == 0) {
 			gamemode = commercial;
 			gamemission = pack_tnt;
+		} else if(_stricmp(user_iwad, "freedoom2.wad") == 0) {
+			gamemode = commercial;
+			gamemission = freedoom2;
 		} else {
 			gamemode = commercial;
 			gamemission = doom2;
@@ -664,6 +682,20 @@ void IdentifyVersion(void) {
 		gamemode = registered;
 		gamemission = doom;
 		D_AddFile(doomwad);
+		return;
+	}
+
+	if(I_FileExists(freedoom2wad)) {
+		gamemode = commercial;
+		gamemission = freedoom2;
+		D_AddFile(freedoom2wad);
+		return;
+	}
+
+	if(I_FileExists(freedoom1wad)) {
+		gamemode = retail;
+		gamemission = freedoom;
+		D_AddFile(freedoom1wad);
 		return;
 	}
 
@@ -776,11 +808,22 @@ void D_DoomMain(void) {
 
 	switch(gamemode) {
 		case retail:
-			sprintf(title,
-				"                         "
-				"The Ultimate DOOM Startup v%i.%i"
-				"                           ",
-				VERSION / 100, VERSION % 100);
+			switch(gamemission) {
+				case freedoom:
+					sprintf(title,
+						"                             "
+						"Freedoom: Phase 1 v%i.%i"
+						"                             ",
+						VERSION / 100, VERSION % 100);
+					break;
+				default:
+					sprintf(title,
+						"                         "
+						"The Ultimate DOOM Startup v%i.%i"
+						"                           ",
+						VERSION / 100, VERSION % 100);
+					break;
+			}
 			break;
 		case shareware:
 			sprintf(title,
@@ -810,6 +853,13 @@ void D_DoomMain(void) {
 						"                     "
 						"DOOM 2: TNT - Evilution v%i.%i"
 						"                           ",
+						VERSION / 100, VERSION % 100);
+					break;
+				case freedoom2:
+					sprintf(title,
+						"                             "
+						"Freedoom: Phase 2 v%i.%i"
+						"                             ",
 						VERSION / 100, VERSION % 100);
 					break;
 				default:
