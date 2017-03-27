@@ -115,7 +115,7 @@ R_InstallSpriteLump
 		sprtemp[frame].rotate = false;
 		for(r = 0; r < 8; r++) {
 			sprtemp[frame].lump[r] = lump - firstspritelump;
-			sprtemp[frame].flip[r] = (byte)flipped;
+			sprtemp[frame].flip[r] = (Uint8)flipped;
 		}
 		return;
 	}
@@ -135,7 +135,7 @@ R_InstallSpriteLump
 		        spritename, 'A' + frame, '1' + rotation);
 
 	sprtemp[frame].lump[rotation] = lump - firstspritelump;
-	sprtemp[frame].flip[rotation] = (byte)flipped;
+	sprtemp[frame].flip[rotation] = (Uint8)flipped;
 }
 
 
@@ -333,7 +333,7 @@ void R_DrawMaskedColumn(column_t* column) {
 			dc_yl = mceilingclip[dc_x] + 1;
 
 		if(dc_yl <= dc_yh) {
-			dc_source = (byte *)column + 3;
+			dc_source = (Uint8 *)column + 3;
 			dc_texturemid = basetexturemid - (column->topdelta << FRACBITS);
 			// dc_source = (byte *)column + 3 - column->topdelta;
 
@@ -341,7 +341,7 @@ void R_DrawMaskedColumn(column_t* column) {
 			//  or (SHADOW) R_DrawFuzzColumn.
 			colfunc();
 		}
-		column = (column_t *)((byte *)column + column->length + 4);
+		column = (column_t *)((Uint8 *)column + column->length + 4);
 	}
 
 	dc_texturemid = basetexturemid;
@@ -388,7 +388,7 @@ R_DrawVisSprite
 		if(texturecolumn < 0 || texturecolumn >= SDL_SwapLE16(patch->width))
 			I_Error("R_DrawSpriteRange: bad texturecolumn");
 #endif
-		column = (column_t *) ((byte *)patch +
+		column = (column_t *) ((Uint8 *)patch +
 			SDL_SwapLE32(patch->columnofs[texturecolumn]));
 		R_DrawMaskedColumn(column);
 	}

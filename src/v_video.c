@@ -32,13 +32,13 @@
 
 
 // Each screen is [SCREENWIDTH*SCREENHEIGHT]; 
-byte* screens[5];
+Uint8* screens[5];
 
 int dirtybox[4];
 
 
 // Now where did these came from?
-byte gammatable[5][256] =
+Uint8 gammatable[5][256] =
 {
 	{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
 		17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,
@@ -152,8 +152,8 @@ V_CopyRect
  int destx,
  int desty,
  int destscrn) {
-	byte* src;
-	byte* dest;
+	Uint8* src;
+	Uint8* dest;
 
 #ifdef RANGECHECK 
 	if(srcx < 0
@@ -195,9 +195,9 @@ V_DrawPatch
 	int count;
 	int col;
 	column_t* column;
-	byte* desttop;
-	byte* dest;
-	byte* source;
+	Uint8* desttop;
+	Uint8* dest;
+	Uint8* source;
 	int w;
 
 	y -= SDL_SwapLE16(patch->topoffset);
@@ -224,11 +224,11 @@ V_DrawPatch
 	w = SDL_SwapLE16(patch->width);
 
 	for(; col < w; x++ , col++ , desttop++) {
-		column = (column_t *)((byte *)patch + SDL_SwapLE32(patch->columnofs[col]));
+		column = (column_t *)((Uint8 *)patch + SDL_SwapLE32(patch->columnofs[col]));
 
 		// step through the posts in a column 
 		while(column->topdelta != 0xff) {
-			source = (byte *)column + 3;
+			source = (Uint8 *)column + 3;
 			dest = desttop + column->topdelta * SCREENWIDTH;
 			count = column->length;
 
@@ -236,7 +236,7 @@ V_DrawPatch
 				*dest = *source++;
 				dest += SCREENWIDTH;
 			}
-			column = (column_t *)((byte *)column + column->length
+			column = (column_t *)((Uint8 *)column + column->length
 			                      + 4);
 		}
 	}
@@ -257,9 +257,9 @@ V_DrawPatchFlipped
 	int count;
 	int col;
 	column_t* column;
-	byte* desttop;
-	byte* dest;
-	byte* source;
+	Uint8* desttop;
+	Uint8* dest;
+	Uint8* source;
 	int w;
 
 	y -= SDL_SwapLE16(patch->topoffset);
@@ -284,11 +284,11 @@ V_DrawPatchFlipped
 	w = SDL_SwapLE16(patch->width);
 
 	for(; col < w; x++ , col++ , desttop++) {
-		column = (column_t *)((byte *)patch + SDL_SwapLE32(patch->columnofs[w-1-col]));
+		column = (column_t *)((Uint8 *)patch + SDL_SwapLE32(patch->columnofs[w-1-col]));
 
 		// step through the posts in a column 
 		while(column->topdelta != 0xff) {
-			source = (byte *)column + 3;
+			source = (Uint8 *)column + 3;
 			dest = desttop + column->topdelta * SCREENWIDTH;
 			count = column->length;
 
@@ -296,7 +296,7 @@ V_DrawPatchFlipped
 				*dest = *source++;
 				dest += SCREENWIDTH;
 			}
-			column = (column_t *)((byte *)column + column->length
+			column = (column_t *)((Uint8 *)column + column->length
 			                      + 4);
 		}
 	}
@@ -380,8 +380,8 @@ V_DrawBlock
  int scrn,
  int width,
  int height,
- byte* src) {
-	byte* dest;
+ Uint8* src) {
+	Uint8* dest;
 
 #ifdef RANGECHECK 
 	if(x < 0
@@ -416,8 +416,8 @@ V_GetBlock
  int scrn,
  int width,
  int height,
- byte* dest) {
-	byte* src;
+ Uint8* dest) {
+	Uint8* src;
 
 #ifdef RANGECHECK 
 	if(x < 0
@@ -444,7 +444,7 @@ V_GetBlock
 // 
 void V_Init(void) {
 	int i;
-	byte* base;
+	Uint8* base;
 
 	// stick these in low dos memory on PCs
 

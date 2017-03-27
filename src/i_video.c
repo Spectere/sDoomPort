@@ -103,7 +103,7 @@ void I_FinishUpdate(void) {
 //
 // I_ReadScreen
 //
-void I_ReadScreen(byte* scr) {
+void I_ReadScreen(Uint8* scr) {
 	memcpy(scr, screens[0], SCREENWIDTH * SCREENHEIGHT);
 }
 
@@ -111,7 +111,7 @@ void I_ReadScreen(byte* scr) {
 //
 // I_SetPalette
 //
-void I_SetPalette(byte* palette) {
+void I_SetPalette(Uint8* palette) {
 	int i;
 	for(i = 0; i < 256; i++) {
 		g_palette[i].r = gammatable[usegamma][*palette++];

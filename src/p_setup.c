@@ -95,7 +95,7 @@ mobj_t** blocklinks;
 // Without special effect, this could be
 //  used as a PVS lookup as well.
 //
-byte* rejectmatrix;
+Uint8* rejectmatrix;
 
 
 // Maintain single and multi player starting spots.
@@ -110,7 +110,7 @@ mapthing_t playerstarts[MAXPLAYERS];
 // P_LoadVertexes
 //
 void P_LoadVertexes(int lump) {
-	byte* data;
+	Uint8* data;
 	int i;
 	mapvertex_t* ml;
 	vertex_t* li;
@@ -144,7 +144,7 @@ void P_LoadVertexes(int lump) {
 // P_LoadSegs
 //
 void P_LoadSegs(int lump) {
-	byte* data;
+	Uint8* data;
 	int i;
 	mapseg_t* ml;
 	seg_t* li;
@@ -185,7 +185,7 @@ void P_LoadSegs(int lump) {
 // P_LoadSubsectors
 //
 void P_LoadSubsectors(int lump) {
-	byte* data;
+	Uint8* data;
 	int i;
 	mapsubsector_t* ms;
 	subsector_t* ss;
@@ -211,7 +211,7 @@ void P_LoadSubsectors(int lump) {
 // P_LoadSectors
 //
 void P_LoadSectors(int lump) {
-	byte* data;
+	Uint8* data;
 	int i;
 	mapsector_t* ms;
 	sector_t* ss;
@@ -242,7 +242,7 @@ void P_LoadSectors(int lump) {
 // P_LoadNodes
 //
 void P_LoadNodes(int lump) {
-	byte* data;
+	Uint8* data;
 	int i;
 	int j;
 	int k;
@@ -276,7 +276,7 @@ void P_LoadNodes(int lump) {
 // P_LoadThings
 //
 void P_LoadThings(int lump) {
-	byte* data;
+	Uint8* data;
 	int i;
 	mapthing_t* mt;
 	int numthings;
@@ -328,7 +328,7 @@ void P_LoadThings(int lump) {
 // Also counts secret lines for intermissions.
 //
 void P_LoadLineDefs(int lump) {
-	byte* data;
+	Uint8* data;
 	int i;
 	maplinedef_t* mld;
 	line_t* ld;
@@ -400,7 +400,7 @@ void P_LoadLineDefs(int lump) {
 // P_LoadSideDefs
 //
 void P_LoadSideDefs(int lump) {
-	byte* data;
+	Uint8* data;
 	int i;
 	mapsidedef_t* msd;
 	side_t* sd;

@@ -33,9 +33,9 @@
 // when zero, stop the wipe
 static boolean go = 0;
 
-static byte* wipe_scr_start;
-static byte* wipe_scr_end;
-static byte* wipe_scr;
+static Uint8* wipe_scr_start;
+static Uint8* wipe_scr_end;
+static Uint8* wipe_scr;
 
 
 void
@@ -74,8 +74,8 @@ wipe_doColorXForm
  int height,
  int ticks) {
 	boolean changed;
-	byte* w;
-	byte* e;
+	Uint8* w;
+	Uint8* e;
 	int newval;
 
 	changed = false;

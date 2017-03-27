@@ -58,9 +58,9 @@ int I_GetHeapSize(void) {
 	return mb_used * 1024 * 1024;
 }
 
-byte* I_ZoneBase(int* size) {
+Uint8* I_ZoneBase(int* size) {
 	*size = mb_used * 1024 * 1024;
-	return (byte *) malloc(*size);
+	return (Uint8 *) malloc(*size);
 }
 
 
@@ -103,10 +103,10 @@ void I_BeginRead(void) {}
 
 void I_EndRead(void) {}
 
-byte* I_AllocLow(int length) {
-	byte* mem;
+Uint8* I_AllocLow(int length) {
+	Uint8* mem;
 
-	mem = (byte *)malloc(length);
+	mem = (Uint8 *)malloc(length);
 	memset(mem, 0, length);
 	return mem;
 }

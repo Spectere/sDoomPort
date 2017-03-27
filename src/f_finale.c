@@ -233,8 +233,8 @@ extern patch_t* hu_font[HU_FONTSIZE];
 
 
 void F_TextWrite(void) {
-	byte* src;
-	byte* dest;
+	Uint8* src;
+	Uint8* dest;
 
 	int x, y, w;
 	int count;
@@ -579,17 +579,17 @@ F_DrawPatchCol
  patch_t* patch,
  int col) {
 	column_t* column;
-	byte* source;
-	byte* dest;
-	byte* desttop;
+	Uint8* source;
+	Uint8* dest;
+	Uint8* desttop;
 	int count;
 
-	column = (column_t *)((byte *)patch + SDL_SwapLE32(patch->columnofs[col]));
+	column = (column_t *)((Uint8 *)patch + SDL_SwapLE32(patch->columnofs[col]));
 	desttop = screens[0] + x;
 
 	// step through the posts in a column
 	while(column->topdelta != 0xff) {
-		source = (byte *)column + 3;
+		source = (Uint8 *)column + 3;
 		dest = desttop + column->topdelta * SCREENWIDTH;
 		count = column->length;
 
@@ -597,7 +597,7 @@ F_DrawPatchCol
 			*dest = *source++;
 			dest += SCREENWIDTH;
 		}
-		column = (column_t *)((byte *)column + column->length + 4);
+		column = (column_t *)((Uint8 *)column + column->length + 4);
 	}
 }
 

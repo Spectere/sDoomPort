@@ -21,6 +21,7 @@
 #ifndef __R_DEFS__
 #define __R_DEFS__
 
+#include <SDL.h>
 
 // Screenwidth.
 #include "doomdef.h"
@@ -251,8 +252,8 @@ typedef struct {
 
 // posts are runs of non masked source pixels
 typedef struct {
-	byte topdelta; // -1 is the last post in a column
-	byte length; // length data bytes follows
+	Uint8 topdelta; // -1 is the last post in a column
+	Uint8 length; // length data bytes follows
 } post_t;
 
 // column_t is a list of 0 or more post_t, (byte)-1 terminated
@@ -274,7 +275,7 @@ typedef post_t column_t;
 //  precalculating 24bpp lightmap/colormap LUT.
 //  from darkening PLAYPAL to all black.
 // Could even us emore than 32 levels.
-typedef byte lighttable_t;
+typedef Uint8 lighttable_t;
 
 
 //
@@ -386,7 +387,7 @@ typedef struct {
 	short lump[8];
 
 	// Flip bit (1 = flip) to use for view angles 0-7.
-	byte flip[8];
+	Uint8 flip[8];
 
 } spriteframe_t;
 
@@ -414,15 +415,15 @@ typedef struct {
 
 	// leave pads for [minx-1]/[maxx+1]
 
-	byte pad1;
+	Uint8 pad1;
 	// Here lies the rub for all
 	//  dynamic resize/change of resolution.
-	byte top[SCREENWIDTH];
-	byte pad2;
-	byte pad3;
+	Uint8 top[SCREENWIDTH];
+	Uint8 pad2;
+	Uint8 pad3;
 	// See above.
-	byte bottom[SCREENWIDTH];
-	byte pad4;
+	Uint8 bottom[SCREENWIDTH];
+	Uint8 pad4;
 
 } visplane_t;
 
