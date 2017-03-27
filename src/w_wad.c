@@ -29,10 +29,8 @@ rcsid[] = "$Id: w_wad.c,v 1.5 1997/02/03 16:47:57 b1 Exp $";
 #include <ctype.h>
 #include <string.h>
 #include <malloc.h>
-#include <io.h>
-#include <fcntl.h>
 #include <sys/stat.h>
-//#include <alloca.h>
+#include <SDL.h>
 
 #include "doomtype.h"
 #include "m_swap.h"
@@ -124,12 +122,12 @@ void W_AddFile(char* filename) {
 	wadinfo_t header;
 	lumpinfo_t* lump_p;
 	unsigned i;
-	int handle;
+	SDL_RWops* handle;
 	int length;
 	int startlump;
 	filelump_t* fileinfo;
 	filelump_t singleinfo;
-	int storehandle;
+	SDL_RWops* storehandle;
 
 	// open the file and add to directory
 
@@ -140,7 +138,7 @@ void W_AddFile(char* filename) {
 		reloadlump = numlumps;
 	}
 
-	if((handle = _open(filename,O_RDONLY | O_BINARY)) == -1) {
+	if((handle = SDL_RWFromFile(filename, "rb")) == NULL) {
 		printf(" couldn't open %s\n", filename);
 		return;
 	}
@@ -157,7 +155,7 @@ void W_AddFile(char* filename) {
 		numlumps++;
 	} else {
 		// WAD file
-		_read(handle, &header, sizeof(header));
+		SDL_RWread(handle, &header, sizeof(header), 1);
 		if(strncmp(header.identification, "IWAD", 4)) {
 			// Homebrew levels?
 			if(strncmp(header.identification, "PWAD", 4)) {
@@ -171,8 +169,8 @@ void W_AddFile(char* filename) {
 		header.infotableofs = LONG(header.infotableofs);
 		length = header.numlumps * sizeof(filelump_t);
 		fileinfo = alloca(length);
-		_lseek(handle, header.infotableofs, SEEK_SET);
-		_read(handle, fileinfo, length);
+		SDL_RWseek(handle, header.infotableofs, RW_SEEK_SET);
+		SDL_RWread(handle, fileinfo, length, 1);
 		numlumps += header.numlumps;
 	}
 
@@ -185,7 +183,7 @@ void W_AddFile(char* filename) {
 
 	lump_p = &lumpinfo[startlump];
 
-	storehandle = reloadname ? -1 : handle;
+	storehandle = reloadname ? NULL : handle;
 
 	for(i = startlump; i < numlumps; i++ , lump_p++ , fileinfo++) {
 		lump_p->handle = storehandle;
@@ -195,7 +193,7 @@ void W_AddFile(char* filename) {
 	}
 
 	if(reloadname)
-		_close(handle);
+		SDL_RWclose(handle);
 }
 
 
@@ -209,23 +207,23 @@ void W_Reload(void) {
 	int lumpcount;
 	lumpinfo_t* lump_p;
 	unsigned i;
-	int handle;
+	SDL_RWops* handle;
 	int length;
 	filelump_t* fileinfo;
 
 	if(!reloadname)
 		return;
 
-	if((handle = _open(reloadname,O_RDONLY | O_BINARY)) == -1)
+	if((handle = SDL_RWFromFile(reloadname, "rb")) == NULL)
 		I_Error("W_Reload: couldn't open %s", reloadname);
 
-	_read(handle, &header, sizeof(header));
+	SDL_RWread(handle, &header, sizeof(header), 1);
 	lumpcount = LONG(header.numlumps);
 	header.infotableofs = LONG(header.infotableofs);
 	length = lumpcount * sizeof(filelump_t);
 	fileinfo = alloca(length);
-	_lseek(handle, header.infotableofs, SEEK_SET);
-	_read(handle, fileinfo, length);
+	SDL_RWseek(handle, header.infotableofs, RW_SEEK_SET);
+	SDL_RWread(handle, fileinfo, length, 1);
 
 	// Fill in lumpinfo
 	lump_p = &lumpinfo[reloadlump];
@@ -240,7 +238,7 @@ void W_Reload(void) {
 		lump_p->size = LONG(fileinfo->size);
 	}
 
-	_close(handle);
+	SDL_RWclose(handle);
 }
 
 
@@ -387,7 +385,7 @@ W_ReadLump
  void* dest) {
 	int c;
 	lumpinfo_t* l;
-	int handle;
+	SDL_RWops* handle;
 
 	if(lump >= numlumps)
 		I_Error("W_ReadLump: %i >= numlumps", lump);
@@ -396,22 +394,22 @@ W_ReadLump
 
 	// ??? I_BeginRead ();
 
-	if(l->handle == -1) {
+	if(l->handle == NULL) {
 		// reloadable file, so use open / read / close
-		if((handle = _open(reloadname,O_RDONLY | O_BINARY)) == -1)
+		if((handle = SDL_RWFromFile(reloadname, "rb")) == NULL)
 			I_Error("W_ReadLump: couldn't open %s", reloadname);
 	} else
 		handle = l->handle;
 
-	_lseek(handle, l->position, SEEK_SET);
-	c = _read(handle, dest, l->size);
+	SDL_RWseek(handle, l->position, RW_SEEK_SET);
+	c = SDL_RWread(handle, dest, l->size, 1);
 
-	if(c < l->size)
-		I_Error("W_ReadLump: only read %i of %i on lump %i",
-		        c, l->size, lump);
+	if(c == 0)
+		I_Error("W_ReadLump: error reading lump %i",
+		        lump);
 
-	if(l->handle == -1)
-		_close(handle);
+	if(l->handle == NULL)
+		SDL_RWclose(handle);
 
 	// ??? I_EndRead ();
 }
