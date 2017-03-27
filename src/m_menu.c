@@ -30,6 +30,7 @@ rcsid[] = "$Id: m_menu.c,v 1.7 1997/02/03 22:45:10 b1 Exp $";
 #include <fcntl.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <SDL.h>
 
 
 #include "doomdef.h"
@@ -503,7 +504,7 @@ menu_t SaveDef =
 //  read the strings from the savegame files
 //
 void M_ReadSaveStrings(void) {
-	int handle;
+	SDL_RWops* handle;
 	int count;
 	int i;
 	char name[256];
@@ -514,14 +515,14 @@ void M_ReadSaveStrings(void) {
 		else
 			sprintf(name,SAVEGAMENAME"%d.dsg", i);
 
-		handle = open(name, O_RDONLY | 0, 0666);
-		if(handle == -1) {
+		handle = SDL_RWFromFile(name, "rb");
+		if(handle == NULL) {
 			strcpy(&savegamestrings[i][0],EMPTYSTRING);
 			LoadMenu[i].status = 0;
 			continue;
 		}
-		count = read(handle, &savegamestrings[i], SAVESTRINGSIZE);
-		close(handle);
+		count = SDL_RWread(handle, &savegamestrings[i], SAVESTRINGSIZE, 1);
+		SDL_RWclose(handle);
 		LoadMenu[i].status = 1;
 	}
 }
