@@ -51,20 +51,20 @@
 //
 
 
-byte* viewimage;
+Uint8* viewimage;
 int viewwidth;
 int scaledviewwidth;
 int viewheight;
 int viewwindowx;
 int viewwindowy;
-byte* ylookup[MAXHEIGHT];
+Uint8* ylookup[MAXHEIGHT];
 int columnofs[MAXWIDTH];
 
 // Color tables for different players,
 //  translate a limited part to another
 //  (color ramps used for  suit colors).
 //
-byte translations[3][256];
+Uint8 translations[3][256];
 
 
 //
@@ -79,7 +79,7 @@ fixed_t dc_iscale;
 fixed_t dc_texturemid;
 
 // first pixel in a column (possibly virtual) 
-byte* dc_source;
+Uint8* dc_source;
 
 // just for profiling 
 int dccount;
@@ -93,7 +93,7 @@ int dccount;
 // 
 void R_DrawColumn(void) {
 	int count;
-	byte* dest;
+	Uint8* dest;
 	fixed_t frac;
 	fixed_t fracstep;
 
@@ -141,9 +141,9 @@ void R_DrawColumn(void) {
 void R_DrawColumn (void) 
 { 
     int			count; 
-    byte*		source;
-    byte*		dest;
-    byte*		colormap;
+    Uint8*		source;
+    Uint8*		dest;
+    Uint8*		colormap;
     
     unsigned		frac;
     unsigned		fracstep;
@@ -196,8 +196,8 @@ void R_DrawColumn (void)
 
 void R_DrawColumnLow(void) {
 	int count;
-	byte* dest;
-	byte* dest2;
+	Uint8* dest;
+	Uint8* dest2;
 	fixed_t frac;
 	fixed_t fracstep;
 
@@ -267,7 +267,7 @@ int fuzzpos = 0;
 //
 void R_DrawFuzzColumn(void) {
 	int count;
-	byte* dest;
+	Uint8* dest;
 	fixed_t frac;
 	fixed_t fracstep;
 
@@ -357,12 +357,12 @@ void R_DrawFuzzColumn(void) {
 //  of the BaronOfHell, the HellKnight, uses
 //  identical sprites, kinda brightened up.
 //
-byte* dc_translation;
-byte* translationtables;
+Uint8* dc_translation;
+Uint8* translationtables;
 
 void R_DrawTranslatedColumn(void) {
 	int count;
-	byte* dest;
+	Uint8* dest;
 	fixed_t frac;
 	fixed_t fracstep;
 
@@ -433,7 +433,7 @@ void R_InitTranslationTables(void) {
 	int i;
 
 	translationtables = Z_Malloc(256 * 3 + 255, PU_STATIC, 0);
-	translationtables = (byte *)(((int)translationtables + 255) & ~255);
+	translationtables = (Uint8 *)(((int)translationtables + 255) & ~255);
 
 	// translate just the 16 green colors
 	for(i = 0; i < 256; i++) {
@@ -475,7 +475,7 @@ fixed_t ds_xstep;
 fixed_t ds_ystep;
 
 // start of a 64*64 tile image 
-byte* ds_source;
+Uint8* ds_source;
 
 // just for profiling
 int dscount;
@@ -486,7 +486,7 @@ int dscount;
 void R_DrawSpan(void) {
 	fixed_t xfrac;
 	fixed_t yfrac;
-	byte* dest;
+	Uint8* dest;
 	int count;
 	int spot;
 
@@ -533,9 +533,9 @@ void R_DrawSpan (void)
 { 
     unsigned	position, step;
 
-    byte*	source;
-    byte*	colormap;
-    byte*	dest;
+    Uint8*	source;
+    Uint8*	colormap;
+    Uint8*	dest;
     
     unsigned	count;
     usingned	spot; 
@@ -605,7 +605,7 @@ void R_DrawSpan (void)
 void R_DrawSpanLow(void) {
 	fixed_t xfrac;
 	fixed_t yfrac;
-	byte* dest;
+	Uint8* dest;
 	int count;
 	int spot;
 
@@ -685,8 +685,8 @@ R_InitBuffer
 // Also draws a beveled edge.
 //
 void R_FillBackScreen(void) {
-	byte* src;
-	byte* dest;
+	Uint8* src;
+	Uint8* dest;
 	int x;
 	int y;
 	patch_t* patch;

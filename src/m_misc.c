@@ -125,11 +125,11 @@ M_WriteFile
 int
 M_ReadFile
 (char const* name,
- byte** buffer) {
+ Uint8** buffer) {
 	SDL_RWops* handle;
 	int count, length;
 	struct stat fileinfo;
-	byte* buf;
+	Uint8* buf;
 
 	handle = SDL_RWFromFile(name, "rb");
 	if(handle == NULL)
@@ -308,7 +308,7 @@ void M_SaveDefaults(void) {
 //
 // M_LoadDefaults
 //
-extern byte scantokey[128];
+extern Uint8 scantokey[128];
 
 void M_LoadDefaults(void) {
 	int i;
@@ -404,14 +404,14 @@ typedef struct {
 void
 WritePCXfile
 (char* filename,
- byte* data,
+ Uint8* data,
  int width,
  int height,
- byte* palette) {
+ Uint8* palette) {
 	int i;
 	int length;
 	pcx_t* pcx;
-	byte* pack;
+	Uint8* pack;
 
 	pcx = Z_Malloc(width * height * 2 + 1000, PU_STATIC, NULL);
 
@@ -450,7 +450,7 @@ WritePCXfile
 		*pack++ = *palette++;
 
 	// write output file
-	length = pack - (byte *)pcx;
+	length = pack - (Uint8 *)pcx;
 	M_WriteFile(filename, pcx, length);
 
 	Z_Free(pcx);
@@ -462,7 +462,7 @@ WritePCXfile
 //
 void M_ScreenShot(void) {
 	int i;
-	byte* linear;
+	Uint8* linear;
 	char lbmname[12];
 
 	// munge planar buffer to linear

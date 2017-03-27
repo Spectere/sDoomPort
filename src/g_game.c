@@ -119,9 +119,9 @@ char demoname[32];
 boolean demorecording;
 boolean demoplayback;
 boolean netdemo;
-byte* demobuffer;
-byte* demo_p;
-byte* demoend;
+Uint8* demobuffer;
+Uint8* demo_p;
+Uint8* demoend;
 boolean singledemo; // quit after playing a demo from cmdline 
 
 boolean precache = true; // if true, load all graphics at start 
@@ -130,7 +130,7 @@ wbstartstruct_t wminfo; // parms for world map / intermission
 
 short consistancy[MAXPLAYERS][BACKUPTICS];
 
-byte* savebuffer;
+Uint8* savebuffer;
 
 
 // 

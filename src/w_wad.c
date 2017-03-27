@@ -411,7 +411,7 @@ W_ReadLump
 void* W_CacheLumpNum
 (int lump,
  int tag) {
-	byte* ptr;
+	Uint8* ptr;
 
 	if((unsigned)lump >= numlumps)
 		I_Error("W_CacheLumpNum: %i >= numlumps", lump);
@@ -463,7 +463,7 @@ void W_Profile(void) {
 			ch = ' ';
 			continue;
 		} else {
-			block = (memblock_t *) ((byte *)ptr - sizeof(memblock_t));
+			block = (memblock_t *) ((Uint8 *)ptr - sizeof(memblock_t));
 			if(block->tag < PU_PURGELEVEL)
 				ch = 'S';
 			else

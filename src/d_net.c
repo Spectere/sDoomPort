@@ -161,7 +161,7 @@ HSendPacket
 		        netbuffer->numtics, realretrans, doomcom->datalength);
 
 		for(i = 0; i < doomcom->datalength; i++)
-			fprintf(debugfile, "%i ", ((byte *)netbuffer)[i]);
+			fprintf(debugfile, "%i ", ((Uint8 *)netbuffer)[i]);
 
 		fprintf(debugfile, "\n");
 	}
@@ -223,7 +223,7 @@ boolean HGetPacket(void) {
 			        netbuffer->numtics, realretrans, doomcom->datalength);
 
 			for(i = 0; i < doomcom->datalength; i++)
-				fprintf(debugfile, "%i ", ((byte *)netbuffer)[i]);
+				fprintf(debugfile, "%i ", ((Uint8 *)netbuffer)[i]);
 			fprintf(debugfile, "\n");
 		}
 	}

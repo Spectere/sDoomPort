@@ -40,11 +40,11 @@
 // Screen 1 is an extra buffer.
 
 
-extern byte* screens[5];
+extern Uint8* screens[5];
 
 extern int dirtybox[4];
 
-extern byte gammatable[5][256];
+extern Uint8 gammatable[5][256];
 extern int usegamma;
 
 
@@ -86,7 +86,7 @@ V_DrawBlock
  int scrn,
  int width,
  int height,
- byte* src);
+ Uint8* src);
 
 // Reads a linear block of pixels into the view buffer.
 void
@@ -96,7 +96,7 @@ V_GetBlock
  int scrn,
  int width,
  int height,
- byte* dest);
+ Uint8* dest);
 
 
 void
