@@ -24,11 +24,6 @@
 #include "d_ticcmd.h"
 #include "d_event.h"
 
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 // Called by DoomMain.
 void I_Init(void);
 
@@ -86,10 +81,4 @@ void I_Tactile(int on, int off, int total);
 
 void I_Error(char* error, ...);
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

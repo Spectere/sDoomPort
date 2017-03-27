@@ -28,7 +28,6 @@
 
 #include "doomdef.h"
 
-
 typedef struct {
 	Uint8 r;
 	Uint8 g;

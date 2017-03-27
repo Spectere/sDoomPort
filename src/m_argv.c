@@ -22,7 +22,6 @@
 int myargc;
 char** myargv;
 
-
 //
 // M_CheckParm
 // Checks for the given parameter

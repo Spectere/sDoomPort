@@ -24,7 +24,6 @@
 #include <ctype.h>
 #include <SDL.h>
 
-
 #include "doomdef.h"
 #include "dstrings.h"
 
@@ -37,7 +36,6 @@
 #include "w_wad.h"
 
 #include "r_local.h"
-
 
 #include "hu_stuff.h"
 

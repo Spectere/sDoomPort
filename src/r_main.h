@@ -24,12 +24,6 @@
 #include "d_player.h"
 #include "r_data.h"
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 //
 // POV related.
 //
@@ -160,8 +154,3 @@ void R_Init(void);
 void R_SetViewSize(int blocks, int detail);
 
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

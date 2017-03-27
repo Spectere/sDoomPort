@@ -21,12 +21,6 @@
 #ifndef __M_FIXED__
 #define __M_FIXED__
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 //
 // Fixed point, 32bit as 16.16.
 //
@@ -39,10 +33,4 @@ fixed_t FixedMul(fixed_t a, fixed_t b);
 fixed_t FixedDiv(fixed_t a, fixed_t b);
 fixed_t FixedDiv2(fixed_t a, fixed_t b);
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

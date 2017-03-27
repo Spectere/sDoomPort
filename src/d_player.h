@@ -38,11 +38,6 @@
 // as commands per game tick.
 #include "d_ticcmd.h"
 
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 //
 // Player states.
 //
@@ -201,10 +196,4 @@ typedef struct {
 
 } wbstartstruct_t;
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

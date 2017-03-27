@@ -19,7 +19,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 #include "i_system.h"
 #include "d_event.h"

@@ -21,12 +21,6 @@
 #ifndef __P_SAVEG__
 #define __P_SAVEG__
 
-
-#ifdef __GNUG__
-#pragma interface
-#endif
-
-
 // Persistent storage/archiving.
 // These are the load / save game routines.
 void P_ArchivePlayers(void);
@@ -40,10 +34,4 @@ void P_UnArchiveSpecials(void);
 
 extern byte* save_p;
 
-
 #endif
-//-----------------------------------------------------------------------------
-//
-// $Log:$
-//
-//-----------------------------------------------------------------------------

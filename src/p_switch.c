@@ -20,9 +20,7 @@
 #include "i_system.h"
 #include "doomdef.h"
 #include "p_local.h"
-
 #include "g_game.h"
-
 #include "s_sound.h"
 
 // Data.
@@ -31,7 +29,6 @@
 // State.
 #include "doomstat.h"
 #include "r_state.h"
-
 
 //
 // CHANGE THE TEXTURE OF A WALL SWITCH TO ITS OPPOSITE

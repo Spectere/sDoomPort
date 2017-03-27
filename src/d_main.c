@@ -24,23 +24,18 @@
 #define	BGCOLOR		7
 #define	FGCOLOR		8
 
-
 #include <direct.h>
 #include <corecrt_io.h>
 #include <SDL.h>
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 #include "doomdef.h"
 #include "doomstat.h"
 
 #include "dstrings.h"
 #include "sounds.h"
-
 
 #include "z_zone.h"
 #include "w_wad.h"
@@ -67,7 +62,6 @@
 
 #include "p_setup.h"
 #include "r_local.h"
-
 
 #include "d_main.h"
 

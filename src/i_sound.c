@@ -24,21 +24,8 @@
 
 #include <math.h>
 
-#include <sys/types.h>
-
-// Timer stuff. Experimental.
-#include <time.h>
-#include <signal.h>
-
-#include "z_zone.h"
-
-#include "i_system.h"
 #include "i_sound.h"
-#include "m_argv.h"
-#include "m_misc.h"
 #include "w_wad.h"
-
-#include "doomdef.h"
 
 static SDL_bool audio_initialized = SDL_FALSE;
 static SDL_AudioDeviceID device;

@@ -164,7 +164,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\am_map.c" />
-    <ClCompile Include="..\src\doomdef.c" />
     <ClCompile Include="..\src\doomstat.c" />
     <ClCompile Include="..\src\dstrings.c" />
     <ClCompile Include="..\src\d_items.c" />
