@@ -17,9 +17,9 @@
 //
 //-----------------------------------------------------------------------------
 
-#ifndef _I_EVENT_H
-#define _I_EVENT_H
+#ifndef __I_EVENT__
+#define _I_EVENT__
 
 void I_GetEvent(void);
 
-#endif /* _I_EVENT_H */
+#endif /* __I_EVENT__ */

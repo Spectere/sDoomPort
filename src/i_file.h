@@ -18,11 +18,11 @@
 //    
 //-----------------------------------------------------------------------------
 
-#ifndef _I_FILE_H
-#define _I_FILE_H
+#ifndef __I_FILE__
+#define __I_FILE__
 
 #include <SDL.h>
 
 SDL_bool I_FileExists(char* filename);
 
-#endif /* _I_FILE_H */
+#endif /* __I_FILE__ */
