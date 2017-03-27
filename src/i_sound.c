@@ -22,6 +22,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL.h>
 static const char
 rcsid[] = "$Id: i_unix.c,v 1.5 1997/02/03 22:45:10 b1 Exp $";
 
@@ -47,6 +48,8 @@ rcsid[] = "$Id: i_unix.c,v 1.5 1997/02/03 22:45:10 b1 Exp $";
 
 #include "doomdef.h"
 
+static SDL_bool audio_initialized = SDL_FALSE;
+static SDL_AudioDeviceID device;
 
 // A quick hack to establish a protocol between
 // synchronous mix buffer updates and asynchronous
@@ -120,6 +123,8 @@ int vol_lookup[128 * 256];
 int* channelleftvol_lookup[NUM_CHANNELS];
 int* channelrightvol_lookup[NUM_CHANNELS];
 
+
+void AudioCallback(void* userdata, Uint8* stream, int len) {}
 
 //
 // SFX API
@@ -255,10 +260,35 @@ I_UpdateSoundParams
  int pitch) {}
 
 
-void I_ShutdownSound(void) { }
+void I_ShutdownSound(void) {
+	SDL_CloseAudioDevice(device);
+	SDL_QuitSubSystem(SDL_INIT_AUDIO);
+}
 
 
-void I_InitSound() { }
+void I_InitSound() {
+	SDL_AudioSpec want, have;
+
+	if(SDL_InitSubSystem(SDL_INIT_AUDIO) != 0) {
+		printf("I_InitSound: Error initializing SDL audio!\n");
+		return;
+	}
+
+	SDL_zero(want);
+	want.freq = 44100;
+	want.format = AUDIO_S16LSB;
+	want.channels = 2;
+	want.samples = 4096;
+	want.callback = AudioCallback;
+
+	device = SDL_OpenAudioDevice(NULL, 0, &want, &have, SDL_AUDIO_ALLOW_FORMAT_CHANGE | SDL_AUDIO_ALLOW_FREQUENCY_CHANGE);
+	if(device == 0) {
+		printf("I_InitSound: Error opening audio device!\n");
+		return;
+	}
+
+	audio_initialized = SDL_TRUE;
+}
 
 
 //
