@@ -28,6 +28,7 @@
 #pragma interface
 #endif
 
+#include <SDL.h>
 
 //
 // TYPES
@@ -53,7 +54,7 @@ typedef struct {
 //
 typedef struct {
 	char name[8];
-	int handle;
+	SDL_RWops* handle;
 	int position;
 	int size;
 } lumpinfo_t;
