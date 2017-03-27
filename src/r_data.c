@@ -56,11 +56,11 @@
 // and possibly other attributes.
 //
 typedef struct {
-	short originx;
-	short originy;
-	short patch;
-	short stepdir;
-	short colormap;
+	Sint16 originx;
+	Sint16 originy;
+	Sint16 patch;
+	Sint16 stepdir;
+	Sint16 colormap;
 } mappatch_t;
 
 
@@ -72,10 +72,10 @@ typedef struct {
 typedef struct {
 	char name[8];
 	boolean masked;
-	short width;
-	short height;
-	void** columndirectory; // OBSOLETE
-	short patchcount;
+	Sint16 width;
+	Sint16 height;
+	Sint32 columndirectory; // OBSOLETE
+	Sint16 patchcount;
 	mappatch_t patches[1];
 } maptexture_t;
 
@@ -87,9 +87,9 @@ typedef struct {
 	// Block origin (allways UL),
 	// which has allready accounted
 	// for the internal origin of the patch.
-	int originx;
-	int originy;
-	int patch;
+	Sint32 originx;
+	Sint32 originy;
+	Sint32 patch;
 } texpatch_t;
 
 
@@ -99,12 +99,12 @@ typedef struct {
 typedef struct {
 	// Keep name for switch changing, etc.
 	char name[8];
-	short width;
-	short height;
+	Sint16 width;
+	Sint16 height;
 
 	// All the patches[patchcount]
 	//  are drawn back to front into the cached texture.
-	short patchcount;
+	Sint16 patchcount;
 	texpatch_t patches[1];
 
 } texture_t;
@@ -379,9 +379,9 @@ void R_InitTextures(void) {
 	int i;
 	int j;
 
-	int* maptex;
-	int* maptex2;
-	int* maptex1;
+	Sint32* maptex;
+	Sint32* maptex2;
+	Sint32* maptex1;
 
 	char name[9];
 	char* names;

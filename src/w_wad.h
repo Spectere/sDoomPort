@@ -21,7 +21,7 @@
 #ifndef __W_WAD__
 #define __W_WAD__
 
-#include <SDL.h>
+#include <SDL_stdinc.h>
 
 //
 // TYPES
@@ -29,15 +29,15 @@
 typedef struct {
 	// Should be "IWAD" or "PWAD".
 	char identification[4];
-	int numlumps;
-	int infotableofs;
+	Sint32 numlumps;
+	Sint32 infotableofs;
 
 } wadinfo_t;
 
 
 typedef struct {
-	int filepos;
-	int size;
+	Sint32 filepos;
+	Sint32 size;
 	char name[8];
 
 } filelump_t;
@@ -48,8 +48,8 @@ typedef struct {
 typedef struct {
 	char name[8];
 	SDL_RWops* handle;
-	int position;
-	int size;
+	Sint32 position;
+	Sint32 size;
 } lumpinfo_t;
 
 
