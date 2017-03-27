@@ -24,7 +24,6 @@
 #include <SDL.h>
 
 #include "doomtype.h"
-#include "m_swap.h"
 #include "i_system.h"
 #include "z_zone.h"
 
@@ -141,7 +140,7 @@ void W_AddFile(char* filename) {
 		// single lump file
 		fileinfo = &singleinfo;
 		singleinfo.filepos = 0;
-		singleinfo.size = LONG(d_filelength(handle));
+		singleinfo.size = SDL_SwapLE32(d_filelength(handle));
 		ExtractFileBase(filename, singleinfo.name);
 		numlumps++;
 	} else {
@@ -156,8 +155,8 @@ void W_AddFile(char* filename) {
 
 			// ???modifiedgame = true;		
 		}
-		header.numlumps = LONG(header.numlumps);
-		header.infotableofs = LONG(header.infotableofs);
+		header.numlumps = SDL_SwapLE32(header.numlumps);
+		header.infotableofs = SDL_SwapLE32(header.infotableofs);
 		length = header.numlumps * sizeof(filelump_t);
 		fileinfo = alloca(length);
 		SDL_RWseek(handle, header.infotableofs, RW_SEEK_SET);
@@ -178,8 +177,8 @@ void W_AddFile(char* filename) {
 
 	for(i = startlump; i < numlumps; i++ , lump_p++ , fileinfo++) {
 		lump_p->handle = storehandle;
-		lump_p->position = LONG(fileinfo->filepos);
-		lump_p->size = LONG(fileinfo->size);
+		lump_p->position = SDL_SwapLE32(fileinfo->filepos);
+		lump_p->size = SDL_SwapLE32(fileinfo->size);
 		strncpy(lump_p->name, fileinfo->name, 8);
 	}
 
@@ -209,8 +208,8 @@ void W_Reload(void) {
 		I_Error("W_Reload: couldn't open %s", reloadname);
 
 	SDL_RWread(handle, &header, sizeof(header), 1);
-	lumpcount = LONG(header.numlumps);
-	header.infotableofs = LONG(header.infotableofs);
+	lumpcount = SDL_SwapLE32(header.numlumps);
+	header.infotableofs = SDL_SwapLE32(header.infotableofs);
 	length = lumpcount * sizeof(filelump_t);
 	fileinfo = alloca(length);
 	SDL_RWseek(handle, header.infotableofs, RW_SEEK_SET);
@@ -225,8 +224,8 @@ void W_Reload(void) {
 		if(lumpcache[i])
 			Z_Free(lumpcache[i]);
 
-		lump_p->position = LONG(fileinfo->filepos);
-		lump_p->size = LONG(fileinfo->size);
+		lump_p->position = SDL_SwapLE32(fileinfo->filepos);
+		lump_p->size = SDL_SwapLE32(fileinfo->size);
 	}
 
 	SDL_RWclose(handle);

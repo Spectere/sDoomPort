@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This source is available for distribution and/or modification
 // only under the terms of the DOOM Source Code License as
@@ -16,12 +17,12 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL.h>
 #include <stdio.h>
 
 #include "z_zone.h"
 
 #include "m_random.h"
-#include "m_swap.h"
 
 #include "i_system.h"
 
@@ -82,7 +83,7 @@
 
 // NET GAME STUFF
 #define NG_STATSY		50
-#define NG_STATSX		(32 + SHORT(star->width)/2 + 32*!dofrags)
+#define NG_STATSX		(32 + SDL_SwapLE16(star->width)/2 + 32*!dofrags)
 
 #define NG_SPACINGX    		64
 
@@ -407,13 +408,13 @@ void WI_drawLF(void) {
 	int y = WI_TITLEY;
 
 	// draw <LevelName> 
-	V_DrawPatch((SCREENWIDTH - SHORT(lnames[wbs->last]->width)) / 2,
+	V_DrawPatch((SCREENWIDTH - SDL_SwapLE16(lnames[wbs->last]->width)) / 2,
 	            y, FB, lnames[wbs->last]);
 
 	// draw "Finished!"
-	y += (5 * SHORT(lnames[wbs->last]->height)) / 4;
+	y += (5 * SDL_SwapLE16(lnames[wbs->last]->height)) / 4;
 
-	V_DrawPatch((SCREENWIDTH - SHORT(finished->width)) / 2,
+	V_DrawPatch((SCREENWIDTH - SDL_SwapLE16(finished->width)) / 2,
 	            y, FB, finished);
 }
 
@@ -423,13 +424,13 @@ void WI_drawEL(void) {
 	int y = WI_TITLEY;
 
 	// draw "Entering"
-	V_DrawPatch((SCREENWIDTH - SHORT(entering->width)) / 2,
+	V_DrawPatch((SCREENWIDTH - SDL_SwapLE16(entering->width)) / 2,
 	            y, FB, entering);
 
 	// draw level
-	y += (5 * SHORT(lnames[wbs->next]->height)) / 4;
+	y += (5 * SDL_SwapLE16(lnames[wbs->next]->height)) / 4;
 
-	V_DrawPatch((SCREENWIDTH - SHORT(lnames[wbs->next]->width)) / 2,
+	V_DrawPatch((SCREENWIDTH - SDL_SwapLE16(lnames[wbs->next]->width)) / 2,
 	            y, FB, lnames[wbs->next]);
 
 }
@@ -448,10 +449,10 @@ WI_drawOnLnode
 
 	i = 0;
 	do {
-		left = lnodes[wbs->epsd][n].x - SHORT(c[i]->leftoffset);
-		top = lnodes[wbs->epsd][n].y - SHORT(c[i]->topoffset);
-		right = left + SHORT(c[i]->width);
-		bottom = top + SHORT(c[i]->height);
+		left = lnodes[wbs->epsd][n].x - SDL_SwapLE16(c[i]->leftoffset);
+		top = lnodes[wbs->epsd][n].y - SDL_SwapLE16(c[i]->topoffset);
+		right = left + SDL_SwapLE16(c[i]->width);
+		bottom = top + SDL_SwapLE16(c[i]->height);
 
 		if(left >= 0
 		   && right < SCREENWIDTH
@@ -577,7 +578,7 @@ WI_drawNum
  int n,
  int digits) {
 
-	int fontwidth = SHORT(num[0]->width);
+	int fontwidth = SDL_SwapLE16(num[0]->width);
 	int neg;
 	int temp;
 
@@ -654,7 +655,7 @@ WI_drawTime
 
 		do {
 			n = (t / div) % 60;
-			x = WI_drawNum(x, y, n, 2) - SHORT(colon->width);
+			x = WI_drawNum(x, y, n, 2) - SDL_SwapLE16(colon->width);
 			div *= 60;
 
 			// draw
@@ -664,7 +665,7 @@ WI_drawTime
 		} while(t / div);
 	} else {
 		// "sucks"
-		V_DrawPatch(x - SHORT(sucks->width), y, FB, sucks);
+		V_DrawPatch(x - SDL_SwapLE16(sucks->width), y, FB, sucks);
 	}
 }
 
@@ -910,7 +911,7 @@ void WI_drawDeathmatchStats(void) {
 	WI_drawLF();
 
 	// draw stat titles (top line)
-	V_DrawPatch(DM_TOTALSX - SHORT(total->width) / 2,
+	V_DrawPatch(DM_TOTALSX - SDL_SwapLE16(total->width) / 2,
 	                      DM_MATRIXY - WI_SPACINGY + 10,
 	                      FB,
 	                      total);
@@ -924,23 +925,23 @@ void WI_drawDeathmatchStats(void) {
 
 	for(i = 0; i < MAXPLAYERS; i++) {
 		if(playeringame[i]) {
-			V_DrawPatch(x - SHORT(p[i]->width) / 2,
+			V_DrawPatch(x - SDL_SwapLE16(p[i]->width) / 2,
 			            DM_MATRIXY - WI_SPACINGY,
 			            FB,
 			            p[i]);
 
-			V_DrawPatch(DM_MATRIXX - SHORT(p[i]->width) / 2,
+			V_DrawPatch(DM_MATRIXX - SDL_SwapLE16(p[i]->width) / 2,
 			                      y,
 			                      FB,
 			                      p[i]);
 
 			if(i == me) {
-				V_DrawPatch(x - SHORT(p[i]->width) / 2,
+				V_DrawPatch(x - SDL_SwapLE16(p[i]->width) / 2,
 				            DM_MATRIXY - WI_SPACINGY,
 				            FB,
 				            bstar);
 
-				V_DrawPatch(DM_MATRIXX - SHORT(p[i]->width) / 2,
+				V_DrawPatch(DM_MATRIXX - SDL_SwapLE16(p[i]->width) / 2,
 				                      y,
 				                      FB,
 				                      star);
@@ -957,7 +958,7 @@ void WI_drawDeathmatchStats(void) {
 
 	// draw stats
 	y = DM_MATRIXY + 10;
-	w = SHORT(num[0]->width);
+	w = SDL_SwapLE16(num[0]->width);
 
 	for(i = 0; i < MAXPLAYERS; i++) {
 		x = DM_MATRIXX + DM_SPACINGX;
@@ -1138,7 +1139,7 @@ void WI_drawNetgameStats(void) {
 	int i;
 	int x;
 	int y;
-	int pwidth = SHORT(percent->width);
+	int pwidth = SDL_SwapLE16(percent->width);
 
 	WI_slamBackground();
 
@@ -1148,31 +1149,31 @@ void WI_drawNetgameStats(void) {
 	WI_drawLF();
 
 	// draw stat titles (top line)
-	V_DrawPatch(NG_STATSX + NG_SPACINGX - SHORT(kills->width),
+	V_DrawPatch(NG_STATSX + NG_SPACINGX - SDL_SwapLE16(kills->width),
 	                     NG_STATSY, FB, kills);
 
-	V_DrawPatch(NG_STATSX + 2 * NG_SPACINGX - SHORT(items->width),
+	V_DrawPatch(NG_STATSX + 2 * NG_SPACINGX - SDL_SwapLE16(items->width),
 	                     NG_STATSY, FB, items);
 
-	V_DrawPatch(NG_STATSX + 3 * NG_SPACINGX - SHORT(secret->width),
+	V_DrawPatch(NG_STATSX + 3 * NG_SPACINGX - SDL_SwapLE16(secret->width),
 	                     NG_STATSY, FB, secret);
 
 	if(dofrags)
-		V_DrawPatch(NG_STATSX + 4 * NG_SPACINGX - SHORT(frags->width),
+		V_DrawPatch(NG_STATSX + 4 * NG_SPACINGX - SDL_SwapLE16(frags->width),
 		                     NG_STATSY, FB, frags);
 
 	// draw stats
-	y = NG_STATSY + SHORT(kills->height);
+	y = NG_STATSY + SDL_SwapLE16(kills->height);
 
 	for(i = 0; i < MAXPLAYERS; i++) {
 		if(!playeringame[i])
 			continue;
 
 		x = NG_STATSX;
-		V_DrawPatch(x - SHORT(p[i]->width), y, FB, p[i]);
+		V_DrawPatch(x - SDL_SwapLE16(p[i]->width), y, FB, p[i]);
 
 		if(i == me)
-			V_DrawPatch(x - SHORT(p[i]->width), y, FB, star);
+			V_DrawPatch(x - SDL_SwapLE16(p[i]->width), y, FB, star);
 
 		x += NG_SPACINGX;
 		WI_drawPercent(x - pwidth, y + 10, cnt_kills[i]);
@@ -1292,7 +1293,7 @@ void WI_drawStats(void) {
 	// line height
 	int lh;
 
-	lh = (3 * SHORT(num[0]->height)) / 2;
+	lh = (3 * SDL_SwapLE16(num[0]->height)) / 2;
 
 	WI_slamBackground();
 

@@ -21,11 +21,11 @@
 //-----------------------------------------------------------------------------
 
 #include <malloc.h>
+#include <SDL.h>
 
 #include "i_system.h"
 #include "z_zone.h"
 
-#include "m_swap.h"
 
 #include "w_wad.h"
 
@@ -234,7 +234,7 @@ void R_GenerateComposite(int texnum) {
 	    i++ , patch++) {
 		realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
 		x1 = patch->originx;
-		x2 = x1 + SHORT(realpatch->width);
+		x2 = x1 + SDL_SwapLE16(realpatch->width);
 
 		if(x1 < 0)
 			x = 0;
@@ -250,7 +250,7 @@ void R_GenerateComposite(int texnum) {
 				continue;
 
 			patchcol = (column_t *)((byte *)realpatch
-			                        + LONG(realpatch->columnofs[x-x1]));
+			                        + SDL_SwapLE32(realpatch->columnofs[x-x1]));
 			R_DrawColumnInCache(patchcol,
 			                    block + colofs[x],
 			                    patch->originy,
@@ -302,7 +302,7 @@ void R_GenerateLookup(int texnum) {
 	    i++ , patch++) {
 		realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
 		x1 = patch->originx;
-		x2 = x1 + SHORT(realpatch->width);
+		x2 = x1 + SDL_SwapLE16(realpatch->width);
 
 		if(x1 < 0)
 			x = 0;
@@ -314,7 +314,7 @@ void R_GenerateLookup(int texnum) {
 		for(; x < x2; x++) {
 			patchcount[x]++;
 			collump[x] = patch->patch;
-			colofs[x] = LONG(realpatch->columnofs[x-x1]) + 3;
+			colofs[x] = SDL_SwapLE16(realpatch->columnofs[x-x1]) + 3;
 		}
 	}
 
@@ -407,7 +407,7 @@ void R_InitTextures(void) {
 	// Load the patch names from pnames.lmp.
 	name[8] = 0;
 	names = W_CacheLumpName("PNAMES", PU_STATIC);
-	nummappatches = LONG ( *((int *)names) );
+	nummappatches = SDL_SwapLE32( *((int *)names) );
 	name_p = names + 4;
 	patchlookup = alloca(nummappatches * sizeof(*patchlookup));
 
@@ -421,13 +421,13 @@ void R_InitTextures(void) {
 	// The data is contained in one or two lumps,
 	//  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
 	maptex = maptex1 = W_CacheLumpName("TEXTURE1", PU_STATIC);
-	numtextures1 = LONG(*maptex);
+	numtextures1 = SDL_SwapLE32(*maptex);
 	maxoff = W_LumpLength(W_GetNumForName("TEXTURE1"));
 	directory = maptex + 1;
 
 	if(W_CheckNumForName("TEXTURE2") != -1) {
 		maptex2 = W_CacheLumpName("TEXTURE2", PU_STATIC);
-		numtextures2 = LONG(*maptex2);
+		numtextures2 = SDL_SwapLE32(*maptex2);
 		maxoff2 = W_LumpLength(W_GetNumForName("TEXTURE2"));
 	} else {
 		maptex2 = NULL;
@@ -469,7 +469,7 @@ void R_InitTextures(void) {
 			directory = maptex + 1;
 		}
 
-		offset = LONG(*directory);
+		offset = SDL_SwapLE32(*directory);
 
 		if(offset > maxoff)
 			I_Error("R_InitTextures: bad texture directory");
@@ -478,21 +478,21 @@ void R_InitTextures(void) {
 
 		texture = textures[i] =
 		          Z_Malloc(sizeof(texture_t)
-		                   + sizeof(texpatch_t) * (SHORT(mtexture->patchcount) - 1),
+		                   + sizeof(texpatch_t) * (SDL_SwapLE16(mtexture->patchcount) - 1),
 		                   PU_STATIC, 0);
 
-		texture->width = SHORT(mtexture->width);
-		texture->height = SHORT(mtexture->height);
-		texture->patchcount = SHORT(mtexture->patchcount);
+		texture->width = SDL_SwapLE16(mtexture->width);
+		texture->height = SDL_SwapLE16(mtexture->height);
+		texture->patchcount = SDL_SwapLE16(mtexture->patchcount);
 
 		memcpy(texture->name, mtexture->name, sizeof(texture->name));
 		mpatch = &mtexture->patches[0];
 		patch = &texture->patches[0];
 
 		for(j = 0; j < texture->patchcount; j++ , mpatch++ , patch++) {
-			patch->originx = SHORT(mpatch->originx);
-			patch->originy = SHORT(mpatch->originy);
-			patch->patch = patchlookup[SHORT(mpatch->patch)];
+			patch->originx = SDL_SwapLE16(mpatch->originx);
+			patch->originy = SDL_SwapLE16(mpatch->originy);
+			patch->patch = patchlookup[SDL_SwapLE16(mpatch->patch)];
 			if(patch->patch == -1) {
 				I_Error("R_InitTextures: Missing patch in texture %s",
 				        texture->name);
@@ -568,9 +568,9 @@ void R_InitSpriteLumps(void) {
 			printf(".");
 
 		patch = W_CacheLumpNum(firstspritelump + i, PU_CACHE);
-		spritewidth[i] = SHORT(patch->width) << FRACBITS;
-		spriteoffset[i] = SHORT(patch->leftoffset) << FRACBITS;
-		spritetopoffset[i] = SHORT(patch->topoffset) << FRACBITS;
+		spritewidth[i] = SDL_SwapLE16(patch->width) << FRACBITS;
+		spriteoffset[i] = SDL_SwapLE16(patch->leftoffset) << FRACBITS;
+		spritetopoffset[i] = SDL_SwapLE16(patch->topoffset) << FRACBITS;
 	}
 }
 

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,12 +18,11 @@
 //-----------------------------------------------------------------------------
 
 #include <ctype.h>
+#include <SDL.h>
 
 #include "doomdef.h"
 
 #include "z_zone.h"
-
-#include "m_swap.h"
 
 #include "hu_stuff.h"
 #include "hu_lib.h"
@@ -45,11 +45,11 @@
 #define HU_TITLET	(mapnamest[gamemap-1])
 #define HU_TITLEHEIGHT	1
 #define HU_TITLEX	0
-#define HU_TITLEY	(167 - SHORT(hu_font[0]->height))
+#define HU_TITLEY	(167 - SDL_SwapLE16(hu_font[0]->height))
 
 #define HU_INPUTTOGGLE	't'
 #define HU_INPUTX	HU_MSGX
-#define HU_INPUTY	(HU_MSGY + HU_MSGHEIGHT*(SHORT(hu_font[0]->height) +1))
+#define HU_INPUTY	(HU_MSGY + HU_MSGHEIGHT*(SDL_SwapLE16(hu_font[0]->height) +1))
 #define HU_INPUTWIDTH	64
 #define HU_INPUTHEIGHT	1
 

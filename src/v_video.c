@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This source is available for distribution and/or modification
 // only under the terms of the DOOM Source Code License as
@@ -18,13 +19,14 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL.h>
+
 #include "i_system.h"
 #include "r_local.h"
 
 #include "doomdef.h"
 
 #include "m_bbox.h"
-#include "m_swap.h"
 
 #include "v_video.h"
 
@@ -198,13 +200,13 @@ V_DrawPatch
 	byte* source;
 	int w;
 
-	y -= SHORT(patch->topoffset);
-	x -= SHORT(patch->leftoffset);
+	y -= SDL_SwapLE16(patch->topoffset);
+	x -= SDL_SwapLE16(patch->leftoffset);
 #ifdef RANGECHECK 
 	if(x < 0
-	   || x + SHORT(patch->width) > SCREENWIDTH
+	   || x + SDL_SwapLE16(patch->width) > SCREENWIDTH
 	   || y < 0
-	   || y + SHORT(patch->height) > SCREENHEIGHT
+	   || y + SDL_SwapLE16(patch->height) > SCREENHEIGHT
 	   || (unsigned)scrn > 4) {
 		fprintf(stderr, "Patch at %d,%d exceeds LFB\n", x, y);
 		// No I_Error abort - what is up with TNT.WAD?
@@ -214,15 +216,15 @@ V_DrawPatch
 #endif
 
 	if(!scrn)
-		V_MarkRect(x, y, SHORT(patch->width), SHORT(patch->height));
+		V_MarkRect(x, y, SDL_SwapLE16(patch->width), SDL_SwapLE16(patch->height));
 
 	col = 0;
 	desttop = screens[scrn] + y * SCREENWIDTH + x;
 
-	w = SHORT(patch->width);
+	w = SDL_SwapLE16(patch->width);
 
 	for(; col < w; x++ , col++ , desttop++) {
-		column = (column_t *)((byte *)patch + LONG(patch->columnofs[col]));
+		column = (column_t *)((byte *)patch + SDL_SwapLE32(patch->columnofs[col]));
 
 		// step through the posts in a column 
 		while(column->topdelta != 0xff) {
@@ -260,13 +262,13 @@ V_DrawPatchFlipped
 	byte* source;
 	int w;
 
-	y -= SHORT(patch->topoffset);
-	x -= SHORT(patch->leftoffset);
+	y -= SDL_SwapLE16(patch->topoffset);
+	x -= SDL_SwapLE16(patch->leftoffset);
 #ifdef RANGECHECK 
 	if(x < 0
-	   || x + SHORT(patch->width) > SCREENWIDTH
+	   || x + SDL_SwapLE16(patch->width) > SCREENWIDTH
 	   || y < 0
-	   || y + SHORT(patch->height) > SCREENHEIGHT
+	   || y + SDL_SwapLE16(patch->height) > SCREENHEIGHT
 	   || (unsigned)scrn > 4) {
 		fprintf(stderr, "Patch origin %d,%d exceeds LFB\n", x, y);
 		I_Error("Bad V_DrawPatch in V_DrawPatchFlipped");
@@ -274,15 +276,15 @@ V_DrawPatchFlipped
 #endif
 
 	if(!scrn)
-		V_MarkRect(x, y, SHORT(patch->width), SHORT(patch->height));
+		V_MarkRect(x, y, SDL_SwapLE16(patch->width), SDL_SwapLE16(patch->height));
 
 	col = 0;
 	desttop = screens[scrn] + y * SCREENWIDTH + x;
 
-	w = SHORT(patch->width);
+	w = SDL_SwapLE16(patch->width);
 
 	for(; col < w; x++ , col++ , desttop++) {
-		column = (column_t *)((byte *)patch + LONG(patch->columnofs[w-1-col]));
+		column = (column_t *)((byte *)patch + SDL_SwapLE32(patch->columnofs[w-1-col]));
 
 		// step through the posts in a column 
 		while(column->topdelta != 0xff) {

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -19,10 +20,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <SDL.h>
 
 #include "doomdef.h"
-#include "m_swap.h"
 
 #include "i_system.h"
 #include "z_zone.h"
@@ -385,11 +385,11 @@ R_DrawVisSprite
 	for(dc_x = vis->x1; dc_x <= vis->x2; dc_x++ , frac += vis->xiscale) {
 		texturecolumn = frac >> FRACBITS;
 #ifdef RANGECHECK
-		if(texturecolumn < 0 || texturecolumn >= SHORT(patch->width))
+		if(texturecolumn < 0 || texturecolumn >= SDL_SwapLE16(patch->width))
 			I_Error("R_DrawSpriteRange: bad texturecolumn");
 #endif
 		column = (column_t *) ((byte *)patch +
-		                       LONG(patch->columnofs[texturecolumn]));
+			SDL_SwapLE32(patch->columnofs[texturecolumn]));
 		R_DrawMaskedColumn(column);
 	}
 
