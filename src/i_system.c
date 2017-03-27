@@ -26,6 +26,7 @@
 
 #include "doomdef.h"
 #include "m_misc.h"
+#include "i_event.h"
 #include "i_video.h"
 #include "i_sound.h"
 
@@ -114,6 +115,12 @@ byte* I_AllocLow(int length) {
 	return mem;
 }
 
+//
+// I_StartTic
+//
+void I_StartTic(void) {
+	I_GetEvent();
+}
 
 //
 // I_Error

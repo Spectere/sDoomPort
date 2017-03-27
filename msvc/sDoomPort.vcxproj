@@ -176,6 +176,7 @@
     <ClCompile Include="..\src\hu_lib.c" />
     <ClCompile Include="..\src\hu_stuff.c" />
     <ClCompile Include="..\src\info.c" />
+    <ClCompile Include="..\src\i_event.c" />
     <ClCompile Include="..\src\i_file.c" />
     <ClCompile Include="..\src\i_main.c" />
     <ClCompile Include="..\src\i_net.c" />
@@ -250,6 +251,7 @@
     <ClInclude Include="..\src\hu_lib.h" />
     <ClInclude Include="..\src\hu_stuff.h" />
     <ClInclude Include="..\src\info.h" />
+    <ClInclude Include="..\src\i_event.h" />
     <ClInclude Include="..\src\i_file.h" />
     <ClInclude Include="..\src\i_net.h" />
     <ClInclude Include="..\src\i_sound.h" />
