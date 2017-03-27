@@ -34,6 +34,7 @@ static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 
 #include <direct.h>
 #include <corecrt_io.h>
+#include <SDL.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -923,6 +924,11 @@ void D_DoomMain(void) {
 		autostart = true;
 	}
 
+	/* Init SDL */
+	printf("D_DoomMain: Initializing SDL.\n");
+	if(SDL_Init(0) != 0)
+		I_Error("D_DoomMain: Unable to initialize SDL!");
+
 	// init subsystems
 	printf("V_Init: allocate screens.\n");
 	V_Init();
@@ -969,10 +975,8 @@ void D_DoomMain(void) {
 			"ATTENTION:  This version of DOOM has been modified.  If you would like to\n"
 			"get a copy of the original game, call 1-800-IDGAMES or see the readme file.\n"
 			"        You will not receive technical support for modified games.\n"
-			"                      press enter to continue\n"
 			"===========================================================================\n"
 		);
-		getchar();
 	}
 
 

@@ -52,7 +52,9 @@ static SDL_Texture* texture;
 Uint16 w_width, w_height;
 const Uint16 t_width = SCREENWIDTH, t_height = SCREENHEIGHT;
 
-void I_ShutdownGraphics(void) {}
+void I_ShutdownGraphics(void) {
+	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+}
 
 extern int scale;
 extern int capture_mouse;
@@ -258,6 +260,10 @@ void I_SetPalette(byte* palette) {
 
 
 void I_InitGraphics(void) {
+	/* Initialize the video subsystem. */
+	if(SDL_InitSubSystem(SDL_INIT_VIDEO) != 0)
+		I_Error("I_InitGraphics: Unable to initialize SDL video!");
+
 	/* Scale the window appropriately. */
 	w_width = SCREENWIDTH * scale;
 	w_height = SCREENHEIGHT * scale * 1.2;  /* Include aspect ratio correction. */
