@@ -1,7 +1,5 @@
 //-----------------------------------------------------------------------------
 //
-// $Id:$
-//
 // Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or

@@ -1,7 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
 //-----------------------------------------------------------------------------
-//
-// $Id:$
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
 //
@@ -15,8 +12,6 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// $Log:$
-//
 // DESCRIPTION:
 //  Sky rendering. The DOOM sky is a texture map like any
 //  wall, wrapping around. A 1024 columns equal 360 degrees.
@@ -25,10 +20,6 @@
 //  
 //
 //-----------------------------------------------------------------------------
-
-static const char
-rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
-
 
 // Needed for FRACUNIT.
 #include "m_fixed.h"
