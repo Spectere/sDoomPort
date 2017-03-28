@@ -36,6 +36,13 @@
 enum { VERSION = 110 };
 enum { DEMOVER = 109 };
 
+/* Aliases so that string comparisons work cross-platform.
+ * TODO: Make this better. */
+#ifndef _WIN32
+#define _stricmp strcasecmp
+#define _strnicmp strncasecmp
+#endif /* _WIN32 */
+
 // Game mode handling - identify IWAD version
 //  to handle IWAD dependend animations etc.
 typedef enum {

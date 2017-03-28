@@ -23,6 +23,7 @@
 #include <sys/stat.h>
 #include <SDL.h>
 
+#include "doomdef.h"
 #include "doomtype.h"
 #include "i_system.h"
 #include "z_zone.h"
@@ -49,16 +50,6 @@ void d_strupr(char* s) {
 		s++;
 	}
 }
-
-int d_filelength(int handle) {
-	struct stat fileinfo;
-
-	if(fstat(handle, &fileinfo) == -1)
-		I_Error("Error fstating");
-
-	return fileinfo.st_size;
-}
-
 
 void
 ExtractFileBase
@@ -136,11 +127,11 @@ void W_AddFile(char* filename) {
 	printf(" adding %s\n", filename);
 	startlump = numlumps;
 
-	if(_strcmpi(filename + strlen(filename) - 3, "wad")) {
+	if(_stricmp(filename + strlen(filename) - 3, "wad")) {
 		// single lump file
 		fileinfo = &singleinfo;
 		singleinfo.filepos = 0;
-		singleinfo.size = SDL_SwapLE32(d_filelength(handle));
+		singleinfo.size = SDL_SwapLE32(SDL_RWsize(handle));
 		ExtractFileBase(filename, singleinfo.name);
 		numlumps++;
 	} else {
