@@ -586,7 +586,6 @@ void R_InitColormaps(void) {
 	lump = W_GetNumForName("COLORMAP");
 	length = W_LumpLength(lump) + 255;
 	colormaps = Z_Malloc(length, PU_STATIC, 0);
-	colormaps = (Uint8 *)(((Sint32)colormaps + 255) & ~0xff);
 	W_ReadLump(lump, colormaps);
 }
 

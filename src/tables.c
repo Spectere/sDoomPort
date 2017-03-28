@@ -33,11 +33,11 @@
 
 #include "tables.h"
 
-int
+Sint32
 SlopeDiv
-(unsigned num,
- unsigned den) {
-	unsigned ans;
+(Uint32 num,
+ Uint32 den) {
+	Uint32 ans;
 
 	if(den < 512)
 		return SLOPERANGE;

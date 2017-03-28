@@ -87,26 +87,26 @@ typedef struct {
 typedef struct {
 	fixed_t floorheight;
 	fixed_t ceilingheight;
-	short floorpic;
-	short ceilingpic;
-	short lightlevel;
-	short special;
-	short tag;
+	Sint16 floorpic;
+	Sint16 ceilingpic;
+	Sint16 lightlevel;
+	Sint16 special;
+	Sint16 tag;
 
 	// 0 = untraversed, 1,2 = sndlines -1
-	int soundtraversed;
+	Sint32 soundtraversed;
 
 	// thing that made a sound (or null)
 	mobj_t* soundtarget;
 
 	// mapblock bounding box for height changes
-	int blockbox[4];
+	Sint32 blockbox[4];
 
 	// origin for any sounds played by the sector
 	degenmobj_t soundorg;
 
 	// if == validcount, already checked
-	int validcount;
+	Sint32 validcount;
 
 	// list of mobjs in sector
 	mobj_t* thinglist;
@@ -114,7 +114,7 @@ typedef struct {
 	// thinker_t for reversable actions
 	void* specialdata;
 
-	int linecount;
+	Sint32 linecount;
 	struct line_s** lines; // [linecount] size
 
 } sector_t;
@@ -133,9 +133,9 @@ typedef struct {
 
 	// Texture indices.
 	// We do not maintain names here. 
-	short toptexture;
-	short bottomtexture;
-	short midtexture;
+	Sint16 toptexture;
+	Sint16 bottomtexture;
+	Sint16 midtexture;
 
 	// Sector the SideDef is facing.
 	sector_t* sector;
@@ -165,13 +165,13 @@ typedef struct line_s {
 	fixed_t dy;
 
 	// Animation related.
-	short flags;
-	short special;
-	short tag;
+	Sint16 flags;
+	Sint16 special;
+	Sint16 tag;
 
 	// Visual appearance: SideDefs.
 	//  sidenum[1] will be -1 if one sided
-	short sidenum[2];
+	Sint16 sidenum[2];
 
 	// Neat. Another bounding box, for the extent
 	//  of the LineDef.
@@ -186,7 +186,7 @@ typedef struct line_s {
 	sector_t* backsector;
 
 	// if == validcount, already checked
-	int validcount;
+	Sint32 validcount;
 
 	// thinker_t for reversable actions
 	void* specialdata;
@@ -202,8 +202,8 @@ typedef struct line_s {
 //
 typedef struct subsector_s {
 	sector_t* sector;
-	short numlines;
-	short firstline;
+	Sint16 numlines;
+	Sint16 firstline;
 
 } subsector_t;
 
@@ -245,7 +245,7 @@ typedef struct {
 	fixed_t bbox[2][4];
 
 	// If NF_SUBSECTOR its a subsector.
-	unsigned short children[2];
+	Uint16 children[2];
 
 } node_t;
 
@@ -283,15 +283,15 @@ typedef Uint8 lighttable_t;
 //
 typedef struct drawseg_s {
 	seg_t* curline;
-	int x1;
-	int x2;
+	Sint32 x1;
+	Sint32 x2;
 
 	fixed_t scale1;
 	fixed_t scale2;
 	fixed_t scalestep;
 
 	// 0=none, 1=bottom, 2=top, 3=both
-	int silhouette;
+	Sint32 silhouette;
 
 	// do not clip sprites above this
 	fixed_t bsilheight;
@@ -301,9 +301,9 @@ typedef struct drawseg_s {
 
 	// Pointers to lists for sprite clipping,
 	//  all three adjusted so [x1] is first value.
-	short* sprtopclip;
-	short* sprbottomclip;
-	short* maskedtexturecol;
+	Sint16* sprtopclip;
+	Sint16* sprbottomclip;
+	Sint16* maskedtexturecol;
 
 } drawseg_t;
 
@@ -314,11 +314,11 @@ typedef struct drawseg_s {
 // and we compose textures from the TEXTURE1/2 lists
 // of patches.
 typedef struct {
-	short width; // bounding box size 
-	short height;
-	short leftoffset; // pixels to the left of origin 
-	short topoffset; // pixels below the origin 
-	int columnofs[8]; // only [width] used
+	Sint16 width; // bounding box size 
+	Sint16 height;
+	Sint16 leftoffset; // pixels to the left of origin 
+	Sint16 topoffset; // pixels below the origin 
+	Sint32 columnofs[8]; // only [width] used
 	// the [0] is &columnofs[width] 
 } patch_t;
 
@@ -331,8 +331,8 @@ typedef struct vissprite_s {
 	struct vissprite_s* prev;
 	struct vissprite_s* next;
 
-	int x1;
-	int x2;
+	Sint32 x1;
+	Sint32 x2;
 
 	// for line side calculation
 	fixed_t gx;
@@ -351,13 +351,13 @@ typedef struct vissprite_s {
 	fixed_t xiscale;
 
 	fixed_t texturemid;
-	int patch;
+	Sint32 patch;
 
 	// for color translation and shadow draw,
 	//  maxbright frames as well
 	lighttable_t* colormap;
 
-	int mobjflags;
+	Sint32 mobjflags;
 
 } vissprite_t;
 
@@ -384,7 +384,7 @@ typedef struct {
 	boolean rotate;
 
 	// Lump to use for view angles 0-7.
-	short lump[8];
+	Sint16 lump[8];
 
 	// Flip bit (1 = flip) to use for view angles 0-7.
 	Uint8 flip[8];
@@ -408,10 +408,10 @@ typedef struct {
 // 
 typedef struct {
 	fixed_t height;
-	int picnum;
-	int lightlevel;
-	int minx;
-	int maxx;
+	Sint32 picnum;
+	Sint32 lightlevel;
+	Sint32 minx;
+	Sint32 maxx;
 
 	// leave pads for [minx-1]/[maxx+1]
 
