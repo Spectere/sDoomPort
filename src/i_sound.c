@@ -22,8 +22,6 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-#include <math.h>
-
 #include "i_sound.h"
 #include "w_wad.h"
 
@@ -118,10 +116,10 @@ void I_SetChannels() {
 	// Init internal lookups (raw data, mixing buffer, channels).
 	// This function sets up internal lookups used during
 	//  the mixing process. 
-	int i;
-	int j;
+	//int i;
+	//int j;
 
-	int* steptablemid = steptable + 128;
+	//int* steptablemid = steptable + 128;
 
 	// Okay, reset internal mixing channels to zero.
 	/*for (i=0; i<NUM_CHANNELS; i++)
@@ -131,16 +129,16 @@ void I_SetChannels() {
 
 	// This table provides step widths for pitch parameters.
 	// I fail to see that this is currently used.
-	for(i = -128; i < 128; i++)
-		steptablemid[i] = (int)(pow(2.0, (i / 64.0)) * 65536.0);
+	//for(i = -128; i < 128; i++)
+	//	steptablemid[i] = (int)(pow(2.0, (i / 64.0)) * 65536.0);
 
 
 	// Generates volume lookup tables
 	//  which also turn the unsigned samples
 	//  into signed samples.
-	for(i = 0; i < 128; i++)
-		for(j = 0; j < 256; j++)
-			vol_lookup[i * 256 + j] = (i * (j - 128) * 256) / 127;
+	//for(i = 0; i < 128; i++)
+	//	for(j = 0; j < 256; j++)
+	//		vol_lookup[i * 256 + j] = (i * (j - 128) * 256) / 127;
 }
 
 

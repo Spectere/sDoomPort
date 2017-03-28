@@ -24,7 +24,9 @@
 #define	BGCOLOR		7
 #define	FGCOLOR		8
 
+#ifdef _WIN32
 #include <direct.h>
+#endif /* _WIN32 */
 #include <SDL.h>
 
 #include <stdio.h>
@@ -886,9 +888,13 @@ void D_DoomMain(void) {
 		printf(D_DEVSTR);
 
 	if(M_CheckParm("-cdrom")) {
+	#ifdef _WIN32
 		printf(D_CDROM);
 		_mkdir("c:\\doomdata");
 		strcpy(basedefault, "c:/doomdata/default.cfg");
+	#else
+		I_Error("CD-ROM play not supported on this platform!");
+	#endif /* _WIN32 */
 	}
 
 	// turbo option

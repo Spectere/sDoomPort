@@ -19,6 +19,8 @@
 
 #include <string.h>
 
+#include "doomdef.h"
+
 int myargc;
 char** myargv;
 
