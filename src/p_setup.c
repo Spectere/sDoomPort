@@ -80,7 +80,7 @@ int bmapwidth;
 int bmapheight; // size in mapblocks
 short* blockmap; // int for larger maps
 // offsets in blockmap are from here
-short* blockmaplump;
+Sint16* blockmaplump;
 // origin of block map
 fixed_t bmaporgx;
 fixed_t bmaporgy;
