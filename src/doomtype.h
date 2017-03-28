@@ -34,6 +34,7 @@ typedef enum {false, true} boolean;
 #endif
 #endif
 
+#define PTRSIZE		(sizeof(void*))
 
 // Predefined with some OS.
 #define MAXCHAR		((char)0x7f)
