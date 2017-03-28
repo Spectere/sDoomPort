@@ -277,8 +277,8 @@ void R_GenerateLookup(int texnum) {
 	int x1;
 	int x2;
 	int i;
-	short* collump;
-	unsigned short* colofs;
+	Sint16* collump;
+	Uint16* colofs;
 
 	texture = textures[texnum];
 
@@ -436,13 +436,13 @@ void R_InitTextures(void) {
 	}
 	numtextures = numtextures1 + numtextures2;
 
-	textures = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-	texturecolumnlump = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-	texturecolumnofs = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-	texturecomposite = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-	texturecompositesize = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-	texturewidthmask = Z_Malloc(numtextures * 4, PU_STATIC, 0);
-	textureheight = Z_Malloc(numtextures * 4, PU_STATIC, 0);
+	textures = Z_Malloc(numtextures * sizeof(void*), PU_STATIC, 0);
+	texturecolumnlump = Z_Malloc(numtextures * sizeof(void*), PU_STATIC, 0);
+	texturecolumnofs = Z_Malloc(numtextures * sizeof(void*), PU_STATIC, 0);
+	texturecomposite = Z_Malloc(numtextures * sizeof(void*), PU_STATIC, 0);
+	texturecompositesize = Z_Malloc(numtextures * sizeof(void*), PU_STATIC, 0);
+	texturewidthmask = Z_Malloc(numtextures * sizeof(void*), PU_STATIC, 0);
+	textureheight = Z_Malloc(numtextures * sizeof(void*), PU_STATIC, 0);
 
 	totalwidth = 0;
 
@@ -586,7 +586,7 @@ void R_InitColormaps(void) {
 	lump = W_GetNumForName("COLORMAP");
 	length = W_LumpLength(lump) + 255;
 	colormaps = Z_Malloc(length, PU_STATIC, 0);
-	colormaps = (Uint8 *)(((int)colormaps + 255) & ~0xff);
+	colormaps = (Uint8 *)(((Sint32)colormaps + 255) & ~0xff);
 	W_ReadLump(lump, colormaps);
 }
 
