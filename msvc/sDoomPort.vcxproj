@@ -186,6 +186,7 @@
     <ClCompile Include="..\src\m_bbox.c" />
     <ClCompile Include="..\src\m_cheat.c" />
     <ClCompile Include="..\src\m_fixed.c" />
+    <ClCompile Include="..\src\m_list.c" />
     <ClCompile Include="..\src\m_menu.c" />
     <ClCompile Include="..\src\m_misc.c" />
     <ClCompile Include="..\src\m_random.c" />
@@ -259,6 +260,7 @@
     <ClInclude Include="..\src\m_bbox.h" />
     <ClInclude Include="..\src\m_cheat.h" />
     <ClInclude Include="..\src\m_fixed.h" />
+    <ClInclude Include="..\src\m_list.h" />
     <ClInclude Include="..\src\m_menu.h" />
     <ClInclude Include="..\src\m_misc.h" />
     <ClInclude Include="..\src\m_random.h" />

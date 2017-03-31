@@ -31,6 +31,8 @@
 #include "r_local.h"
 #include "r_sky.h"
 
+#include "m_list.h"
+
 
 planefunction_t floorfunc;
 planefunction_t ceilingfunc;
@@ -40,9 +42,7 @@ planefunction_t ceilingfunc;
 //
 
 // Here comes the obnoxious "visplane".
-#define MAXVISPLANES	128
-visplane_t visplanes[MAXVISPLANES];
-visplane_t* lastvisplane;
+list visplanes;
 visplane_t* floorplane;
 visplane_t* ceilingplane;
 
@@ -89,7 +89,7 @@ fixed_t cachedystep[SCREENHEIGHT];
 // Only at game startup.
 //
 void R_InitPlanes(void) {
-	// Doh!
+	list_new(&visplanes, sizeof(visplane_t));
 }
 
 
@@ -175,7 +175,7 @@ void R_ClearPlanes(void) {
 		ceilingclip[i] = -1;
 	}
 
-	lastvisplane = visplanes;
+	list_clear(&visplanes);
 	lastopening = openings;
 
 	// texture calculation
@@ -193,7 +193,7 @@ void R_ClearPlanes(void) {
 //
 // R_FindPlane
 //
-visplane_t* R_FindPlane
+void* R_FindPlane
 (fixed_t height,
  int picnum,
  int lightlevel) {
@@ -204,22 +204,18 @@ visplane_t* R_FindPlane
 		lightlevel = 0;
 	}
 
-	for(check = visplanes; check < lastvisplane; check++) {
-		if(height == check->height
-		   && picnum == check->picnum
-		   && lightlevel == check->lightlevel) {
-			break;
-		}
+	if(!list_is_empty(&visplanes)) {
+		check = (visplane_t*)list_get_first(&visplanes);
+		do {
+			if(height == check->height
+				&& picnum == check->picnum
+				&& lightlevel == check->lightlevel) {
+				return check;
+			}
+		} while((check = list_get_next(&visplanes)) != NULL);
 	}
 
-
-	if(check < lastvisplane)
-		return check;
-
-	if(lastvisplane - visplanes == MAXVISPLANES)
-		I_Error("R_FindPlane: no more visplanes");
-
-	lastvisplane++;
+	check = list_insert_last(&visplanes);
 
 	check->height = height;
 	check->picnum = picnum;
@@ -236,10 +232,11 @@ visplane_t* R_FindPlane
 //
 // R_CheckPlane
 //
-visplane_t* R_CheckPlane
+void* R_CheckPlane
 (visplane_t* pl,
  int start,
  int stop) {
+	visplane_t* new_visplane;
 	int intrl;
 	int intrh;
 	int unionl;
@@ -275,11 +272,12 @@ visplane_t* R_CheckPlane
 	}
 
 	// make a new visplane
-	lastvisplane->height = pl->height;
-	lastvisplane->picnum = pl->picnum;
-	lastvisplane->lightlevel = pl->lightlevel;
+	new_visplane = (visplane_t*)list_get_last(&visplanes);
+	new_visplane->height = pl->height;
+	new_visplane->picnum = pl->picnum;
+	new_visplane->lightlevel = pl->lightlevel;
 
-	pl = lastvisplane++;
+	pl = list_get_prev(&visplanes);
 	pl->minx = start;
 	pl->maxx = stop;
 
@@ -335,19 +333,17 @@ void R_DrawPlanes(void) {
 		I_Error("R_DrawPlanes: drawsegs overflow (%i)",
 		        ds_p - drawsegs);
 
-	if(lastvisplane - visplanes > MAXVISPLANES)
-		I_Error("R_DrawPlanes: visplane overflow (%i)",
-		        lastvisplane - visplanes);
-
 	if(lastopening - openings > MAXOPENINGS)
 		I_Error("R_DrawPlanes: opening overflow (%i)",
 		        lastopening - openings);
 #endif
 
-	for(pl = visplanes; pl < lastvisplane; pl++) {
-		if(pl->minx > pl->maxx)
+	pl = (visplane_t*)list_get_first(&visplanes);
+	do {
+		if(pl->minx > pl->maxx) {
+			pl = (visplane_t*)list_get_next(&visplanes);
 			continue;
-
+		}
 
 		// sky flat
 		if(pl->picnum == skyflatnum) {
@@ -370,6 +366,7 @@ void R_DrawPlanes(void) {
 					colfunc();
 				}
 			}
+			pl = (visplane_t*)list_get_next(&visplanes);
 			continue;
 		}
 
@@ -402,5 +399,7 @@ void R_DrawPlanes(void) {
 		}
 
 		Z_ChangeTag (ds_source, PU_CACHE);
-	}
+
+		pl = (visplane_t*)list_get_next(&visplanes);
+	} while((pl = list_get_next(&visplanes)) != NULL);
 }

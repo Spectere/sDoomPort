@@ -58,12 +58,12 @@ R_MakeSpans
 
 void R_DrawPlanes(void);
 
-visplane_t* R_FindPlane
+void* R_FindPlane
 (fixed_t height,
  int picnum,
  int lightlevel);
 
-visplane_t* R_CheckPlane
+void* R_CheckPlane
 (visplane_t* pl,
  int start,
  int stop);
