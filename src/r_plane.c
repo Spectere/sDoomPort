@@ -90,6 +90,7 @@ fixed_t cachedystep[SCREENHEIGHT];
 //
 void R_InitPlanes(void) {
 	list_new(&visplanes, sizeof(visplane_t));
+	list_insert_last(&visplanes);
 }
 
 
@@ -176,6 +177,7 @@ void R_ClearPlanes(void) {
 	}
 
 	list_clear(&visplanes);
+	list_insert_last(&visplanes);
 	lastopening = openings;
 
 	// texture calculation
@@ -205,7 +207,7 @@ void* R_FindPlane
 	}
 
 	if(!list_is_empty(&visplanes)) {
-		for(check = list_get_first(&visplanes); check != NULL; check = list_get_next(&visplanes)) {
+		for(check = list_get_first(&visplanes); !list_is_at_end(&visplanes); check = list_get_next(&visplanes)) {
 			if(height == check->height
 				&& picnum == check->picnum
 				&& lightlevel == check->lightlevel) {
@@ -214,7 +216,7 @@ void* R_FindPlane
 		}
 	}
 
-	check = list_insert_last(&visplanes);
+	check = list_get_last(&visplanes);
 
 	check->height = height;
 	check->picnum = picnum;
@@ -223,6 +225,8 @@ void* R_FindPlane
 	check->maxx = -1;
 
 	memset(check->top, 0xff, sizeof(check->top));
+
+	list_insert_last(&visplanes);
 
 	return check;
 }
@@ -271,18 +275,20 @@ void* R_CheckPlane
 	}
 
 	// make a new visplane
-	new_visplane = (visplane_t*)list_get_last(&visplanes);
+	new_visplane = list_get_last(&visplanes);
 	new_visplane->height = pl->height;
 	new_visplane->picnum = pl->picnum;
 	new_visplane->lightlevel = pl->lightlevel;
 	new_visplane->minx = SCREENWIDTH;
 	new_visplane->maxx = -1;
 
-	pl = list_get_prev(&visplanes);
+	pl = visplanes.tail->data;
 	pl->minx = start;
 	pl->maxx = stop;
 
 	memset(pl->top, 0xff, sizeof(pl->top));
+
+	list_insert_last(&visplanes);
 
 	return pl;
 }
@@ -339,7 +345,7 @@ void R_DrawPlanes(void) {
 		        lastopening - openings);
 #endif
 
-	for(pl = list_get_first(&visplanes); pl != NULL; pl = list_get_next(&visplanes)) {
+	for(pl = list_get_first(&visplanes); !list_is_at_end(&visplanes); pl = list_get_next(&visplanes)) {
 		if(pl->minx > pl->maxx)
 			continue;
 
