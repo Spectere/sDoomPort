@@ -205,14 +205,13 @@ void* R_FindPlane
 	}
 
 	if(!list_is_empty(&visplanes)) {
-		check = (visplane_t*)list_get_first(&visplanes);
-		do {
+		for(check = list_get_first(&visplanes); check != NULL; check = list_get_next(&visplanes)) {
 			if(height == check->height
 				&& picnum == check->picnum
 				&& lightlevel == check->lightlevel) {
 				return check;
 			}
-		} while((check = list_get_next(&visplanes)) != NULL);
+		}
 	}
 
 	check = list_insert_last(&visplanes);
@@ -276,6 +275,8 @@ void* R_CheckPlane
 	new_visplane->height = pl->height;
 	new_visplane->picnum = pl->picnum;
 	new_visplane->lightlevel = pl->lightlevel;
+	new_visplane->minx = SCREENWIDTH;
+	new_visplane->maxx = -1;
 
 	pl = list_get_prev(&visplanes);
 	pl->minx = start;
@@ -338,12 +339,9 @@ void R_DrawPlanes(void) {
 		        lastopening - openings);
 #endif
 
-	pl = (visplane_t*)list_get_first(&visplanes);
-	do {
-		if(pl->minx > pl->maxx) {
-			pl = (visplane_t*)list_get_next(&visplanes);
+	for(pl = list_get_first(&visplanes); pl != NULL; pl = list_get_next(&visplanes)) {
+		if(pl->minx > pl->maxx)
 			continue;
-		}
 
 		// sky flat
 		if(pl->picnum == skyflatnum) {
@@ -366,7 +364,6 @@ void R_DrawPlanes(void) {
 					colfunc();
 				}
 			}
-			pl = (visplane_t*)list_get_next(&visplanes);
 			continue;
 		}
 
@@ -399,7 +396,5 @@ void R_DrawPlanes(void) {
 		}
 
 		Z_ChangeTag (ds_source, PU_CACHE);
-
-		pl = (visplane_t*)list_get_next(&visplanes);
-	} while((pl = list_get_next(&visplanes)) != NULL);
+	}
 }
