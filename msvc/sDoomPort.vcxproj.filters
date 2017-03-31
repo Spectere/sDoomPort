@@ -201,6 +201,9 @@
     <ClCompile Include="..\src\i_event.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\m_list.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\am_map.h">
@@ -390,6 +393,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\i_event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\m_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
