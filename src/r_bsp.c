@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -27,6 +28,8 @@
 #include "r_plane.h"
 #include "r_things.h"
 
+#include "m_list.h"
+
 // State.
 #include "doomstat.h"
 #include "r_state.h"
@@ -40,8 +43,7 @@ line_t* linedef;
 sector_t* frontsector;
 sector_t* backsector;
 
-drawseg_t drawsegs[MAXDRAWSEGS];
-drawseg_t* ds_p;
+list drawsegs;
 
 
 void
@@ -54,7 +56,8 @@ R_StoreWallRange
 // R_ClearDrawSegs
 //
 void R_ClearDrawSegs(void) {
-	ds_p = drawsegs;
+	list_clear(&drawsegs);
+	list_insert_last(&drawsegs);
 }
 
 
@@ -76,6 +79,10 @@ typedef struct {
 cliprange_t* newend;
 cliprange_t solidsegs[MAXSEGS];
 
+void R_InitSegs(void) {
+	list_new(&drawsegs, sizeof(drawseg_t));
+	list_insert_last(&drawsegs);
+}
 
 //
 // R_ClipSolidWallSegment

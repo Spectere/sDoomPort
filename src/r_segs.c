@@ -336,9 +336,7 @@ R_StoreWallRange
 	fixed_t vtop;
 	int lightnum;
 
-	// don't overflow and crash
-	if(ds_p == &drawsegs[MAXDRAWSEGS])
-		return;
+	drawseg_t* ds_p;
 
 #ifdef RANGECHECK
 	if(start >= viewwidth || start > stop)
@@ -363,7 +361,7 @@ R_StoreWallRange
 	sineval = finesine[distangle >> ANGLETOFINESHIFT];
 	rw_distance = FixedMul(hyp, sineval);
 
-
+	ds_p = list_get_last(&drawsegs);
 	ds_p->x1 = rw_x = start;
 	ds_p->x2 = stop;
 	ds_p->curline = curline;
@@ -651,5 +649,5 @@ R_StoreWallRange
 		ds_p->silhouette |= SIL_BOTTOM;
 		ds_p->bsilheight = MAXINT;
 	}
-	ds_p++;
+	list_insert_last(&drawsegs);
 }

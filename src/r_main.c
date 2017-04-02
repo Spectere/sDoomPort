@@ -691,6 +691,7 @@ void R_Init(void) {
 
 	R_SetViewSize(screenblocks, detailLevel);
 	R_InitPlanes();
+	R_InitSegs();
 	R_InitLightTables();
 	R_InitSkyMap();
 	R_InitTranslationTables();

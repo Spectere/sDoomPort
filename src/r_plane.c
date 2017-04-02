@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -207,7 +208,7 @@ void* R_FindPlane
 	}
 
 	if(!list_is_empty(&visplanes)) {
-		for(check = list_get_first(&visplanes); !list_is_at_end(&visplanes); check = list_get_next(&visplanes)) {
+		LIST_ITERATE(check, &visplanes) {
 			if(height == check->height
 				&& picnum == check->picnum
 				&& lightlevel == check->lightlevel) {
@@ -336,16 +337,12 @@ void R_DrawPlanes(void) {
 	int angle;
 
 #ifdef RANGECHECK
-	if(ds_p - drawsegs > MAXDRAWSEGS)
-		I_Error("R_DrawPlanes: drawsegs overflow (%i)",
-		        ds_p - drawsegs);
-
 	if(lastopening - openings > MAXOPENINGS)
 		I_Error("R_DrawPlanes: opening overflow (%i)",
 		        lastopening - openings);
 #endif
 
-	for(pl = list_get_first(&visplanes); !list_is_at_end(&visplanes); pl = list_get_next(&visplanes)) {
+	LIST_ITERATE(pl, &visplanes) {
 		if(pl->minx > pl->maxx)
 			continue;
 
