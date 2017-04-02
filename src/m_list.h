@@ -22,6 +22,10 @@
 
 #include <SDL_stdinc.h>
 
+#define LIST_ITERATE(v, l) for(v = list_get_first(l); \
+	                           !list_is_at_end(l); \
+	                           v = list_get_next(l))
+
 typedef struct list_node {
 	void* data;
 

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -21,6 +22,8 @@
 #ifndef __R_BSP__
 #define __R_BSP__
 
+#include "m_list.h"
+
 extern seg_t* curline;
 extern side_t* sidedef;
 extern line_t* linedef;
@@ -38,8 +41,7 @@ extern boolean markceiling;
 
 extern boolean skymap;
 
-extern drawseg_t drawsegs[MAXDRAWSEGS];
-extern drawseg_t* ds_p;
+extern list drawsegs;
 
 extern lighttable_t** hscalelight;
 extern lighttable_t** vscalelight;
@@ -53,6 +55,7 @@ typedef void (*drawfunc_t)(int start, int stop);
 void R_ClearClipSegs(void);
 void R_ClearDrawSegs(void);
 
+void R_InitSegs(void);
 
 void R_RenderBSPNode(int bspnum);
 
