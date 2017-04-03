@@ -113,9 +113,6 @@ typedef enum {
 #define	SCREEN_MUL		1
 #define	INV_ASPECT_RATIO	0.625 // 0.75, ideally
 
-// Defines suck. C sucks.
-// C++ might sucks for OOP, but it sure is a better C.
-// So there.
 #define SCREENWIDTH  320
 //SCREEN_MUL*BASE_WIDTH //320
 #define SCREENHEIGHT 200

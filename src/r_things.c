@@ -810,17 +810,17 @@ void R_DrawSprite(vissprite_t* spr) {
 		if(spr->gzt <= ds->tsilheight)
 			silhouette &= ~SIL_TOP;
 
-		if(silhouette == 1) {
+		if(silhouette == SIL_BOTTOM) {
 			// bottom sil
 			for(x = r1; x <= r2; x++)
 				if(clipbot[x] == -2)
 					clipbot[x] = ds->sprbottomclip[x];
-		} else if(silhouette == 2) {
+		} else if(silhouette == SIL_TOP) {
 			// top sil
 			for(x = r1; x <= r2; x++)
 				if(cliptop[x] == -2)
 					cliptop[x] = ds->sprtopclip[x];
-		} else if(silhouette == 3) {
+		} else if(silhouette == SIL_BOTH) {
 			// both
 			for(x = r1; x <= r2; x++) {
 				if(clipbot[x] == -2)
