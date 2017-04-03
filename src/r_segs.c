@@ -361,7 +361,7 @@ R_StoreWallRange
 	sineval = finesine[distangle >> ANGLETOFINESHIFT];
 	rw_distance = FixedMul(hyp, sineval);
 
-	ds_p = list_get_last(&drawsegs);
+	ds_p = list_insert_last(&drawsegs);
 	ds_p->x1 = rw_x = start;
 	ds_p->x2 = stop;
 	ds_p->curline = curline;
@@ -649,5 +649,4 @@ R_StoreWallRange
 		ds_p->silhouette |= SIL_BOTTOM;
 		ds_p->bsilheight = MAXINT;
 	}
-	list_insert_last(&drawsegs);
 }

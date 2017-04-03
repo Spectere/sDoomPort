@@ -57,7 +57,6 @@ R_StoreWallRange
 //
 void R_ClearDrawSegs(void) {
 	list_clear(&drawsegs);
-	list_insert_last(&drawsegs);
 }
 
 
@@ -81,7 +80,6 @@ cliprange_t solidsegs[MAXSEGS];
 
 void R_InitSegs(void) {
 	list_new(&drawsegs, sizeof(drawseg_t));
-	list_insert_last(&drawsegs);
 }
 
 //
