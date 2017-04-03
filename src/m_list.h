@@ -26,6 +26,10 @@
 	                           !list_is_at_end(l); \
 	                           v = list_get_next(l))
 
+#define LIST_REV_ITERATE(v, l) for(v = list_get_last(l); \
+	                               v != NULL; \
+	                               v = list_get_prev(l))
+
 typedef struct list_node {
 	void* data;
 
