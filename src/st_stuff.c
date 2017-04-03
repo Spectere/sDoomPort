@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -383,73 +384,24 @@ static int keyboxes[3];
 static int st_randomnumber;
 
 
-// Massive bunches of cheat shit
-//  to keep it from being easy to figure them out.
-// Yeah, right...
-unsigned char cheat_mus_seq[] =
-{
-	0xb2, 0x26, 0xb6, 0xae, 0xea, 1, 0, 0, 0xff
+unsigned char cheat_mus_seq[] = { 'i', 'd', 'm', 'u', 's', 1, 0, 0, 0xff };
+unsigned char cheat_choppers_seq[] = { 'i', 'd', 'c', 'h', 'o', 'p', 'p', 'e', 'r', 's', 0xff };
+unsigned char cheat_god_seq[] = { 'i', 'd', 'd', 'q', 'd', 0xff };
+unsigned char cheat_ammo_seq[] = { 'i', 'd', 'k', 'f', 'a', 0xff };
+unsigned char cheat_ammonokey_seq[] = { 'i', 'd', 'f', 'a', 0xff };
+unsigned char cheat_noclip_seq[] = { 'i', 'd', 's', 'p', 'i', 's', 'p', 'o', 'p', 'd', 0xff };
+unsigned char cheat_commercial_noclip_seq[] = { 'i', 'd', 'c', 'l', 'i', 'p', 0xff };
+unsigned char cheat_powerup_seq[7][10] = {
+	{ 'i', 'd', 'b', 'e', 'h', 'o', 'l', 'd', 'v', 0xff }, // beholdv
+	{ 'i', 'd', 'b', 'e', 'h', 'o', 'l', 'd', 's', 0xff }, // beholdv
+	{ 'i', 'd', 'b', 'e', 'h', 'o', 'l', 'd', 'i', 0xff }, // beholdv
+	{ 'i', 'd', 'b', 'e', 'h', 'o', 'l', 'd', 'r', 0xff }, // beholdv
+	{ 'i', 'd', 'b', 'e', 'h', 'o', 'l', 'd', 'a', 0xff }, // beholdv
+	{ 'i', 'd', 'b', 'e', 'h', 'o', 'l', 'd', 'l', 0xff }, // beholdv
+	{ 'i', 'd', 'b', 'e', 'h', 'o', 'l', 'd', 0xff }, // beholdv
 };
-
-unsigned char cheat_choppers_seq[] =
-{
-	0xb2, 0x26, 0xe2, 0x32, 0xf6, 0x2a, 0x2a, 0xa6, 0x6a, 0xea, 0xff // id...
-};
-
-unsigned char cheat_god_seq[] =
-{
-	0xb2, 0x26, 0x26, 0xaa, 0x26, 0xff // iddqd
-};
-
-unsigned char cheat_ammo_seq[] =
-{
-	0xb2, 0x26, 0xf2, 0x66, 0xa2, 0xff // idkfa
-};
-
-unsigned char cheat_ammonokey_seq[] =
-{
-	0xb2, 0x26, 0x66, 0xa2, 0xff // idfa
-};
-
-
-// Smashing Pumpkins Into Samml Piles Of Putried Debris. 
-unsigned char cheat_noclip_seq[] =
-{
-	0xb2, 0x26, 0xea, 0x2a, 0xb2, // idspispopd
-	0xea, 0x2a, 0xf6, 0x2a, 0x26, 0xff
-};
-
-//
-unsigned char cheat_commercial_noclip_seq[] =
-{
-	0xb2, 0x26, 0xe2, 0x36, 0xb2, 0x2a, 0xff // idclip
-};
-
-
-unsigned char cheat_powerup_seq[7][10] =
-{
-	{0xb2, 0x26, 0x62, 0xa6, 0x32, 0xf6, 0x36, 0x26, 0x6e, 0xff}, // beholdv
-	{0xb2, 0x26, 0x62, 0xa6, 0x32, 0xf6, 0x36, 0x26, 0xea, 0xff}, // beholds
-	{0xb2, 0x26, 0x62, 0xa6, 0x32, 0xf6, 0x36, 0x26, 0xb2, 0xff}, // beholdi
-	{0xb2, 0x26, 0x62, 0xa6, 0x32, 0xf6, 0x36, 0x26, 0x6a, 0xff}, // beholdr
-	{0xb2, 0x26, 0x62, 0xa6, 0x32, 0xf6, 0x36, 0x26, 0xa2, 0xff}, // beholda
-	{0xb2, 0x26, 0x62, 0xa6, 0x32, 0xf6, 0x36, 0x26, 0x36, 0xff}, // beholdl
-	{0xb2, 0x26, 0x62, 0xa6, 0x32, 0xf6, 0x36, 0x26, 0xff} // behold
-};
-
-
-unsigned char cheat_clev_seq[] =
-{
-	0xb2, 0x26, 0xe2, 0x36, 0xa6, 0x6e, 1, 0, 0, 0xff // idclev
-};
-
-
-// my position cheat
-unsigned char cheat_mypos_seq[] =
-{
-	0xb2, 0x26, 0xb6, 0xba, 0x2a, 0xf6, 0xea, 0xff // idmypos
-};
-
+unsigned char cheat_clev_seq[] = { 'i', 'd', 'c', 'l', 'e', 'v', 1, 0, 0, 0xff };
+unsigned char cheat_mypos_seq[] = { 'i', 'd', 'm', 'y', 'p', 'o', 's', 0xff };
 
 // Now what?
 cheatseq_t cheat_mus = {cheat_mus_seq, 0};
