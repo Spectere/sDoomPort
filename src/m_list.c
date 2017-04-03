@@ -22,8 +22,16 @@
 
 #include "m_list.h"
 
-static list_node* create_data(size_t data_size) {
-	return malloc(data_size);
+static void* create_data(size_t data_size) {
+	static void* data;
+	size_t i;
+
+	/* Initialize the list item data. */
+	data = malloc(data_size);
+	for(i = 0; i < data_size; i++)
+		((Uint8*)data)[i] = 0;
+
+	return data;
 }
 
 void init_list(list* list) {
