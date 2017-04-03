@@ -1030,7 +1030,12 @@ void D_DoomMain(void) {
 
 	printf("W_Init: Init WADfiles.\n");
 	W_InitMultipleFiles(wadfiles);
-
+	
+	// Check for episode 4 in the Doom IWAD. This will allow the Ultimate
+	// Doom features to be used even if the WAD isn't named doomu.wad
+	// (IWADs upgraded from previous versions will keep the doom.wad name)
+	if(gamemode == registered && gamemission == doom && W_CheckNumForName("e4m1"))
+		gamemode = retail;
 
 	// Check for -file in shareware
 	if(modifiedgame) {
