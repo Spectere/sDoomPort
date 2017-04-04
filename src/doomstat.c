@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,6 +18,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
 #include "doomstat.h"
 
 // Game Mode - identify IWAD as shareware, retail etc.
@@ -27,4 +29,4 @@ GameMission_t gamemission = doom;
 Language_t language = english;
 
 // Set if homebrew PWAD stuff has been added.
-boolean modifiedgame;
+SDL_bool modifiedgame;

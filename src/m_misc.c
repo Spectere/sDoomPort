@@ -62,7 +62,7 @@ int
 M_DrawText
 (int x,
  int y,
- boolean direct,
+ SDL_bool direct,
  char* string) {
 	int c;
 	int w;
@@ -96,7 +96,7 @@ M_DrawText
 #define O_BINARY 0
 #endif
 
-boolean
+SDL_bool
 M_WriteFile
 (char const* name,
  void* source,
@@ -107,15 +107,15 @@ M_WriteFile
 	handle = SDL_RWFromFile(name, "wb");
 
 	if(handle == NULL)
-		return false;
+		return SDL_FALSE;
 
 	count = SDL_RWwrite(handle, source, length, 1);
 	SDL_RWclose(handle);
 
 	if(count == 0)
-		return false;
+		return SDL_FALSE;
 
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -319,7 +319,7 @@ void M_LoadDefaults(void) {
 	char strparm[100];
 	char* newstring;
 	int parm;
-	boolean isstring;
+	SDL_bool isstring;
 
 	// set everything to base values
 	numdefaults = sizeof(defaults) / sizeof(defaults[0]);
@@ -338,11 +338,11 @@ void M_LoadDefaults(void) {
 	f = fopen(defaultfile, "r");
 	if(f) {
 		while(!feof(f)) {
-			isstring = false;
+			isstring = SDL_FALSE;
 			if(fscanf(f, "%79s %[^\n]\n", def, strparm) == 2) {
 				if(strparm[0] == '"') {
 					// get a string default
-					isstring = true;
+					isstring = SDL_TRUE;
 					len = strlen(strparm);
 					newstring = (char *) malloc(len);
 					strparm[len - 1] = 0;

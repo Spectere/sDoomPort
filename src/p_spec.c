@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -21,6 +22,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
 #include <stdlib.h>
 
 #include "doomdef.h"
@@ -51,7 +53,7 @@
 // There is another anim_t used in wi_stuff, unrelated.
 //
 typedef struct {
-	boolean istexture;
+	SDL_bool istexture;
 	int picnum;
 	int basepic;
 	int numpics;
@@ -63,7 +65,7 @@ typedef struct {
 //      source animation definition
 //
 typedef struct {
-	boolean istexture; // if false, it is a flat
+	SDL_bool istexture; // if false, it is a flat
 	char endname[9];
 	char startname[9];
 	int speed;
@@ -90,33 +92,33 @@ extern anim_t* lastanim;
 //
 animdef_t animdefs[] =
 {
-	{false, "NUKAGE3", "NUKAGE1", 8},
-	{false, "FWATER4", "FWATER1", 8},
-	{false, "SWATER4", "SWATER1", 8},
-	{false, "LAVA4", "LAVA1", 8},
-	{false, "BLOOD3", "BLOOD1", 8},
+	{SDL_FALSE, "NUKAGE3", "NUKAGE1", 8},
+	{SDL_FALSE, "FWATER4", "FWATER1", 8},
+	{SDL_FALSE, "SWATER4", "SWATER1", 8},
+	{SDL_FALSE, "LAVA4", "LAVA1", 8},
+	{SDL_FALSE, "BLOOD3", "BLOOD1", 8},
 
 	// DOOM II flat animations.
-	{false, "RROCK08", "RROCK05", 8},
-	{false, "SLIME04", "SLIME01", 8},
-	{false, "SLIME08", "SLIME05", 8},
-	{false, "SLIME12", "SLIME09", 8},
+	{SDL_FALSE, "RROCK08", "RROCK05", 8},
+	{SDL_FALSE, "SLIME04", "SLIME01", 8},
+	{SDL_FALSE, "SLIME08", "SLIME05", 8},
+	{SDL_FALSE, "SLIME12", "SLIME09", 8},
 
-	{true, "BLODGR4", "BLODGR1", 8},
-	{true, "SLADRIP3", "SLADRIP1", 8},
+	{SDL_TRUE, "BLODGR4", "BLODGR1", 8},
+	{SDL_TRUE, "SLADRIP3", "SLADRIP1", 8},
 
-	{true, "BLODRIP4", "BLODRIP1", 8},
-	{true, "FIREWALL", "FIREWALA", 8},
-	{true, "GSTFONT3", "GSTFONT1", 8},
-	{true, "FIRELAVA", "FIRELAV3", 8},
-	{true, "FIREMAG3", "FIREMAG1", 8},
-	{true, "FIREBLU2", "FIREBLU1", 8},
-	{true, "ROCKRED3", "ROCKRED1", 8},
+	{SDL_TRUE, "BLODRIP4", "BLODRIP1", 8},
+	{SDL_TRUE, "FIREWALL", "FIREWALA", 8},
+	{SDL_TRUE, "GSTFONT3", "GSTFONT1", 8},
+	{SDL_TRUE, "FIRELAVA", "FIRELAV3", 8},
+	{SDL_TRUE, "FIREMAG3", "FIREMAG1", 8},
+	{SDL_TRUE, "FIREBLU2", "FIREBLU1", 8},
+	{SDL_TRUE, "ROCKRED3", "ROCKRED1", 8},
 
-	{true, "BFALL4", "BFALL1", 8},
-	{true, "SFALL4", "SFALL1", 8},
-	{true, "WFALL4", "WFALL1", 8},
-	{true, "DBRAIN4", "DBRAIN1", 8},
+	{SDL_TRUE, "BFALL4", "BFALL1", 8},
+	{SDL_TRUE, "SFALL4", "SFALL1", 8},
+	{SDL_TRUE, "WFALL4", "WFALL1", 8},
+	{SDL_TRUE, "DBRAIN4", "DBRAIN1", 8},
 
 	{-1}
 };
@@ -1011,7 +1013,7 @@ void P_PlayerInSpecialSector(player_t* player) {
 // P_UpdateSpecials
 // Animate planes, scroll walls, etc.
 //
-boolean levelTimer;
+SDL_bool levelTimer;
 int levelTimeCount;
 
 void P_UpdateSpecials(void) {
@@ -1022,7 +1024,7 @@ void P_UpdateSpecials(void) {
 
 
 	//	LEVEL TIMER
-	if(levelTimer == true) {
+	if(levelTimer == SDL_TRUE) {
 		levelTimeCount--;
 		if(!levelTimeCount)
 			G_ExitLevel();
@@ -1116,7 +1118,7 @@ int EV_DoDonut(line_t* line) {
 			s2->specialdata = floor;
 			floor->thinker.function.acp1 = (actionf_p1) T_MoveFloor;
 			floor->type = donutRaise;
-			floor->crush = false;
+			floor->crush = SDL_FALSE;
 			floor->direction = 1;
 			floor->sector = s2;
 			floor->speed = FLOORSPEED / 2;
@@ -1130,7 +1132,7 @@ int EV_DoDonut(line_t* line) {
 			s1->specialdata = floor;
 			floor->thinker.function.acp1 = (actionf_p1) T_MoveFloor;
 			floor->type = lowerFloor;
-			floor->crush = false;
+			floor->crush = SDL_FALSE;
 			floor->direction = -1;
 			floor->sector = s1;
 			floor->speed = FLOORSPEED / 2;
@@ -1167,11 +1169,11 @@ void P_SpawnSpecials(void) {
 
 
 	// See if -TIMER needs to be used.
-	levelTimer = false;
+	levelTimer = SDL_FALSE;
 
 	i = M_CheckParm("-avg");
 	if(i && deathmatch) {
-		levelTimer = true;
+		levelTimer = SDL_TRUE;
 		levelTimeCount = 20 * 60 * 35;
 	}
 
@@ -1179,7 +1181,7 @@ void P_SpawnSpecials(void) {
 	if(i && deathmatch) {
 		int time;
 		time = atoi(myargv[i + 1]) * 60 * 35;
-		levelTimer = true;
+		levelTimer = SDL_TRUE;
 		levelTimeCount = time;
 	}
 

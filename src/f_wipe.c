@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,6 +18,8 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
+
 #include "z_zone.h"
 #include "i_video.h"
 #include "v_video.h"
@@ -31,7 +34,7 @@
 //
 
 // when zero, stop the wipe
-static boolean go = 0;
+static SDL_bool go = 0;
 
 static Uint8* wipe_scr_start;
 static Uint8* wipe_scr_end;
@@ -73,12 +76,12 @@ wipe_doColorXForm
 (int width,
  int height,
  int ticks) {
-	boolean changed;
+	SDL_bool changed;
 	Uint8* w;
 	Uint8* e;
 	int newval;
 
-	changed = false;
+	changed = SDL_FALSE;
 	w = wipe_scr;
 	e = wipe_scr_end;
 
@@ -90,14 +93,14 @@ wipe_doColorXForm
 					*w = *e;
 				else
 					*w = newval;
-				changed = true;
+				changed = SDL_TRUE;
 			} else if(*w < *e) {
 				newval = *w + ticks;
 				if(newval > *e)
 					*w = *e;
 				else
 					*w = newval;
-				changed = true;
+				changed = SDL_TRUE;
 			}
 		}
 		w++;
@@ -160,7 +163,7 @@ wipe_doMelt
 
 	short* s;
 	short* d;
-	boolean done = true;
+	SDL_bool done = SDL_TRUE;
 
 	width /= 2;
 
@@ -168,7 +171,7 @@ wipe_doMelt
 		for(i = 0; i < width; i++) {
 			if(y[i] < 0) {
 				y[i]++;
-				done = false;
+				done = SDL_FALSE;
 			} else if(y[i] < height) {
 				dy = (y[i] < 16) ? y[i] + 1 : 8;
 				if(y[i] + dy >= height) dy = height - y[i];
@@ -187,7 +190,7 @@ wipe_doMelt
 					d[idx] = *(s++);
 					idx += width;
 				}
-				done = false;
+				done = SDL_FALSE;
 			}
 		}
 	}

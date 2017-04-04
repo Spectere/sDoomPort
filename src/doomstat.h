@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -26,6 +27,8 @@
 #ifndef __D_STATE__
 #define __D_STATE__
 
+#include <SDL_stdinc.h>
+
 // We need globally shared data structures,
 //  for defining the global state variables.
 #include "doomdata.h"
@@ -37,11 +40,11 @@
 // ------------------------
 // Command line parameters.
 //
-extern boolean nomonsters; // checkparm of -nomonsters
-extern boolean respawnparm; // checkparm of -respawn
-extern boolean fastparm; // checkparm of -fast
+extern SDL_bool nomonsters; // checkparm of -nomonsters
+extern SDL_bool respawnparm; // checkparm of -respawn
+extern SDL_bool fastparm; // checkparm of -fast
 
-extern boolean devparm; // DEBUG: launched with -devparm
+extern SDL_bool devparm; // DEBUG: launched with -devparm
 
 
 // -----------------------------------------------------
@@ -51,7 +54,7 @@ extern GameMode_t gamemode;
 extern GameMission_t gamemission;
 
 // Set if homebrew PWAD stuff has been added.
-extern boolean modifiedgame;
+extern SDL_bool modifiedgame;
 
 
 // -------------------------------------------
@@ -68,7 +71,7 @@ extern skill_t startskill;
 extern int startepisode;
 extern int startmap;
 
-extern boolean autostart;
+extern SDL_bool autostart;
 
 // Selected by user. 
 extern skill_t gameskill;
@@ -76,14 +79,14 @@ extern int gameepisode;
 extern int gamemap;
 
 // Nightmare mode flag, single player.
-extern boolean respawnmonsters;
+extern SDL_bool respawnmonsters;
 
 // Netgame? Only true if >1 player.
-extern boolean netgame;
+extern SDL_bool netgame;
 
 // Flag: true only if started as net deathmatch.
 // An enum might handle altdeath/cooperative better.
-extern boolean deathmatch;
+extern SDL_bool deathmatch;
 
 // -------------------------
 // Internal parameters for sound rendering.
@@ -117,17 +120,17 @@ extern int snd_DesiredSfxDevice;
 // Depending on view size - no status bar?
 // Note that there is no way to disable the
 //  status bar explicitely.
-extern boolean statusbaractive;
+extern SDL_bool statusbaractive;
 
-extern boolean automapactive; // In AutoMap mode?
-extern boolean menuactive; // Menu overlayed?
-extern boolean paused; // Game Pause?
+extern SDL_bool automapactive; // In AutoMap mode?
+extern SDL_bool menuactive; // Menu overlayed?
+extern SDL_bool paused; // Game Pause?
 
 
-extern boolean viewactive;
+extern SDL_bool viewactive;
 
-extern boolean nodrawers;
-extern boolean noblit;
+extern SDL_bool nodrawers;
+extern SDL_bool noblit;
 
 extern int viewwindowx;
 extern int viewwindowy;
@@ -162,14 +165,14 @@ extern int leveltime; // tics in game play for par
 // DEMO playback/recording related stuff.
 // No demo, there is a human player in charge?
 // Disable save/end game?
-extern boolean usergame;
+extern SDL_bool usergame;
 
 //?
-extern boolean demoplayback;
-extern boolean demorecording;
+extern SDL_bool demoplayback;
+extern SDL_bool demorecording;
 
 // Quit after playing a demo from cmdline.
-extern boolean singledemo;
+extern SDL_bool singledemo;
 
 
 //?
@@ -190,7 +193,7 @@ extern int gametic;
 extern player_t players[MAXPLAYERS];
 
 // Alive? Disconnected?
-extern boolean playeringame[MAXPLAYERS];
+extern SDL_bool playeringame[MAXPLAYERS];
 
 
 // Player spawn spots for deathmatch.
@@ -220,7 +223,7 @@ extern char basedefault[1024];
 extern FILE* debugfile;
 
 // if true, load all graphics at level load
-extern boolean precache;
+extern SDL_bool precache;
 
 
 // wipegamestate can be set to -1
@@ -230,7 +233,7 @@ extern gamestate_t wipegamestate;
 extern int mouseSensitivity;
 //?
 // debug flag to cancel adaptiveness
-extern boolean singletics;
+extern SDL_bool singletics;
 
 extern int bodyqueslot;
 

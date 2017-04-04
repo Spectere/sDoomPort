@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,6 +19,8 @@
 
 #ifndef __HU_STUFF_H__
 #define __HU_STUFF_H__
+
+#include <SDL_stdinc.h>
 
 #include "d_event.h"
 
@@ -48,7 +51,7 @@
 void HU_Init(void);
 void HU_Start(void);
 
-boolean HU_Responder(event_t* ev);
+SDL_bool HU_Responder(event_t* ev);
 
 void HU_Ticker(void);
 void HU_Drawer(void);

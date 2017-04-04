@@ -22,6 +22,8 @@
 #ifndef __R_BSP__
 #define __R_BSP__
 
+#include <SDL_stdinc.h>
+
 #include "m_list.h"
 
 extern seg_t* curline;
@@ -33,13 +35,13 @@ extern sector_t* backsector;
 extern int rw_x;
 extern int rw_stopx;
 
-extern boolean segtextured;
+extern SDL_bool segtextured;
 
 // false if the back side is the same plane
-extern boolean markfloor;
-extern boolean markceiling;
+extern SDL_bool markfloor;
+extern SDL_bool markceiling;
 
-extern boolean skymap;
+extern SDL_bool skymap;
 
 extern list drawsegs;
 
