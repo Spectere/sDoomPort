@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -21,6 +22,7 @@
 #ifndef __M_MENU__
 #define __M_MENU__
 
+#include <SDL_stdinc.h>
 
 #include "d_event.h"
 
@@ -32,7 +34,7 @@
 // Even when the menu is not displayed,
 // this can resize the view and change game parameters.
 // Does all the real work of the menu interaction.
-boolean M_Responder(event_t* ev);
+SDL_bool M_Responder(event_t* ev);
 
 
 // Called by main loop,

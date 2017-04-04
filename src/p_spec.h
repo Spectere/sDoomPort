@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -24,11 +25,12 @@
 #ifndef __P_SPEC__
 #define __P_SPEC__
 
+#include <SDL_stdinc.h>
 
 //
 // End-level timer (-TIMER option)
 //
-extern boolean levelTimer;
+extern SDL_bool levelTimer;
 extern int levelTimeCount;
 
 
@@ -46,7 +48,7 @@ void P_SpawnSpecials(void);
 void P_UpdateSpecials(void);
 
 // when needed
-boolean
+SDL_bool
 P_UseSpecialLine
 (mobj_t* thing,
  line_t* line,
@@ -267,7 +269,7 @@ typedef struct {
 	int count;
 	plat_e status;
 	plat_e oldstatus;
-	boolean crush;
+	SDL_bool crush;
 	int tag;
 	plattype_e type;
 
@@ -462,7 +464,7 @@ typedef struct {
 	fixed_t bottomheight;
 	fixed_t topheight;
 	fixed_t speed;
-	boolean crush;
+	SDL_bool crush;
 
 	// 1 = up, 0 = waiting, -1 = down
 	int direction;
@@ -540,7 +542,7 @@ typedef enum {
 typedef struct {
 	thinker_t thinker;
 	floor_e type;
-	boolean crush;
+	SDL_bool crush;
 	sector_t* sector;
 	int direction;
 	int newspecial;
@@ -565,7 +567,7 @@ T_MovePlane
 (sector_t* sector,
  fixed_t speed,
  fixed_t dest,
- boolean crush,
+ SDL_bool crush,
  int floorOrCeiling,
  int direction);
 

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
 #ifndef __STLIB__
 #define __STLIB__
 
+#include <SDL_stdinc.h>
 
 // We are referring to patches.
 #include "r_defs.h"
@@ -55,7 +57,7 @@ typedef struct {
 
 	// pointer to boolean stating
 	//  whether to update number
-	boolean* on;
+	SDL_bool* on;
 
 	// list of patches for 0-9
 	patch_t** p;
@@ -92,7 +94,7 @@ typedef struct {
 
 	// pointer to boolean stating
 	//  whether to update icon
-	boolean* on;
+	SDL_bool* on;
 
 	// list of icons
 	patch_t** p;
@@ -114,11 +116,11 @@ typedef struct {
 	int oldval;
 
 	// pointer to current icon status
-	boolean* val;
+	SDL_bool* val;
 
 	// pointer to boolean
 	//  stating whether to update icon
-	boolean* on;
+	SDL_bool* on;
 
 
 	patch_t* p; // icon
@@ -146,13 +148,13 @@ STlib_initNum
  int y,
  patch_t** pl,
  int* num,
- boolean* on,
+ SDL_bool* on,
  int width);
 
 void
 STlib_updateNum
 (st_number_t* n,
- boolean refresh);
+ SDL_bool refresh);
 
 
 // Percent widget routines
@@ -163,7 +165,7 @@ STlib_initPercent
  int y,
  patch_t** pl,
  int* num,
- boolean* on,
+ SDL_bool* on,
  patch_t* percent);
 
 
@@ -181,13 +183,13 @@ STlib_initMultIcon
  int y,
  patch_t** il,
  int* inum,
- boolean* on);
+ SDL_bool* on);
 
 
 void
 STlib_updateMultIcon
 (st_multicon_t* mi,
- boolean refresh);
+ SDL_bool refresh);
 
 // Binary Icon widget routines
 
@@ -197,12 +199,12 @@ STlib_initBinIcon
  int x,
  int y,
  patch_t* i,
- boolean* val,
- boolean* on);
+ SDL_bool* val,
+ SDL_bool* on);
 
 void
 STlib_updateBinIcon
 (st_binicon_t* bi,
- boolean refresh);
+ SDL_bool refresh);
 
 #endif

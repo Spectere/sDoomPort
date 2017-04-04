@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,6 +17,8 @@
 //	Plats (i.e. elevator platforms) code, raising/lowering.
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 #include "i_system.h"
 #include "z_zone.h"
@@ -89,7 +92,7 @@ void T_PlatRaise(plat_t* plat) {
 			break;
 
 		case down:
-			res = T_MovePlane(plat->sector, plat->speed, plat->low, false, 0, -1);
+			res = T_MovePlane(plat->sector, plat->speed, plat->low, SDL_FALSE, 0, -1);
 
 			if(res == pastdest) {
 				plat->count = plat->wait;
@@ -155,7 +158,7 @@ EV_DoPlat
 		plat->sector = sec;
 		plat->sector->specialdata = plat;
 		plat->thinker.function.acp1 = (actionf_p1) T_PlatRaise;
-		plat->crush = false;
+		plat->crush = SDL_FALSE;
 		plat->tag = line->tag;
 
 		switch(type) {

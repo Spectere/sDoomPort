@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -21,6 +22,7 @@
 #ifndef __M_MISC__
 #define __M_MISC__
 
+#include <SDL_stdinc.h>
 
 #include "doomtype.h"
 //
@@ -28,7 +30,7 @@
 //
 
 
-boolean
+SDL_bool
 M_WriteFile
 (char const* name,
  void* source,
@@ -50,7 +52,7 @@ int
 M_DrawText
 (int x,
  int y,
- boolean direct,
+ SDL_bool direct,
  char* string);
 
 #endif

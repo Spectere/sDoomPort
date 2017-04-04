@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -21,6 +22,7 @@
 #ifndef __D_PLAYER__
 #define __D_PLAYER__
 
+#include <SDL_stdinc.h>
 
 // The player data structure depends on a number
 // of other structs: items (internal inventory),
@@ -94,8 +96,8 @@ typedef struct player_s {
 
 	// Power ups. invinc and invis are tic counters.
 	int powers[NUMPOWERS];
-	boolean cards[NUMCARDS];
-	boolean backpack;
+	SDL_bool cards[NUMCARDS];
+	SDL_bool backpack;
 
 	// Frags, kills of other players.
 	int frags[MAXPLAYERS];
@@ -104,7 +106,7 @@ typedef struct player_s {
 	// Is wp_nochange if not changing.
 	weapontype_t pendingweapon;
 
-	boolean weaponowned[NUMWEAPONS];
+	SDL_bool weaponowned[NUMWEAPONS];
 	int ammo[NUMAMMO];
 	int maxammo[NUMAMMO];
 
@@ -149,7 +151,7 @@ typedef struct player_s {
 	pspdef_t psprites[NUMPSPRITES];
 
 	// True if secret level has been done.
-	boolean didsecret;
+	SDL_bool didsecret;
 
 } player_t;
 
@@ -159,7 +161,7 @@ typedef struct player_s {
 // Structure passed e.g. to WI_Start(wb)
 //
 typedef struct {
-	boolean in; // whether the player is in game
+	SDL_bool in; // whether the player is in game
 
 	// Player stats, kills, collected items etc.
 	int skills;
@@ -175,7 +177,7 @@ typedef struct {
 	int epsd; // episode # (0-2)
 
 	// if true, splash the secret level
-	boolean didsecret;
+	SDL_bool didsecret;
 
 	// previous and next levels, origin 0
 	int last;

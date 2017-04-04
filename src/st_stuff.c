@@ -21,6 +21,7 @@
 //-----------------------------------------------------------------------------
 
 #include <stdio.h>
+#include <SDL_stdinc.h>
 
 #include "i_system.h"
 #include "i_video.h"
@@ -262,7 +263,7 @@
 static player_t* plyr;
 
 // ST_Start() has just been called
-static boolean st_firsttime;
+static SDL_bool st_firsttime;
 
 // used to execute ST_Init() only once
 static int veryfirsttime = 1;
@@ -283,25 +284,25 @@ static st_chatstateenum_t st_chatstate;
 static st_stateenum_t st_gamestate;
 
 // whether left-side main status bar is active
-static boolean st_statusbaron;
+static SDL_bool st_statusbaron;
 
 // whether status bar chat is active
-static boolean st_chat;
+static SDL_bool st_chat;
 
 // value of st_chat before message popped up
-static boolean st_oldchat;
+static SDL_bool st_oldchat;
 
 // whether chat window has the cursor on
-static boolean st_cursoron;
+static SDL_bool st_cursoron;
 
 // !deathmatch
-static boolean st_notdeathmatch;
+static SDL_bool st_notdeathmatch;
 
 // !deathmatch && st_statusbaron
-static boolean st_armson;
+static SDL_bool st_armson;
 
 // !deathmatch
-static boolean st_fragson;
+static SDL_bool st_fragson;
 
 // main bar left
 static patch_t* sbar;
@@ -369,7 +370,7 @@ static int st_fragscount;
 static int st_oldhealth = -1;
 
 // used for evil grin
-static boolean oldweaponsowned[NUMWEAPONS];
+static SDL_bool oldweaponsowned[NUMWEAPONS];
 
 // count until face changes
 static int st_facecount = 0;
@@ -452,7 +453,7 @@ void ST_refreshBackground(void) {
 
 // Respond to keyboard input events,
 //  intercept cheats.
-boolean ST_Responder(event_t* ev) {
+SDL_bool ST_Responder(event_t* ev) {
 	int i;
 
 	// Filter automap on/off.
@@ -461,7 +462,7 @@ boolean ST_Responder(event_t* ev) {
 		switch(ev->data1) {
 			case AM_MSGENTERED:
 				st_gamestate = AutomapState;
-				st_firsttime = true;
+				st_firsttime = SDL_TRUE;
 				break;
 
 			case AM_MSGEXITED:
@@ -495,7 +496,7 @@ boolean ST_Responder(event_t* ev) {
 				plyr->armortype = 2;
 
 				for(i = 0; i < NUMWEAPONS; i++)
-					plyr->weaponowned[i] = true;
+					plyr->weaponowned[i] = SDL_TRUE;
 
 				for(i = 0; i < NUMAMMO; i++)
 					plyr->ammo[i] = plyr->maxammo[i];
@@ -508,13 +509,13 @@ boolean ST_Responder(event_t* ev) {
 				plyr->armortype = 2;
 
 				for(i = 0; i < NUMWEAPONS; i++)
-					plyr->weaponowned[i] = true;
+					plyr->weaponowned[i] = SDL_TRUE;
 
 				for(i = 0; i < NUMAMMO; i++)
 					plyr->ammo[i] = plyr->maxammo[i];
 
 				for(i = 0; i < NUMCARDS; i++)
-					plyr->cards[i] = true;
+					plyr->cards[i] = SDL_TRUE;
 
 				plyr->message = STSTR_KFAADDED;
 			}
@@ -574,8 +575,8 @@ boolean ST_Responder(event_t* ev) {
 			}
 			// 'choppers' invulnerability & chainsaw
 			else if(cht_CheckCheat(&cheat_choppers, ev->data1)) {
-				plyr->weaponowned[wp_chainsaw] = true;
-				plyr->powers[pw_invulnerability] = true;
+				plyr->weaponowned[wp_chainsaw] = SDL_TRUE;
+				plyr->powers[pw_invulnerability] = SDL_TRUE;
 				plyr->message = STSTR_CHOPPERS;
 			}
 			// 'mypos' for player position
@@ -607,34 +608,34 @@ boolean ST_Responder(event_t* ev) {
 
 			// Catch invalid maps.
 			if(epsd < 1)
-				return false;
+				return SDL_FALSE;
 
 			if(map < 1)
-				return false;
+				return SDL_FALSE;
 
 			// Ohmygod - this is not going to work.
 			if((gamemode == retail)
 			   && ((epsd > 4) || (map > 9)))
-				return false;
+				return SDL_FALSE;
 
 			if((gamemode == registered)
 			   && ((epsd > 3) || (map > 9)))
-				return false;
+				return SDL_FALSE;
 
 			if((gamemode == shareware)
 			   && ((epsd > 1) || (map > 9)))
-				return false;
+				return SDL_FALSE;
 
 			if((gamemode == commercial)
 			   && ((epsd > 1) || (map > 34)))
-				return false;
+				return SDL_FALSE;
 
 			// So be it.
 			plyr->message = STSTR_CLEV;
 			G_DeferedInitNew(gameskill, epsd, map);
 		}
 	}
-	return false;
+	return SDL_FALSE;
 }
 
 
@@ -665,7 +666,7 @@ void ST_updateFaceWidget(void) {
 	angle_t diffang;
 	static int lastattackdown = -1;
 	static int priority = 0;
-	boolean doevilgrin;
+	SDL_bool doevilgrin;
 
 	if(priority < 10) {
 		// dead
@@ -679,11 +680,11 @@ void ST_updateFaceWidget(void) {
 	if(priority < 9) {
 		if(plyr->bonuscount) {
 			// picking up bonus
-			doevilgrin = false;
+			doevilgrin = SDL_FALSE;
 
 			for(i = 0; i < NUMWEAPONS; i++) {
 				if(oldweaponsowned[i] != plyr->weaponowned[i]) {
-					doevilgrin = true;
+					doevilgrin = SDL_TRUE;
 					oldweaponsowned[i] = plyr->weaponowned[i];
 				}
 			}
@@ -915,7 +916,7 @@ void ST_doPaletteStuff(void) {
 
 }
 
-void ST_drawWidgets(boolean refresh) {
+void ST_drawWidgets(SDL_bool refresh) {
 	int i;
 
 	// used by w_arms[] widgets
@@ -950,22 +951,22 @@ void ST_drawWidgets(boolean refresh) {
 
 void ST_doRefresh(void) {
 
-	st_firsttime = false;
+	st_firsttime = SDL_FALSE;
 
 	// draw status bar background to off-screen buff
 	ST_refreshBackground();
 
 	// and refresh all widgets
-	ST_drawWidgets(true);
+	ST_drawWidgets(SDL_TRUE);
 
 }
 
 void ST_diffDraw(void) {
 	// update all widgets
-	ST_drawWidgets(false);
+	ST_drawWidgets(SDL_FALSE);
 }
 
-void ST_Drawer(boolean fullscreen, boolean refresh) {
+void ST_Drawer(SDL_bool fullscreen, SDL_bool refresh) {
 
 	st_statusbaron = (!fullscreen) || automapactive;
 	st_firsttime = st_firsttime || refresh;
@@ -1099,16 +1100,16 @@ void ST_initData(void) {
 
 	int i;
 
-	st_firsttime = true;
+	st_firsttime = SDL_TRUE;
 	plyr = &players[consoleplayer];
 
 	st_clock = 0;
 	st_chatstate = StartChatState;
 	st_gamestate = FirstPersonState;
 
-	st_statusbaron = true;
-	st_oldchat = st_chat = false;
-	st_cursoron = false;
+	st_statusbaron = SDL_TRUE;
+	st_oldchat = st_chat = SDL_FALSE;
+	st_cursoron = SDL_FALSE;
 
 	st_faceindex = 0;
 	st_palette = -1;
@@ -1283,7 +1284,7 @@ void ST_createWidgets(void) {
 
 }
 
-static boolean st_stopped = true;
+static SDL_bool st_stopped = SDL_TRUE;
 
 
 void ST_Start(void) {
@@ -1293,7 +1294,7 @@ void ST_Start(void) {
 
 	ST_initData();
 	ST_createWidgets();
-	st_stopped = false;
+	st_stopped = SDL_FALSE;
 
 }
 
@@ -1303,7 +1304,7 @@ void ST_Stop(void) {
 
 	I_SetPalette(W_CacheLumpNum(lu_palette, PU_CACHE));
 
-	st_stopped = true;
+	st_stopped = SDL_TRUE;
 }
 
 void ST_Init(void) {

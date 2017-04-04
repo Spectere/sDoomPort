@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -19,6 +20,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
 #include <stdlib.h>
 
 #include "m_random.h"
@@ -149,43 +151,43 @@ P_NoiseAlert
 //
 // P_CheckMeleeRange
 //
-boolean P_CheckMeleeRange(mobj_t* actor) {
+SDL_bool P_CheckMeleeRange(mobj_t* actor) {
 	mobj_t* pl;
 	fixed_t dist;
 
 	if(!actor->target)
-		return false;
+		return SDL_FALSE;
 
 	pl = actor->target;
 	dist = P_AproxDistance(pl->x - actor->x, pl->y - actor->y);
 
 	if(dist >= MELEERANGE - 20 * FRACUNIT + pl->info->radius)
-		return false;
+		return SDL_FALSE;
 
 	if(! P_CheckSight(actor, actor->target))
-		return false;
+		return SDL_FALSE;
 
-	return true;
+	return SDL_TRUE;
 }
 
 //
 // P_CheckMissileRange
 //
-boolean P_CheckMissileRange(mobj_t* actor) {
+SDL_bool P_CheckMissileRange(mobj_t* actor) {
 	fixed_t dist;
 
 	if(! P_CheckSight(actor, actor->target))
-		return false;
+		return SDL_FALSE;
 
 	if(actor->flags & MF_JUSTHIT) {
 		// the target just hit the enemy,
 		// so fight back!
 		actor->flags &= ~MF_JUSTHIT;
-		return true;
+		return SDL_TRUE;
 	}
 
 	if(actor->reactiontime)
-		return false; // do not attack yet
+		return SDL_FALSE; // do not attack yet
 
 	// OPTIMIZE: get this from a global checksight
 	dist = P_AproxDistance(actor->x - actor->target->x,
@@ -198,13 +200,13 @@ boolean P_CheckMissileRange(mobj_t* actor) {
 
 	if(actor->type == MT_VILE) {
 		if(dist > 14 * 64)
-			return false; // too far away
+			return SDL_FALSE; // too far away
 	}
 
 
 	if(actor->type == MT_UNDEAD) {
 		if(dist < 196)
-			return false; // close for fist attack
+			return SDL_FALSE; // close for fist attack
 		dist >>= 1;
 	}
 
@@ -222,9 +224,9 @@ boolean P_CheckMissileRange(mobj_t* actor) {
 		dist = 160;
 
 	if(P_Random() < dist)
-		return false;
+		return SDL_FALSE;
 
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -241,7 +243,7 @@ fixed_t yspeed[8] = {0,47000,FRACUNIT,47000,0,-47000,-FRACUNIT,-47000};
 extern line_t* spechit[MAXSPECIALCROSS];
 extern int numspechit;
 
-boolean P_Move(mobj_t* actor) {
+SDL_bool P_Move(mobj_t* actor) {
 	fixed_t tryx;
 	fixed_t tryy;
 
@@ -249,11 +251,11 @@ boolean P_Move(mobj_t* actor) {
 
 	// warning: 'catch', 'throw', and 'try'
 	// are all C++ reserved words
-	boolean try_ok;
-	boolean good;
+	SDL_bool try_ok;
+	SDL_bool good;
 
 	if(actor->movedir == DI_NODIR)
-		return false;
+		return SDL_FALSE;
 
 	if((unsigned)actor->movedir >= 8)
 		I_Error("Weird actor->movedir!");
@@ -273,21 +275,21 @@ boolean P_Move(mobj_t* actor) {
 				actor->z -= FLOATSPEED;
 
 			actor->flags |= MF_INFLOAT;
-			return true;
+			return SDL_TRUE;
 		}
 
 		if(!numspechit)
-			return false;
+			return SDL_FALSE;
 
 		actor->movedir = DI_NODIR;
-		good = false;
+		good = SDL_FALSE;
 		while(numspechit--) {
 			ld = spechit[numspechit];
 			// if the special is not a door
 			// that can be opened,
 			// return false
 			if(P_UseSpecialLine(actor, ld, 0))
-				good = true;
+				good = SDL_TRUE;
 		}
 		return good;
 	} else {
@@ -297,7 +299,7 @@ boolean P_Move(mobj_t* actor) {
 
 	if(! (actor->flags & MF_FLOAT))
 		actor->z = actor->floorz;
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -312,13 +314,13 @@ boolean P_Move(mobj_t* actor) {
 // If a door is in the way,
 // an OpenDoor call is made to start it opening.
 //
-boolean P_TryWalk(mobj_t* actor) {
+SDL_bool P_TryWalk(mobj_t* actor) {
 	if(!P_Move(actor)) {
-		return false;
+		return SDL_FALSE;
 	}
 
 	actor->movecount = P_Random() & 15;
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -441,10 +443,10 @@ void P_NewChaseDir(mobj_t* actor) {
 // If allaround is false, only look 180 degrees in front.
 // Returns true if a player is targeted.
 //
-boolean
+SDL_bool
 P_LookForPlayers
 (mobj_t* actor,
- boolean allaround) {
+ SDL_bool allaround) {
 	int c;
 	int stop;
 	player_t* player;
@@ -464,7 +466,7 @@ P_LookForPlayers
 		if(c++ == 2
 		   || actor->lastlook == stop) {
 			// done looking
-			return false;
+			return SDL_FALSE;
 		}
 
 		player = &players[actor->lastlook];
@@ -492,10 +494,10 @@ P_LookForPlayers
 		}
 
 		actor->target = player->mo;
-		return true;
+		return SDL_TRUE;
 	}
 
-	return false;
+	return SDL_FALSE;
 }
 
 
@@ -557,7 +559,7 @@ void A_Look(mobj_t* actor) {
 	}
 
 
-	if(!P_LookForPlayers(actor, false))
+	if(!P_LookForPlayers(actor, SDL_FALSE))
 		return;
 
 	// go into chase state
@@ -629,7 +631,7 @@ void A_Chase(mobj_t* actor) {
 	if(!actor->target
 	   || !(actor->target->flags & MF_SHOOTABLE)) {
 		// look for a new target
-		if(P_LookForPlayers(actor, true))
+		if(P_LookForPlayers(actor, SDL_TRUE))
 			return; // got a new target
 
 		P_SetMobjState(actor, actor->info->spawnstate);
@@ -675,7 +677,7 @@ nomissile:
 	if(netgame
 	   && !actor->threshold
 	   && !P_CheckSight(actor, actor->target)) {
-		if(P_LookForPlayers(actor, true))
+		if(P_LookForPlayers(actor, SDL_TRUE))
 			return; // got a new target
 	}
 
@@ -1014,24 +1016,24 @@ mobj_t* vileobj;
 fixed_t viletryx;
 fixed_t viletryy;
 
-boolean PIT_VileCheck(mobj_t* thing) {
+SDL_bool PIT_VileCheck(mobj_t* thing) {
 	int maxdist;
-	boolean check;
+	SDL_bool check;
 
 	if(!(thing->flags & MF_CORPSE))
-		return true; // not a monster
+		return SDL_TRUE; // not a monster
 
 	if(thing->tics != -1)
-		return true; // not lying still yet
+		return SDL_TRUE; // not lying still yet
 
 	if(thing->info->raisestate == S_NULL)
-		return true; // monster doesn't have a raise state
+		return SDL_TRUE; // monster doesn't have a raise state
 
 	maxdist = thing->info->radius + mobjinfo[MT_VILE].radius;
 
 	if(abs(thing->x - viletryx) > maxdist
 	   || abs(thing->y - viletryy) > maxdist)
-		return true; // not actually touching
+		return SDL_TRUE; // not actually touching
 
 	corpsehit = thing;
 	corpsehit->momx = corpsehit->momy = 0;
@@ -1040,9 +1042,9 @@ boolean PIT_VileCheck(mobj_t* thing) {
 	corpsehit->height >>= 2;
 
 	if(!check)
-		return true; // doesn't fit here
+		return SDL_TRUE; // doesn't fit here
 
-	return false; // got one, so stop checking
+	return SDL_FALSE; // got one, so stop checking
 }
 
 
@@ -1790,7 +1792,7 @@ void A_SpawnFly(mobj_t* mo) {
 		type = MT_BRUISER;
 
 	newmobj = P_SpawnMobj(targ->x, targ->y, targ->z, type);
-	if(P_LookForPlayers(newmobj, true))
+	if(P_LookForPlayers(newmobj, SDL_TRUE))
 		P_SetMobjState(newmobj, newmobj->info->seestate);
 
 	// telefrag anything in this spot

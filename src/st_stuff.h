@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,6 +23,7 @@
 #ifndef __STSTUFF_H__
 #define __STSTUFF_H__
 
+#include <SDL_stdinc.h>
 #include "doomtype.h"
 #include "d_event.h"
 
@@ -37,13 +39,13 @@
 //
 
 // Called by main loop.
-boolean ST_Responder(event_t* ev);
+SDL_bool ST_Responder(event_t* ev);
 
 // Called by main loop.
 void ST_Ticker(void);
 
 // Called by main loop.
-void ST_Drawer(boolean fullscreen, boolean refresh);
+void ST_Drawer(SDL_bool fullscreen, SDL_bool refresh);
 
 // Called when the console player is spawned on each level.
 void ST_Start(void);
@@ -68,6 +70,6 @@ typedef enum {
 
 } st_chatstateenum_t;
 
-boolean ST_Responder(event_t* ev);
+SDL_bool ST_Responder(event_t* ev);
 
 #endif

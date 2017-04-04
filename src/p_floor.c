@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,6 +17,8 @@
 //	Floor animation: raising stairs.
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 #include "z_zone.h"
 #include "doomdef.h"
@@ -42,10 +45,10 @@ T_MovePlane
 (sector_t* sector,
  fixed_t speed,
  fixed_t dest,
- boolean crush,
+ SDL_bool crush,
  int floorOrCeiling,
  int direction) {
-	boolean flag;
+	SDL_bool flag;
 	fixed_t lastpos;
 
 	switch(floorOrCeiling) {
@@ -58,7 +61,7 @@ T_MovePlane
 						lastpos = sector->floorheight;
 						sector->floorheight = dest;
 						flag = P_ChangeSector(sector, crush);
-						if(flag == true) {
+						if(flag == SDL_TRUE) {
 							sector->floorheight = lastpos;
 							P_ChangeSector(sector, crush);
 							//return crushed;
@@ -68,7 +71,7 @@ T_MovePlane
 						lastpos = sector->floorheight;
 						sector->floorheight -= speed;
 						flag = P_ChangeSector(sector, crush);
-						if(flag == true) {
+						if(flag == SDL_TRUE) {
 							sector->floorheight = lastpos;
 							P_ChangeSector(sector, crush);
 							return crushed;
@@ -82,7 +85,7 @@ T_MovePlane
 						lastpos = sector->floorheight;
 						sector->floorheight = dest;
 						flag = P_ChangeSector(sector, crush);
-						if(flag == true) {
+						if(flag == SDL_TRUE) {
 							sector->floorheight = lastpos;
 							P_ChangeSector(sector, crush);
 							//return crushed;
@@ -93,8 +96,8 @@ T_MovePlane
 						lastpos = sector->floorheight;
 						sector->floorheight += speed;
 						flag = P_ChangeSector(sector, crush);
-						if(flag == true) {
-							if(crush == true)
+						if(flag == SDL_TRUE) {
+							if(crush == SDL_TRUE)
 								return crushed;
 							sector->floorheight = lastpos;
 							P_ChangeSector(sector, crush);
@@ -115,7 +118,7 @@ T_MovePlane
 						sector->ceilingheight = dest;
 						flag = P_ChangeSector(sector, crush);
 
-						if(flag == true) {
+						if(flag == SDL_TRUE) {
 							sector->ceilingheight = lastpos;
 							P_ChangeSector(sector, crush);
 							//return crushed;
@@ -127,8 +130,8 @@ T_MovePlane
 						sector->ceilingheight -= speed;
 						flag = P_ChangeSector(sector, crush);
 
-						if(flag == true) {
-							if(crush == true)
+						if(flag == SDL_TRUE) {
+							if(crush == SDL_TRUE)
 								return crushed;
 							sector->ceilingheight = lastpos;
 							P_ChangeSector(sector, crush);
@@ -143,7 +146,7 @@ T_MovePlane
 						lastpos = sector->ceilingheight;
 						sector->ceilingheight = dest;
 						flag = P_ChangeSector(sector, crush);
-						if(flag == true) {
+						if(flag == SDL_TRUE) {
 							sector->ceilingheight = lastpos;
 							P_ChangeSector(sector, crush);
 							//return crushed;
@@ -244,7 +247,7 @@ EV_DoFloor
 		sec->specialdata = floor;
 		floor->thinker.function.acp1 = (actionf_p1) T_MoveFloor;
 		floor->type = floortype;
-		floor->crush = false;
+		floor->crush = SDL_FALSE;
 
 		switch(floortype) {
 			case lowerFloor:
@@ -274,7 +277,7 @@ EV_DoFloor
 				break;
 
 			case raiseFloorCrush:
-				floor->crush = true;
+				floor->crush = SDL_TRUE;
 			case raiseFloor:
 				floor->direction = 1;
 				floor->sector = sec;

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,6 +21,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
 #include <stdlib.h>
 
 
@@ -425,11 +427,11 @@ void P_SetThingPosition(mobj_t* thing) {
 // to P_BlockLinesIterator, then make one or more calls
 // to it.
 //
-boolean
+SDL_bool
 P_BlockLinesIterator
 (int x,
  int y,
- boolean (*func)(line_t*)) {
+ SDL_bool (*func)(line_t*)) {
 	int offset;
 	short* list;
 	line_t* ld;
@@ -438,7 +440,7 @@ P_BlockLinesIterator
 	   || y < 0
 	   || x >= bmapwidth
 	   || y >= bmapheight) {
-		return true;
+		return SDL_TRUE;
 	}
 
 	offset = y * bmapwidth + x;
@@ -454,27 +456,27 @@ P_BlockLinesIterator
 		ld->validcount = validcount;
 
 		if(!func(ld))
-			return false;
+			return SDL_FALSE;
 	}
-	return true; // everything was checked
+	return SDL_TRUE; // everything was checked
 }
 
 
 //
 // P_BlockThingsIterator
 //
-boolean
+SDL_bool
 P_BlockThingsIterator
 (int x,
  int y,
- boolean (*func)(mobj_t*)) {
+ SDL_bool (*func)(mobj_t*)) {
 	mobj_t* mobj;
 
 	if(x < 0
 	   || y < 0
 	   || x >= bmapwidth
 	   || y >= bmapheight) {
-		return true;
+		return SDL_TRUE;
 	}
 
 
@@ -482,9 +484,9 @@ P_BlockThingsIterator
 	    mobj;
 	    mobj = mobj->bnext) {
 		if(!func(mobj))
-			return false;
+			return SDL_FALSE;
 	}
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -495,7 +497,7 @@ intercept_t intercepts[MAXINTERCEPTS];
 intercept_t* intercept_p;
 
 divline_t trace;
-boolean earlyout;
+SDL_bool earlyout;
 int ptflags;
 
 //
@@ -508,7 +510,7 @@ int ptflags;
 // are on opposite sides of the trace.
 // Returns true if earlyout and a solid line hit.
 //
-boolean PIT_AddLineIntercepts(line_t* ld) {
+SDL_bool PIT_AddLineIntercepts(line_t* ld) {
 	int s1;
 	int s2;
 	fixed_t frac;
@@ -527,36 +529,36 @@ boolean PIT_AddLineIntercepts(line_t* ld) {
 	}
 
 	if(s1 == s2)
-		return true; // line isn't crossed
+		return SDL_TRUE; // line isn't crossed
 
 	// hit the line
 	P_MakeDivline(ld, &dl);
 	frac = P_InterceptVector(&trace, &dl);
 
 	if(frac < 0)
-		return true; // behind source
+		return SDL_TRUE; // behind source
 
 	// try to early out the check
 	if(earlyout
 	   && frac < FRACUNIT
 	   && !ld->backsector) {
-		return false; // stop checking
+		return SDL_FALSE; // stop checking
 	}
 
 
 	intercept_p->frac = frac;
-	intercept_p->isaline = true;
+	intercept_p->isaline = SDL_TRUE;
 	intercept_p->d.line = ld;
 	intercept_p++;
 
-	return true; // continue
+	return SDL_TRUE; // continue
 }
 
 
 //
 // PIT_AddThingIntercepts
 //
-boolean PIT_AddThingIntercepts(mobj_t* thing) {
+SDL_bool PIT_AddThingIntercepts(mobj_t* thing) {
 	fixed_t x1;
 	fixed_t y1;
 	fixed_t x2;
@@ -565,7 +567,7 @@ boolean PIT_AddThingIntercepts(mobj_t* thing) {
 	int s1;
 	int s2;
 
-	boolean tracepositive;
+	SDL_bool tracepositive;
 
 	divline_t dl;
 
@@ -592,7 +594,7 @@ boolean PIT_AddThingIntercepts(mobj_t* thing) {
 	s2 = P_PointOnDivlineSide(x2, y2, &trace);
 
 	if(s1 == s2)
-		return true; // line isn't crossed
+		return SDL_TRUE; // line isn't crossed
 
 	dl.x = x1;
 	dl.y = y1;
@@ -602,14 +604,14 @@ boolean PIT_AddThingIntercepts(mobj_t* thing) {
 	frac = P_InterceptVector(&trace, &dl);
 
 	if(frac < 0)
-		return true; // behind source
+		return SDL_TRUE; // behind source
 
 	intercept_p->frac = frac;
-	intercept_p->isaline = false;
+	intercept_p->isaline = SDL_FALSE;
 	intercept_p->d.thing = thing;
 	intercept_p++;
 
-	return true; // keep going
+	return SDL_TRUE; // keep going
 }
 
 
@@ -618,7 +620,7 @@ boolean PIT_AddThingIntercepts(mobj_t* thing) {
 // Returns true if the traverser function returns true
 // for all lines.
 // 
-boolean
+SDL_bool
 P_TraverseIntercepts
 (traverser_t func,
  fixed_t maxfrac) {
@@ -641,7 +643,7 @@ P_TraverseIntercepts
 		}
 
 		if(dist > maxfrac)
-			return true; // checked everything in range		
+			return SDL_TRUE; // checked everything in range		
 
 #if 0  // UNUSED
     {
@@ -656,12 +658,12 @@ P_TraverseIntercepts
 #endif
 
 		if(!func(in))
-			return false; // don't bother going farther
+			return SDL_FALSE; // don't bother going farther
 
 		in->frac = MAXINT;
 	}
 
-	return true; // everything was traversed
+	return SDL_TRUE; // everything was traversed
 }
 
 
@@ -672,14 +674,14 @@ P_TraverseIntercepts
 // Returns true if the traverser function returns true
 // for all lines.
 //
-boolean
+SDL_bool
 P_PathTraverse
 (fixed_t x1,
  fixed_t y1,
  fixed_t x2,
  fixed_t y2,
  int flags,
- boolean (*trav)(intercept_t*)) {
+ SDL_bool (*trav)(intercept_t*)) {
 	fixed_t xt1;
 	fixed_t yt1;
 	fixed_t xt2;
@@ -768,12 +770,12 @@ P_PathTraverse
 	for(count = 0; count < 64; count++) {
 		if(flags & PT_ADDLINES) {
 			if(!P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts))
-				return false; // early out
+				return SDL_FALSE; // early out
 		}
 
 		if(flags & PT_ADDTHINGS) {
 			if(!P_BlockThingsIterator(mapx, mapy, PIT_AddThingIntercepts))
-				return false; // early out
+				return SDL_FALSE; // early out
 		}
 
 		if(mapx == xt2

@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL.h>
+#include <SDL_stdinc.h>
 
 #include "doomdef.h"
 
@@ -92,7 +92,7 @@ R_InstallSpriteLump
 (int lump,
  unsigned frame,
  unsigned rotation,
- boolean flipped) {
+ SDL_bool flipped) {
 	int r;
 
 	if(frame >= 29 || rotation > 8)
@@ -104,15 +104,15 @@ R_InstallSpriteLump
 
 	if(rotation == 0) {
 		// the lump should be used for all rotations
-		if(sprtemp[frame].rotate == false)
+		if(sprtemp[frame].rotate == SDL_FALSE)
 			I_Error("R_InitSprites: Sprite %s frame %c has "
 			        "multip rot=0 lump", spritename, 'A' + frame);
 
-		if(sprtemp[frame].rotate == true)
+		if(sprtemp[frame].rotate == SDL_TRUE)
 			I_Error("R_InitSprites: Sprite %s frame %c has rotations "
 			        "and a rot=0 lump", spritename, 'A' + frame);
 
-		sprtemp[frame].rotate = false;
+		sprtemp[frame].rotate = SDL_FALSE;
 		for(r = 0; r < 8; r++) {
 			sprtemp[frame].lump[r] = lump - firstspritelump;
 			sprtemp[frame].flip[r] = (Uint8)flipped;
@@ -121,11 +121,11 @@ R_InstallSpriteLump
 	}
 
 	// the lump is only used for one rotation
-	if(sprtemp[frame].rotate == false)
+	if(sprtemp[frame].rotate == SDL_FALSE)
 		I_Error("R_InitSprites: Sprite %s frame %c has rotations "
 		        "and a rot=0 lump", spritename, 'A' + frame);
 
-	sprtemp[frame].rotate = true;
+	sprtemp[frame].rotate = SDL_TRUE;
 
 	// make 0 based
 	rotation--;
@@ -202,12 +202,12 @@ void R_InitSpriteDefs(char** namelist) {
 				else
 					patched = l;
 
-				R_InstallSpriteLump(patched, frame, rotation, false);
+				R_InstallSpriteLump(patched, frame, rotation, SDL_FALSE);
 
 				if(lumpinfo[l].name[6]) {
 					frame = lumpinfo[l].name[6] - 'A';
 					rotation = lumpinfo[l].name[7] - '0';
-					R_InstallSpriteLump(l, frame, rotation, true);
+					R_InstallSpriteLump(l, frame, rotation, SDL_TRUE);
 				}
 			}
 		}
@@ -422,7 +422,7 @@ void R_ProjectSprite(mobj_t* thing) {
 	int lump;
 
 	unsigned rot;
-	boolean flip;
+	SDL_bool flip;
 
 	int index;
 
@@ -473,11 +473,11 @@ void R_ProjectSprite(mobj_t* thing) {
 		ang = R_PointToAngle(thing->x, thing->y);
 		rot = (ang - thing->angle + (unsigned)(ANG45 / 2) * 9) >> 29;
 		lump = sprframe->lump[rot];
-		flip = (boolean)sprframe->flip[rot];
+		flip = (SDL_bool)sprframe->flip[rot];
 	} else {
 		// use single rotation for all views
 		lump = sprframe->lump[0];
-		flip = (boolean)sprframe->flip[0];
+		flip = (SDL_bool)sprframe->flip[0];
 	}
 
 	// calculate edges of the shape
@@ -585,7 +585,7 @@ void R_DrawPSprite(pspdef_t* psp) {
 	spritedef_t* sprdef;
 	spriteframe_t* sprframe;
 	int lump;
-	boolean flip;
+	SDL_bool flip;
 	vissprite_t* vis;
 	vissprite_t avis;
 
@@ -604,7 +604,7 @@ void R_DrawPSprite(pspdef_t* psp) {
 	sprframe = &sprdef->spriteframes[psp->state->frame & FF_FRAMEMASK];
 
 	lump = sprframe->lump[0];
-	flip = (boolean)sprframe->flip[0];
+	flip = (SDL_bool)sprframe->flip[0];
 
 	// calculate edges of the shape
 	tx = psp->sx - 160 * FRACUNIT;

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,6 +17,8 @@
 //	Switches, buttons. Two-state animation. Exits.
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 #include "i_system.h"
 #include "doomdef.h"
@@ -233,7 +236,7 @@ P_ChangeSwitchTexture
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-boolean
+SDL_bool
 P_UseSpecialLine
 (mobj_t* thing,
  line_t* line,
@@ -249,7 +252,7 @@ P_UseSpecialLine
 				break;
 
 			default:
-				return false;
+				return SDL_FALSE;
 				break;
 		}
 	}
@@ -259,7 +262,7 @@ P_UseSpecialLine
 	if(!thing->player) {
 		// never open secret doors
 		if(line->flags & ML_SECRET)
-			return false;
+			return SDL_FALSE;
 
 		switch(line->special) {
 			case 1: // MANUAL DOOR RAISE
@@ -269,7 +272,7 @@ P_UseSpecialLine
 				break;
 
 			default:
-				return false;
+				return SDL_FALSE;
 				break;
 		}
 	}
@@ -604,5 +607,5 @@ P_UseSpecialLine
 
 	}
 
-	return true;
+	return SDL_TRUE;
 }

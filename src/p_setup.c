@@ -20,7 +20,7 @@
 //-----------------------------------------------------------------------------
 
 #include <math.h>
-#include <SDL.h>
+#include <SDL_stdinc.h>
 
 #include "z_zone.h"
 
@@ -280,14 +280,14 @@ void P_LoadThings(int lump) {
 	int i;
 	mapthing_t* mt;
 	int numthings;
-	boolean spawn;
+	SDL_bool spawn;
 
 	data = W_CacheLumpNum(lump,PU_STATIC);
 	numthings = W_LumpLength(lump) / sizeof(mapthing_t);
 
 	mt = (mapthing_t *)data;
 	for(i = 0; i < numthings; i++ , mt++) {
-		spawn = true;
+		spawn = SDL_TRUE;
 
 		// Do not spawn cool, new monsters if !commercial
 		if(gamemode != commercial) {
@@ -302,11 +302,11 @@ void P_LoadThings(int lump) {
 				case 65: // Former Human Commando
 				case 66: // Revenant
 				case 84: // Wolf SS
-					spawn = false;
+					spawn = SDL_FALSE;
 					break;
 			}
 		}
-		if(spawn == false)
+		if(spawn == SDL_FALSE)
 			break;
 
 		// Do spawn all other stuff. 
