@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,6 +21,8 @@
 
 #ifndef __P_LOCAL__
 #define __P_LOCAL__
+
+#include <SDL_stdinc.h>
 
 #ifndef __R_LOCAL__
 #include "r_local.h"
@@ -112,7 +115,7 @@ mobj_t* P_SpawnMobj
  mobjtype_t type);
 
 void P_RemoveMobj(mobj_t* th);
-boolean P_SetMobjState(mobj_t* mobj, statenum_t state);
+SDL_bool P_SetMobjState(mobj_t* mobj, statenum_t state);
 void P_MobjThinker(mobj_t* mobj);
 
 void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z);
@@ -140,7 +143,7 @@ typedef struct {
 
 typedef struct {
 	fixed_t frac; // along trace line
-	boolean isaline;
+	SDL_bool isaline;
 
 	union {
 		mobj_t* thing;
@@ -153,7 +156,7 @@ typedef struct {
 extern intercept_t intercepts[MAXINTERCEPTS];
 extern intercept_t* intercept_p;
 
-typedef boolean (*traverser_t)(intercept_t* in);
+typedef SDL_bool (*traverser_t)(intercept_t* in);
 
 fixed_t P_AproxDistance(fixed_t dx, fixed_t dy);
 int P_PointOnLineSide(fixed_t x, fixed_t y, line_t* line);
@@ -169,8 +172,8 @@ extern fixed_t lowfloor;
 
 void P_LineOpening(line_t* linedef);
 
-boolean P_BlockLinesIterator(int x, int y, boolean (*func)(line_t*));
-boolean P_BlockThingsIterator(int x, int y, boolean (*func)(mobj_t*));
+SDL_bool P_BlockLinesIterator(int x, int y, SDL_bool (*func)(line_t*));
+SDL_bool P_BlockThingsIterator(int x, int y, SDL_bool (*func)(mobj_t*));
 
 #define PT_ADDLINES		1
 #define PT_ADDTHINGS	2
@@ -178,14 +181,14 @@ boolean P_BlockThingsIterator(int x, int y, boolean (*func)(mobj_t*));
 
 extern divline_t trace;
 
-boolean
+SDL_bool
 P_PathTraverse
 (fixed_t x1,
  fixed_t y1,
  fixed_t x2,
  fixed_t y2,
  int flags,
- boolean (*trav)(intercept_t*));
+ SDL_bool (*trav)(intercept_t*));
 
 void P_UnsetThingPosition(mobj_t* thing);
 void P_SetThingPosition(mobj_t* thing);
@@ -197,21 +200,21 @@ void P_SetThingPosition(mobj_t* thing);
 
 // If "floatok" true, move would be ok
 // if within "tmfloorz - tmceilingz".
-extern boolean floatok;
+extern SDL_bool floatok;
 extern fixed_t tmfloorz;
 extern fixed_t tmceilingz;
 
 
 extern line_t* ceilingline;
 
-boolean P_CheckPosition(mobj_t* thing, fixed_t x, fixed_t y);
-boolean P_TryMove(mobj_t* thing, fixed_t x, fixed_t y);
-boolean P_TeleportMove(mobj_t* thing, fixed_t x, fixed_t y);
+SDL_bool P_CheckPosition(mobj_t* thing, fixed_t x, fixed_t y);
+SDL_bool P_TryMove(mobj_t* thing, fixed_t x, fixed_t y);
+SDL_bool P_TeleportMove(mobj_t* thing, fixed_t x, fixed_t y);
 void P_SlideMove(mobj_t* mo);
-boolean P_CheckSight(mobj_t* t1, mobj_t* t2);
+SDL_bool P_CheckSight(mobj_t* t1, mobj_t* t2);
 void P_UseLines(player_t* player);
 
-boolean P_ChangeSector(sector_t* sector, boolean crunch);
+SDL_bool P_ChangeSector(sector_t* sector, SDL_bool crunch);
 
 extern mobj_t* linetarget; // who got hit (or NULL)
 

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,6 +17,8 @@
 //	Handling interactions (i.e., collisions).
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 // Data.
 #include "doomdef.h"
@@ -55,7 +58,7 @@ int clipammo[NUMAMMO] = {10, 4, 20, 1};
 // Returns false if the ammo can't be picked up at all
 //
 
-boolean
+SDL_bool
 P_GiveAmmo
 (player_t* player,
  ammotype_t ammo,
@@ -63,13 +66,13 @@ P_GiveAmmo
 	int oldammo;
 
 	if(ammo == am_noammo)
-		return false;
+		return SDL_FALSE;
 
 	if(ammo < 0 || ammo > NUMAMMO)
 		I_Error("P_GiveAmmo: bad type %i", ammo);
 
 	if(player->ammo[ammo] == player->maxammo[ammo])
-		return false;
+		return SDL_FALSE;
 
 	if(num)
 		num *= clipammo[ammo];
@@ -94,7 +97,7 @@ P_GiveAmmo
 	// don't change up weapons,
 	// player was lower on purpose.
 	if(oldammo)
-		return true;
+		return SDL_TRUE;
 
 	// We were down to zero,
 	// so select a new weapon.
@@ -134,7 +137,7 @@ P_GiveAmmo
 			break;
 	}
 
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -142,23 +145,23 @@ P_GiveAmmo
 // P_GiveWeapon
 // The weapon name may have a MF_DROPPED flag ored in.
 //
-boolean
+SDL_bool
 P_GiveWeapon
 (player_t* player,
  weapontype_t weapon,
- boolean dropped) {
-	boolean gaveammo;
-	boolean gaveweapon;
+ SDL_bool dropped) {
+	SDL_bool gaveammo;
+	SDL_bool gaveweapon;
 
 	if(netgame
 	   && (deathmatch != 2)
 	   && !dropped) {
 		// leave placed weapons forever on net games
 		if(player->weaponowned[weapon])
-			return false;
+			return SDL_FALSE;
 
 		player->bonuscount += BONUSADD;
-		player->weaponowned[weapon] = true;
+		player->weaponowned[weapon] = SDL_TRUE;
 
 		if(deathmatch)
 			P_GiveAmmo(player, weaponinfo[weapon].ammo, 5);
@@ -168,7 +171,7 @@ P_GiveWeapon
 
 		if(player == &players[consoleplayer])
 			S_StartSound(NULL, sfx_wpnup);
-		return false;
+		return SDL_FALSE;
 	}
 
 	if(weaponinfo[weapon].ammo != am_noammo) {
@@ -179,13 +182,13 @@ P_GiveWeapon
 		else
 			gaveammo = P_GiveAmmo(player, weaponinfo[weapon].ammo, 2);
 	} else
-		gaveammo = false;
+		gaveammo = SDL_FALSE;
 
 	if(player->weaponowned[weapon])
-		gaveweapon = false;
+		gaveweapon = SDL_FALSE;
 	else {
-		gaveweapon = true;
-		player->weaponowned[weapon] = true;
+		gaveweapon = SDL_TRUE;
+		player->weaponowned[weapon] = SDL_TRUE;
 		player->pendingweapon = weapon;
 	}
 
@@ -197,19 +200,19 @@ P_GiveWeapon
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
-boolean
+SDL_bool
 P_GiveBody
 (player_t* player,
  int num) {
 	if(player->health >= MAXHEALTH)
-		return false;
+		return SDL_FALSE;
 
 	player->health += num;
 	if(player->health > MAXHEALTH)
 		player->health = MAXHEALTH;
 	player->mo->health = player->health;
 
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -218,7 +221,7 @@ P_GiveBody
 // Returns false if the armor is worse
 // than the current armor.
 //
-boolean
+SDL_bool
 P_GiveArmor
 (player_t* player,
  int armortype) {
@@ -226,12 +229,12 @@ P_GiveArmor
 
 	hits = armortype * 100;
 	if(player->armorpoints >= hits)
-		return false; // don't pick up
+		return SDL_FALSE; // don't pick up
 
 	player->armortype = armortype;
 	player->armorpoints = hits;
 
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -253,42 +256,42 @@ P_GiveCard
 //
 // P_GivePower
 //
-boolean
+SDL_bool
 P_GivePower
 (player_t* player,
  int /*powertype_t*/ power) {
 	if(power == pw_invulnerability) {
 		player->powers[power] = INVULNTICS;
-		return true;
+		return SDL_TRUE;
 	}
 
 	if(power == pw_invisibility) {
 		player->powers[power] = INVISTICS;
 		player->mo->flags |= MF_SHADOW;
-		return true;
+		return SDL_TRUE;
 	}
 
 	if(power == pw_infrared) {
 		player->powers[power] = INFRATICS;
-		return true;
+		return SDL_TRUE;
 	}
 
 	if(power == pw_ironfeet) {
 		player->powers[power] = IRONTICS;
-		return true;
+		return SDL_TRUE;
 	}
 
 	if(power == pw_strength) {
 		P_GiveBody(player, 100);
 		player->powers[power] = 1;
-		return true;
+		return SDL_TRUE;
 	}
 
 	if(player->powers[power])
-		return false; // already got it
+		return SDL_FALSE; // already got it
 
 	player->powers[power] = 1;
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -544,7 +547,7 @@ P_TouchSpecialThing
 			if(!player->backpack) {
 				for(i = 0; i < NUMAMMO; i++)
 					player->maxammo[i] *= 2;
-				player->backpack = true;
+				player->backpack = SDL_TRUE;
 			}
 			for(i = 0; i < NUMAMMO; i++)
 				P_GiveAmmo(player, i, 1);
@@ -553,7 +556,7 @@ P_TouchSpecialThing
 
 			// weapons
 		case SPR_BFUG:
-			if(!P_GiveWeapon(player, wp_bfg, false))
+			if(!P_GiveWeapon(player, wp_bfg, SDL_FALSE))
 				return;
 			player->message = GOTBFG9000;
 			sound = sfx_wpnup;
@@ -567,21 +570,21 @@ P_TouchSpecialThing
 			break;
 
 		case SPR_CSAW:
-			if(!P_GiveWeapon(player, wp_chainsaw, false))
+			if(!P_GiveWeapon(player, wp_chainsaw, SDL_FALSE))
 				return;
 			player->message = GOTCHAINSAW;
 			sound = sfx_wpnup;
 			break;
 
 		case SPR_LAUN:
-			if(!P_GiveWeapon(player, wp_missile, false))
+			if(!P_GiveWeapon(player, wp_missile, SDL_FALSE))
 				return;
 			player->message = GOTLAUNCHER;
 			sound = sfx_wpnup;
 			break;
 
 		case SPR_PLAS:
-			if(!P_GiveWeapon(player, wp_plasma, false))
+			if(!P_GiveWeapon(player, wp_plasma, SDL_FALSE))
 				return;
 			player->message = GOTPLASMA;
 			sound = sfx_wpnup;

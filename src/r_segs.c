@@ -18,6 +18,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
 #include <stdlib.h>
 
 #include "i_system.h"
@@ -31,13 +32,13 @@
 // OPTIMIZE: closed two sided lines as single sided
 
 // True if any of the segs textures might be visible.
-boolean segtextured;
+SDL_bool segtextured;
 
 // False if the back side is the same plane.
-boolean markfloor;
-boolean markceiling;
+SDL_bool markfloor;
+SDL_bool markceiling;
 
-boolean maskedtexture;
+SDL_bool maskedtexture;
 int toptexture;
 int bottomtexture;
 int midtexture;
@@ -406,7 +407,7 @@ R_StoreWallRange
 		// single sided line
 		midtexture = texturetranslation[sidedef->midtexture];
 		// a single sided line is terminal, so it must mark ends
-		markfloor = markceiling = true;
+		markfloor = markceiling = SDL_TRUE;
 		if(linedef->flags & ML_DONTPEGBOTTOM) {
 			vtop = frontsector->floorheight +
 			       textureheight[sidedef->midtexture];
@@ -471,26 +472,26 @@ R_StoreWallRange
 		if(worldlow != worldbottom
 		   || backsector->floorpic != frontsector->floorpic
 		   || backsector->lightlevel != frontsector->lightlevel) {
-			markfloor = true;
+			markfloor = SDL_TRUE;
 		} else {
 			// same plane on both sides
-			markfloor = false;
+			markfloor = SDL_FALSE;
 		}
 
 
 		if(worldhigh != worldtop
 		   || backsector->ceilingpic != frontsector->ceilingpic
 		   || backsector->lightlevel != frontsector->lightlevel) {
-			markceiling = true;
+			markceiling = SDL_TRUE;
 		} else {
 			// same plane on both sides
-			markceiling = false;
+			markceiling = SDL_FALSE;
 		}
 
 		if(backsector->ceilingheight <= frontsector->floorheight
 		   || backsector->floorheight >= frontsector->ceilingheight) {
 			// closed door
-			markceiling = markfloor = true;
+			markceiling = markfloor = SDL_TRUE;
 		}
 
 
@@ -526,7 +527,7 @@ R_StoreWallRange
 		// allocate space for masked texture tables
 		if(sidedef->midtexture) {
 			// masked midtexture
-			maskedtexture = true;
+			maskedtexture = SDL_TRUE;
 			ds_p->maskedtexturecol = maskedtexturecol = lastopening - rw_x;
 			lastopening += rw_stopx - rw_x;
 		}
@@ -581,13 +582,13 @@ R_StoreWallRange
 
 	if(frontsector->floorheight >= viewz) {
 		// above view plane
-		markfloor = false;
+		markfloor = SDL_FALSE;
 	}
 
 	if(frontsector->ceilingheight <= viewz
 	   && frontsector->ceilingpic != skyflatnum) {
 		// below view plane
-		markceiling = false;
+		markceiling = SDL_FALSE;
 	}
 
 

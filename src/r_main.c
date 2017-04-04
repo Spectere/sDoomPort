@@ -20,6 +20,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
 #include <stdlib.h>
 #include <math.h>
 
@@ -576,7 +577,7 @@ void R_InitLightTables(void) {
 //  because it might be in the middle of a refresh.
 // The change will take effect next refresh.
 //
-boolean setsizeneeded;
+SDL_bool setsizeneeded;
 int setblocks;
 int setdetail;
 
@@ -585,7 +586,7 @@ void
 R_SetViewSize
 (int blocks,
  int detail) {
-	setsizeneeded = true;
+	setsizeneeded = SDL_TRUE;
 	setblocks = blocks;
 	setdetail = detail;
 }
@@ -602,7 +603,7 @@ void R_ExecuteSetViewSize(void) {
 	int level;
 	int startmap;
 
-	setsizeneeded = false;
+	setsizeneeded = SDL_FALSE;
 
 	if(setblocks == 11) {
 		scaledviewwidth = SCREENWIDTH;

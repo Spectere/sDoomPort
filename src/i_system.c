@@ -17,7 +17,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <SDL.h>
+#include <SDL_stdinc.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -121,7 +121,7 @@ void I_StartTic(void) {
 //
 // I_Error
 //
-extern boolean demorecording;
+extern SDL_bool demorecording;
 
 void I_Error(char* error, ...) {
 	va_list argptr;

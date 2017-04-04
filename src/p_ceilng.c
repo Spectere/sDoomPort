@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -15,6 +16,8 @@
 // DESCRIPTION:  Ceiling aninmation (lowering, crushing, raising)
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 #include "z_zone.h"
 #include "doomdef.h"
@@ -53,7 +56,7 @@ void T_MoveCeiling(ceiling_t* ceiling) {
 			res = T_MovePlane(ceiling->sector,
 			                  ceiling->speed,
 			                  ceiling->topheight,
-			                  false, 1, ceiling->direction);
+			                  SDL_FALSE, 1, ceiling->direction);
 
 			if(!(leveltime & 7)) {
 				switch(ceiling->type) {
@@ -181,11 +184,11 @@ EV_DoCeiling
 		sec->specialdata = ceiling;
 		ceiling->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
 		ceiling->sector = sec;
-		ceiling->crush = false;
+		ceiling->crush = SDL_FALSE;
 
 		switch(type) {
 			case fastCrushAndRaise:
-				ceiling->crush = true;
+				ceiling->crush = SDL_TRUE;
 				ceiling->topheight = sec->ceilingheight;
 				ceiling->bottomheight = sec->floorheight + (8 * FRACUNIT);
 				ceiling->direction = -1;
@@ -194,7 +197,7 @@ EV_DoCeiling
 
 			case silentCrushAndRaise:
 			case crushAndRaise:
-				ceiling->crush = true;
+				ceiling->crush = SDL_TRUE;
 				ceiling->topheight = sec->ceilingheight;
 			case lowerAndCrush:
 			case lowerToFloor:
