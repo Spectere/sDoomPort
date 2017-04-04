@@ -375,7 +375,7 @@ void P_MobjThinker(mobj_t* mobj) {
 		P_XYMovement(mobj);
 
 		// FIXME: decent NOP/NULL/Nil function pointer please.
-		if(mobj->thinker.function.acv == (actionf_v) (-1))
+		if(mobj->thinker->function.acv == NULL)
 			return; // mobj was removed
 	}
 	if((mobj->z != mobj->floorz)
@@ -383,7 +383,7 @@ void P_MobjThinker(mobj_t* mobj) {
 		P_ZMovement(mobj);
 
 		// FIXME: decent NOP/NULL/Nil function pointer please.
-		if(mobj->thinker.function.acv == (actionf_v) (-1))
+		if(mobj->thinker->function.acv == NULL)
 			return; // mobj was removed
 	}
 
@@ -472,10 +472,9 @@ mobj_t* P_SpawnMobj
 		mobj->z = mobj->ceilingz - mobj->info->height;
 	else
 		mobj->z = z;
-
-	mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
-
-	P_AddThinker(&mobj->thinker);
+	
+	mobj->thinker = P_NewThinker();
+	mobj->thinker->function.acp1 = (actionf_p1)P_MobjThinker;
 
 	return mobj;
 }
@@ -509,9 +508,6 @@ void P_RemoveMobj(mobj_t* mobj) {
 
 	// stop any playing sound
 	S_StopSound(mobj);
-
-	// free block
-	P_RemoveThinker((thinker_t*)mobj);
 }
 
 

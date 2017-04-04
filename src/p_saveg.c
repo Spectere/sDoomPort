@@ -24,6 +24,7 @@
 // State.
 #include "doomstat.h"
 #include "r_state.h"
+#include "r_local.h"
 
 Uint8* save_p;
 
@@ -203,7 +204,7 @@ void P_ArchiveThinkers(void) {
 	mobj_t* mobj;
 
 	// save off the current thinkers
-	for(th = thinkercap.next; th != &thinkercap; th = th->next) {
+	LIST_ITERATE(th, &thinkers) {
 		if(th->function.acp1 == (actionf_p1)P_MobjThinker) {
 			*save_p++ = tc_mobj;
 			PADSAVEP();
@@ -235,16 +236,11 @@ void P_UnArchiveThinkers(void) {
 	mobj_t* mobj;
 
 	// remove all the current thinkers
-	currentthinker = thinkercap.next;
-	while(currentthinker != &thinkercap) {
-		next = currentthinker->next;
-
+	LIST_ITERATE(currentthinker, &thinkers) {
 		if(currentthinker->function.acp1 == (actionf_p1)P_MobjThinker)
 			P_RemoveMobj((mobj_t *)currentthinker);
-		else
-			Z_Free(currentthinker);
-
-		currentthinker = next;
+		
+		list_delete_current(&thinkers);
 	}
 	P_InitThinkers();
 
@@ -270,8 +266,8 @@ void P_UnArchiveThinkers(void) {
 				mobj->info = &mobjinfo[mobj->type];
 				mobj->floorz = mobj->subsector->sector->floorheight;
 				mobj->ceilingz = mobj->subsector->sector->ceilingheight;
-				mobj->thinker.function.acp1 = (actionf_p1)P_MobjThinker;
-				P_AddThinker(&mobj->thinker);
+				mobj->thinker = P_NewThinker();
+				mobj->thinker->function.acp1 = (actionf_p1)P_MobjThinker;
 				break;
 
 			default:
@@ -322,7 +318,7 @@ void P_ArchiveSpecials(void) {
 	int i;
 
 	// save off the current thinkers
-	for(th = thinkercap.next; th != &thinkercap; th = th->next) {
+	LIST_ITERATE(th, &thinkers) {
 		if(th->function.acv == (actionf_v)NULL) {
 			for(i = 0; i < MAXCEILINGS; i++)
 				if(activeceilings[i] == (ceiling_t *)th)
@@ -445,10 +441,10 @@ void P_UnArchiveSpecials(void) {
 				ceiling->sector = &sectors[(int)ceiling->sector];
 				ceiling->sector->specialdata = ceiling;
 
-				if(ceiling->thinker.function.acp1)
-					ceiling->thinker.function.acp1 = (actionf_p1)T_MoveCeiling;
+				ceiling->thinker = P_NewThinker();
+				if(ceiling->thinker->function.acp1)
+					ceiling->thinker->function.acp1 = (actionf_p1)T_MoveCeiling;
 
-				P_AddThinker(&ceiling->thinker);
 				P_AddActiveCeiling(ceiling);
 				break;
 
@@ -459,8 +455,8 @@ void P_UnArchiveSpecials(void) {
 				save_p += sizeof(*door);
 				door->sector = &sectors[(int)door->sector];
 				door->sector->specialdata = door;
-				door->thinker.function.acp1 = (actionf_p1)T_VerticalDoor;
-				P_AddThinker(&door->thinker);
+				door->thinker = P_NewThinker();
+				door->thinker->function.acp1 = (actionf_p1)T_VerticalDoor;
 				break;
 
 			case tc_floor:
@@ -470,8 +466,8 @@ void P_UnArchiveSpecials(void) {
 				save_p += sizeof(*floor);
 				floor->sector = &sectors[(int)floor->sector];
 				floor->sector->specialdata = floor;
-				floor->thinker.function.acp1 = (actionf_p1)T_MoveFloor;
-				P_AddThinker(&floor->thinker);
+				floor->thinker = P_NewThinker();
+				floor->thinker->function.acp1 = (actionf_p1)T_MoveFloor;
 				break;
 
 			case tc_plat:
@@ -482,10 +478,10 @@ void P_UnArchiveSpecials(void) {
 				plat->sector = &sectors[(int)plat->sector];
 				plat->sector->specialdata = plat;
 
-				if(plat->thinker.function.acp1)
-					plat->thinker.function.acp1 = (actionf_p1)T_PlatRaise;
+				plat->thinker = P_NewThinker();
+				if(plat->thinker->function.acp1)
+					plat->thinker->function.acp1 = (actionf_p1)T_PlatRaise;
 
-				P_AddThinker(&plat->thinker);
 				P_AddActivePlat(plat);
 				break;
 
@@ -495,8 +491,8 @@ void P_UnArchiveSpecials(void) {
 				memcpy(flash, save_p, sizeof(*flash));
 				save_p += sizeof(*flash);
 				flash->sector = &sectors[(int)flash->sector];
-				flash->thinker.function.acp1 = (actionf_p1)T_LightFlash;
-				P_AddThinker(&flash->thinker);
+				flash->thinker = P_NewThinker();
+				flash->thinker->function.acp1 = (actionf_p1)T_LightFlash;
 				break;
 
 			case tc_strobe:
@@ -505,8 +501,8 @@ void P_UnArchiveSpecials(void) {
 				memcpy(strobe, save_p, sizeof(*strobe));
 				save_p += sizeof(*strobe);
 				strobe->sector = &sectors[(int)strobe->sector];
-				strobe->thinker.function.acp1 = (actionf_p1)T_StrobeFlash;
-				P_AddThinker(&strobe->thinker);
+				strobe->thinker = P_NewThinker();
+				strobe->thinker->function.acp1 = (actionf_p1)T_StrobeFlash;
 				break;
 
 			case tc_glow:
@@ -515,8 +511,8 @@ void P_UnArchiveSpecials(void) {
 				memcpy(glow, save_p, sizeof(*glow));
 				save_p += sizeof(*glow);
 				glow->sector = &sectors[(int)glow->sector];
-				glow->thinker.function.acp1 = (actionf_p1)T_Glow;
-				P_AddThinker(&glow->thinker);
+				glow->thinker = P_NewThinker();
+				glow->thinker->function.acp1 = (actionf_p1)T_Glow;
 				break;
 
 			default:
