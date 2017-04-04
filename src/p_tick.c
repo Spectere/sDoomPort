@@ -20,6 +20,7 @@
 
 #include "z_zone.h"
 #include "p_local.h"
+#include "m_list.h"
 
 #include "doomstat.h"
 
@@ -36,37 +37,39 @@ int leveltime;
 
 
 // Both the head and tail of the thinker list.
-thinker_t thinkercap;
+list thinkers;
 
 
 //
 // P_InitThinkers
 //
 void P_InitThinkers(void) {
-	thinkercap.prev = thinkercap.next = &thinkercap;
+	list_new(&thinkers, sizeof(think_t));
 }
 
 
 //
-// P_AddThinker
-// Adds a new thinker at the end of the list.
+// P_NewThinker
+// Allocates and returns a new thinker.
 //
-void P_AddThinker(thinker_t* thinker) {
-	thinkercap.prev->next = thinker;
-	thinker->next = &thinkercap;
-	thinker->prev = thinkercap.prev;
-	thinkercap.prev = thinker;
+void* P_NewThinker() {
+	return list_insert_last(&thinkers);
 }
 
 
 //
 // P_RemoveThinker
-// Deallocation is lazy -- it will not actually be freed
-// until its thinking turn comes up.
+// Deallocate immediately so prevent thinkers from being
+// prematurely freed by other linked list functions.
 //
-void P_RemoveThinker(thinker_t* thinker) {
-	// FIXME: NOP.
-	thinker->function.acv = (actionf_v)(-1);
+void P_RemoveThinker(think_t* thinker) {
+	think_t* t;
+	LIST_ITERATE(t, &thinkers) {
+		if(t == thinker) {
+			list_delete_current(&thinkers);
+			return;
+		}
+	}
 }
 
 
@@ -79,22 +82,14 @@ void P_AllocateThinker(thinker_t* thinker) {}
 
 //
 // P_RunThinkers
+// This got a whole lot simpler.
 //
 void P_RunThinkers(void) {
-	thinker_t* currentthinker;
+	think_t* thinker;
 
-	currentthinker = thinkercap.next;
-	while(currentthinker != &thinkercap) {
-		if(currentthinker->function.acv == (actionf_v)(-1)) {
-			// time to remove it
-			currentthinker->next->prev = currentthinker->prev;
-			currentthinker->prev->next = currentthinker->next;
-			Z_Free(currentthinker);
-		} else {
-			if(currentthinker->function.acp1)
-				currentthinker->function.acp1(currentthinker);
-		}
-		currentthinker = currentthinker->next;
+	LIST_ITERATE(thinker, &thinkers) {
+		if(thinker->acp1)
+			thinker->acp1(thinker);
 	}
 }
 
