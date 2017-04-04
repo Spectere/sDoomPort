@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,6 +17,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -105,7 +107,7 @@ int snd_MusicVolume = 15;
 
 
 // whether songs are mus_paused
-static boolean mus_paused;
+static SDL_bool mus_paused;
 
 // music currently being played
 static musicinfo_t* mus_playing = 0;
@@ -222,7 +224,7 @@ void S_Start(void) {
 	//  if (commercial && mnum > mus_e3m9)	
 	//      mnum -= mus_e3m9;
 
-	S_ChangeMusic(mnum, true);
+	S_ChangeMusic(mnum, SDL_TRUE);
 
 	nextcleanup = 15;
 }
@@ -449,14 +451,14 @@ void S_StopSound(void* origin) {
 void S_PauseSound(void) {
 	if(mus_playing && !mus_paused) {
 		I_PauseSong(mus_playing->handle);
-		mus_paused = true;
+		mus_paused = SDL_TRUE;
 	}
 }
 
 void S_ResumeSound(void) {
 	if(mus_playing && mus_paused) {
 		I_ResumeSong(mus_playing->handle);
-		mus_paused = false;
+		mus_paused = SDL_FALSE;
 	}
 }
 
@@ -572,7 +574,7 @@ void S_SetSfxVolume(int volume) {
 // Starts some music with the music id found in sounds.h.
 //
 void S_StartMusic(int m_id) {
-	S_ChangeMusic(m_id, false);
+	S_ChangeMusic(m_id, SDL_FALSE);
 }
 
 void

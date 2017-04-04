@@ -21,7 +21,7 @@
 #ifndef __W_WAD__
 #define __W_WAD__
 
-#include <SDL_stdinc.h>
+#include <SDL.h>
 
 //
 // TYPES

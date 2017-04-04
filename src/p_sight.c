@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,6 +17,8 @@
 //	LineOfSight/Visibility checks, uses REJECT Lookup Table.
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 #include "doomdef.h"
 
@@ -120,7 +123,7 @@ P_InterceptVector2
 // Returns true
 //  if strace crosses the given subsector successfully.
 //
-boolean P_CrossSubsector(int num) {
+SDL_bool P_CrossSubsector(int num) {
 	seg_t* seg;
 	line_t* line;
 	int s1;
@@ -182,7 +185,7 @@ boolean P_CrossSubsector(int num) {
 		// stop because it is not two sided anyway
 		// might do this after updating validcount?
 		if(!(line->flags & ML_TWOSIDED))
-			return false;
+			return SDL_FALSE;
 
 		// crosses a two sided line
 		front = seg->frontsector;
@@ -208,7 +211,7 @@ boolean P_CrossSubsector(int num) {
 
 		// quick test for totally closed doors
 		if(openbottom >= opentop)
-			return false; // stop
+			return SDL_FALSE; // stop
 
 		frac = P_InterceptVector2(&strace, &divl);
 
@@ -225,10 +228,10 @@ boolean P_CrossSubsector(int num) {
 		}
 
 		if(topslope <= bottomslope)
-			return false; // stop				
+			return SDL_FALSE; // stop				
 	}
 	// passed the subsector ok
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -237,7 +240,7 @@ boolean P_CrossSubsector(int num) {
 // Returns true
 //  if strace crosses the given node successfully.
 //
-boolean P_CrossBSPNode(int bspnum) {
+SDL_bool P_CrossBSPNode(int bspnum) {
 	node_t* bsp;
 	int side;
 
@@ -257,12 +260,12 @@ boolean P_CrossBSPNode(int bspnum) {
 
 	// cross the starting side
 	if(!P_CrossBSPNode(bsp->children[side]))
-		return false;
+		return SDL_FALSE;
 
 	// the partition plane is crossed here
 	if(side == P_DivlineSide(t2x, t2y, (divline_t *)bsp)) {
 		// the line doesn't touch the other side
-		return true;
+		return SDL_TRUE;
 	}
 
 	// cross the ending side		
@@ -276,7 +279,7 @@ boolean P_CrossBSPNode(int bspnum) {
 //  if a straight line between t1 and t2 is unobstructed.
 // Uses REJECT.
 //
-boolean
+SDL_bool
 P_CheckSight
 (mobj_t* t1,
  mobj_t* t2) {
@@ -300,7 +303,7 @@ P_CheckSight
 		sightcounts[0]++;
 
 		// can't possibly be connected
-		return false;
+		return SDL_FALSE;
 	}
 
 	// An unobstructed LOS is possible.

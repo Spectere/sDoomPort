@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -20,6 +21,8 @@
 #ifndef __AMMAP_H__
 #define __AMMAP_H__
 
+#include <SDL_stdinc.h>
+
 // Used by ST StatusBar stuff.
 #define AM_MSGHEADER (('a'<<24)+('m'<<16))
 #define AM_MSGENTERED (AM_MSGHEADER | ('e'<<8))
@@ -27,7 +30,7 @@
 
 
 // Called by main loop.
-boolean AM_Responder(event_t* ev);
+SDL_bool AM_Responder(event_t* ev);
 
 // Called by main loop.
 void AM_Ticker(void);

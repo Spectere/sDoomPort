@@ -19,6 +19,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <SDL_stdinc.h>
 
 #include "i_system.h"
 #include "d_event.h"
@@ -36,7 +37,7 @@ void (*netsend)(void);
 // I_InitNetwork
 //
 void I_InitNetwork(void) {
-	boolean trueval = true;
+	SDL_bool trueval = SDL_TRUE;
 	int i;
 	int p;
 	struct hostent* hostentry; // host information entry
@@ -65,17 +66,17 @@ void I_InitNetwork(void) {
 	i = M_CheckParm("-net");
 	if(!i) {
 		// single player game
-		netgame = false;
+		netgame = SDL_FALSE;
 		doomcom->id = DOOMCOM_ID;
 		doomcom->numplayers = doomcom->numnodes = 1;
-		doomcom->deathmatch = false;
+		doomcom->deathmatch = SDL_FALSE;
 		doomcom->consoleplayer = 0;
 		return;
 	}
 
 	netsend = NULL;
 	netget = NULL;
-	netgame = true;
+	netgame = SDL_TRUE;
 
 	// parse player number and host list
 	doomcom->consoleplayer = myargv[i + 1][0] - '1';

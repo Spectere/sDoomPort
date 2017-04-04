@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,6 +19,8 @@
 //	Pending weapon.
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 #include "doomdef.h"
 #include "d_event.h"
@@ -38,7 +41,7 @@
 // 16 pixels of bob
 #define MAXBOB	0x100000
 
-boolean onground;
+SDL_bool onground;
 
 
 //
@@ -285,10 +288,10 @@ void P_PlayerThink(player_t* player) {
 	if(cmd->buttons & BT_USE) {
 		if(!player->usedown) {
 			P_UseLines(player);
-			player->usedown = true;
+			player->usedown = SDL_TRUE;
 		}
 	} else
-		player->usedown = false;
+		player->usedown = SDL_FALSE;
 
 	// cycle psprites
 	P_MovePsprites(player);

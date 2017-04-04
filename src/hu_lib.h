@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,6 +19,8 @@
 
 #ifndef __HULIB__
 #define __HULIB__
+
+#include <SDL_stdinc.h>
 
 // We are referring to patches.
 #include "r_defs.h"
@@ -64,8 +67,8 @@ typedef struct {
 	int cl; // current line number
 
 	// pointer to boolean stating whether to update window
-	boolean* on;
-	boolean laston; // last value of *->on.
+	SDL_bool* on;
+	SDL_bool laston; // last value of *->on.
 
 } hu_stext_t;
 
@@ -79,8 +82,8 @@ typedef struct {
 	int lm;
 
 	// pointer to boolean stating whether to update window
-	boolean* on;
-	boolean laston; // last value of *->on;
+	SDL_bool* on;
+	SDL_bool laston; // last value of *->on;
 
 } hu_itext_t;
 
@@ -102,13 +105,13 @@ void HUlib_clearTextLine(hu_textline_t* t);
 void HUlib_initTextLine(hu_textline_t* t, int x, int y, patch_t** f, int sc);
 
 // returns success
-boolean HUlib_addCharToTextLine(hu_textline_t* t, char ch);
+SDL_bool HUlib_addCharToTextLine(hu_textline_t* t, char ch);
 
 // returns success
-boolean HUlib_delCharFromTextLine(hu_textline_t* t);
+SDL_bool HUlib_delCharFromTextLine(hu_textline_t* t);
 
 // draws tline
-void HUlib_drawTextLine(hu_textline_t* l, boolean drawcursor);
+void HUlib_drawTextLine(hu_textline_t* l, SDL_bool drawcursor);
 
 // erases text line
 void HUlib_eraseTextLine(hu_textline_t* l);
@@ -127,7 +130,7 @@ HUlib_initSText
  int h,
  patch_t** font,
  int startchar,
- boolean* on);
+ SDL_bool* on);
 
 // add a new line
 void HUlib_addLineToSText(hu_stext_t* s);
@@ -153,7 +156,7 @@ HUlib_initIText
  int y,
  patch_t** font,
  int startchar,
- boolean* on);
+ SDL_bool* on);
 
 // enforces left margin
 void HUlib_delCharFromIText(hu_itext_t* it);
@@ -171,7 +174,7 @@ HUlib_addPrefixToIText
  char* str);
 
 // whether eaten
-boolean
+SDL_bool
 HUlib_keyInIText
 (hu_itext_t* it,
  unsigned char ch);

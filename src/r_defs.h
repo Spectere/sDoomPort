@@ -22,7 +22,7 @@
 #ifndef __R_DEFS__
 #define __R_DEFS__
 
-#include <SDL.h>
+#include <SDL_stdinc.h>
 
 // Screenwidth.
 #include "doomdef.h"
@@ -380,7 +380,7 @@ typedef struct {
 	// If false use 0 for any position.
 	// Note: as eight entries are available,
 	//  we might as well insert the same name eight times.
-	boolean rotate;
+	SDL_bool rotate;
 
 	// Lump to use for view angles 0-7.
 	Sint16 lump[8];

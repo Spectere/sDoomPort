@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -15,6 +16,8 @@
 // DESCRIPTION: Door animation code (opening/closing)
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 #include "z_zone.h"
 #include "doomdef.h"
@@ -106,7 +109,7 @@ void T_VerticalDoor(vldoor_t* door) {
 			res = T_MovePlane(door->sector,
 			                  door->speed,
 			                  door->sector->floorheight,
-			                  false, 1, door->direction);
+			                  SDL_FALSE, 1, door->direction);
 			if(res == pastdest) {
 				switch(door->type) {
 					case blazeRaise:
@@ -151,7 +154,7 @@ void T_VerticalDoor(vldoor_t* door) {
 			res = T_MovePlane(door->sector,
 			                  door->speed,
 			                  door->topheight,
-			                  false, 1, door->direction);
+			                  SDL_FALSE, 1, door->direction);
 
 			if(res == pastdest) {
 				switch(door->type) {

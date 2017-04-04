@@ -21,7 +21,7 @@
 //-----------------------------------------------------------------------------
 
 #include <malloc.h>
-#include <SDL.h>
+#include <SDL_stdinc.h>
 
 #include "i_system.h"
 #include "z_zone.h"
@@ -71,7 +71,7 @@ typedef struct {
 //
 typedef struct {
 	char name[8];
-	boolean masked;
+	SDL_bool masked;
 	Sint16 width;
 	Sint16 height;
 	Sint32 columndirectory; // OBSOLETE

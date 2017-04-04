@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,6 +18,8 @@
 //	Action functions for weapons.
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 #include "doomdef.h"
 #include "d_event.h"
@@ -142,7 +145,7 @@ void P_BringUpWeapon(player_t* player) {
 // Returns true if there is enough ammo to shoot.
 // If not, selects the next weapon to use.
 //
-boolean P_CheckAmmo(player_t* player) {
+SDL_bool P_CheckAmmo(player_t* player) {
 	ammotype_t ammo;
 	int count;
 
@@ -159,7 +162,7 @@ boolean P_CheckAmmo(player_t* player) {
 	// Some do not need ammunition anyway.
 	// Return if current ammunition sufficient.
 	if(ammo == am_noammo || player->ammo[ammo] >= count)
-		return true;
+		return SDL_TRUE;
 
 	// Out of ammo, pick a weapon to change to.
 	// Preferences are set here.
@@ -201,7 +204,7 @@ boolean P_CheckAmmo(player_t* player) {
 	             ps_weapon,
 	             weaponinfo[player->readyweapon].downstate);
 
-	return false;
+	return SDL_FALSE;
 }
 
 
@@ -273,12 +276,12 @@ A_WeaponReady
 		if(!player->attackdown
 		   || (player->readyweapon != wp_missile
 		       && player->readyweapon != wp_bfg)) {
-			player->attackdown = true;
+			player->attackdown = SDL_TRUE;
 			P_FireWeapon(player);
 			return;
 		}
 	} else
-		player->attackdown = false;
+		player->attackdown = SDL_FALSE;
 
 	// bob the weapon based on movement speed
 	angle = (128 * leveltime) & FINEMASK;
@@ -549,7 +552,7 @@ void P_BulletSlope(mobj_t* mo) {
 void
 P_GunShot
 (mobj_t* mo,
- boolean accurate) {
+ SDL_bool accurate) {
 	angle_t angle;
 	int damage;
 
@@ -605,7 +608,7 @@ A_FireShotgun
 	P_BulletSlope(player->mo);
 
 	for(i = 0; i < 7; i++)
-		P_GunShot(player->mo, false);
+		P_GunShot(player->mo, SDL_FALSE);
 }
 
 

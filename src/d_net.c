@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
 #include "m_menu.h"
 #include "i_system.h"
 #include "i_video.h"
@@ -53,8 +55,8 @@ ticcmd_t localcmds[BACKUPTICS];
 
 ticcmd_t netcmds[MAXPLAYERS][BACKUPTICS];
 int nettics[MAXNETNODES];
-boolean nodeingame[MAXNETNODES]; // set false as nodes leave game
-boolean remoteresend[MAXNETNODES]; // set when local needs tics
+SDL_bool nodeingame[MAXNETNODES]; // set false as nodes leave game
+SDL_bool remoteresend[MAXNETNODES]; // set when local needs tics
 int resendto[MAXNETNODES]; // set when remote needs tics
 int resendcount[MAXNETNODES];
 
@@ -71,7 +73,7 @@ void D_ProcessEvents(void);
 void G_BuildTiccmd(ticcmd_t* cmd);
 void D_DoAdvanceDemo(void);
 
-boolean reboundpacket;
+SDL_bool reboundpacket;
 doomdata_t reboundstore;
 
 
@@ -134,7 +136,7 @@ HSendPacket
 
 	if(!node) {
 		reboundstore = *netbuffer;
-		reboundpacket = true;
+		reboundpacket = SDL_TRUE;
 		return;
 	}
 
@@ -173,36 +175,36 @@ HSendPacket
 // HGetPacket
 // Returns false if no packet is waiting
 //
-boolean HGetPacket(void) {
+SDL_bool HGetPacket(void) {
 	if(reboundpacket) {
 		*netbuffer = reboundstore;
 		doomcom->remotenode = 0;
-		reboundpacket = false;
-		return true;
+		reboundpacket = SDL_FALSE;
+		return SDL_TRUE;
 	}
 
 	if(!netgame)
-		return false;
+		return SDL_FALSE;
 
 	if(demoplayback)
-		return false;
+		return SDL_FALSE;
 
 	doomcom->command = CMD_GET;
 	I_NetCmd();
 
 	if(doomcom->remotenode == -1)
-		return false;
+		return SDL_FALSE;
 
 	if(doomcom->datalength != NetbufferSize()) {
 		if(debugfile)
 			fprintf(debugfile, "bad packet length %i\n", doomcom->datalength);
-		return false;
+		return SDL_FALSE;
 	}
 
 	if(NetbufferChecksum() != (netbuffer->checksum & NCMD_CHECKSUM)) {
 		if(debugfile)
 			fprintf(debugfile, "bad packet checksum\n");
-		return false;
+		return SDL_FALSE;
 	}
 
 	if(debugfile) {
@@ -227,7 +229,7 @@ boolean HGetPacket(void) {
 			fprintf(debugfile, "\n");
 		}
 	}
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -259,8 +261,8 @@ void GetPackets(void) {
 		if(netbuffer->checksum & NCMD_EXIT) {
 			if(!nodeingame[netnode])
 				continue;
-			nodeingame[netnode] = false;
-			playeringame[netconsole] = false;
+			nodeingame[netnode] = SDL_FALSE;
+			playeringame[netconsole] = SDL_FALSE;
 			strcpy(exitmsg, "Player 1 left the game");
 			exitmsg[7] += netconsole;
 			players[consoleplayer].message = exitmsg;
@@ -304,7 +306,7 @@ void GetPackets(void) {
 				fprintf(debugfile,
 				        "missed tics from %i (%i - %i)\n",
 				        netnode, realstart, nettics[netnode]);
-			remoteresend[netnode] = true;
+			remoteresend[netnode] = SDL_TRUE;
 			continue;
 		}
 
@@ -312,7 +314,7 @@ void GetPackets(void) {
 		{
 			int start;
 
-			remoteresend[netnode] = false;
+			remoteresend[netnode] = SDL_FALSE;
 
 			start = nettics[netnode] - realstart;
 			src = &netbuffer->cmds[start];
@@ -432,9 +434,9 @@ void CheckAbort(void) {
 //
 void D_ArbitrateNetStart(void) {
 	int i;
-	boolean gotinfo[MAXNETNODES];
+	SDL_bool gotinfo[MAXNETNODES];
 
-	autostart = true;
+	autostart = SDL_TRUE;
 	memset(gotinfo, 0, sizeof(gotinfo));
 
 	if(doomcom->consoleplayer) {
@@ -478,7 +480,7 @@ void D_ArbitrateNetStart(void) {
 #if 1
 			for(i = 10; i && HGetPacket(); --i) {
 				if((netbuffer->player & 0x7f) < MAXNETNODES)
-					gotinfo[netbuffer->player & 0x7f] = true;
+					gotinfo[netbuffer->player & 0x7f] = SDL_TRUE;
 			}
 #else
 	    while (HGetPacket ())
@@ -504,9 +506,9 @@ void D_CheckNetGame(void) {
 	int i;
 
 	for(i = 0; i < MAXNETNODES; i++) {
-		nodeingame[i] = false;
+		nodeingame[i] = SDL_FALSE;
 		nettics[i] = 0;
-		remoteresend[i] = false; // set when local needs tics
+		remoteresend[i] = SDL_FALSE; // set when local needs tics
 		resendto[i] = 0; // which tic to start sending
 	}
 
@@ -530,9 +532,9 @@ void D_CheckNetGame(void) {
 		maxsend = 1;
 
 	for(i = 0; i < doomcom->numplayers; i++)
-		playeringame[i] = true;
+		playeringame[i] = SDL_TRUE;
 	for(i = 0; i < doomcom->numnodes; i++)
-		nodeingame[i] = true;
+		nodeingame[i] = SDL_TRUE;
 
 	printf("player %i of %i (%i nodes)\n",
 	       consoleplayer + 1, doomcom->numplayers, doomcom->numnodes);
@@ -574,7 +576,7 @@ int frameon;
 int frameskip[4];
 int oldnettics;
 
-extern boolean advancedemo;
+extern SDL_bool advancedemo;
 
 void TryRunTics(void) {
 	int i;

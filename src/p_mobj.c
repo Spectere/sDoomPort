@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,6 +17,8 @@
 //	Moving object handling. Spawn functions.
 //
 //-----------------------------------------------------------------------------
+
+#include <SDL_stdinc.h>
 
 #include "i_system.h"
 #include "z_zone.h"
@@ -43,7 +46,7 @@ void P_SpawnMapThing(mapthing_t* mthing);
 //
 int test;
 
-boolean
+SDL_bool
 P_SetMobjState
 (mobj_t* mobj,
  statenum_t state) {
@@ -53,7 +56,7 @@ P_SetMobjState
 		if(state == S_NULL) {
 			mobj->state = (state_t *) S_NULL;
 			P_RemoveMobj(mobj);
-			return false;
+			return SDL_FALSE;
 		}
 
 		st = &states[state];
@@ -70,7 +73,7 @@ P_SetMobjState
 		state = st->nextstate;
 	} while(!mobj->tics);
 
-	return true;
+	return SDL_TRUE;
 }
 
 
@@ -623,7 +626,7 @@ void P_SpawnPlayer(mapthing_t* mthing) {
 	// give all cards in death match mode
 	if(deathmatch)
 		for(i = 0; i < NUMCARDS; i++)
-			p->cards[i] = true;
+			p->cards[i] = SDL_TRUE;
 
 	if(mthing->type - 1 == consoleplayer) {
 		// wake up the status bar

@@ -18,6 +18,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <SDL_stdinc.h>
 #include <stdio.h>
 
 #include "z_zone.h"
@@ -204,7 +205,7 @@ static int grid = 0;
 
 static int leveljuststarted = 1; // kluge until AM_LevelInit() is called
 
-boolean automapactive = false;
+SDL_bool automapactive = SDL_FALSE;
 static int finit_width = SCREENWIDTH;
 static int finit_height = SCREENHEIGHT - 32;
 
@@ -273,9 +274,9 @@ static int followplayer = 1; // specifies whether to follow the player around
 static unsigned char cheat_amap_seq[] = {'i', 'd', 'd', 't', 0xff};
 static cheatseq_t cheat_amap = {cheat_amap_seq, 0};
 
-static boolean stopped = true;
+static SDL_bool stopped = SDL_TRUE;
 
-extern boolean viewactive;
+extern SDL_bool viewactive;
 //extern byte screens[][SCREENWIDTH*SCREENHEIGHT];
 
 
@@ -434,7 +435,7 @@ void AM_initVariables(void) {
 	int pnum;
 	static event_t st_notify = {ev_keyup, AM_MSGENTERED};
 
-	automapactive = true;
+	automapactive = SDL_TRUE;
 	fb = screens[0];
 
 	f_oldloc.x = MAXINT;
@@ -528,9 +529,9 @@ void AM_Stop(void) {
 	static event_t st_notify = {0, ev_keyup, AM_MSGEXITED};
 
 	AM_unloadPics();
-	automapactive = false;
+	automapactive = SDL_FALSE;
 	ST_Responder(&st_notify);
-	stopped = true;
+	stopped = SDL_TRUE;
 }
 
 //
@@ -540,7 +541,7 @@ void AM_Start(void) {
 	static int lastlevel = -1, lastepisode = -1;
 
 	if(!stopped) AM_Stop();
-	stopped = false;
+	stopped = SDL_FALSE;
 	if(lastlevel != gamemap || lastepisode != gameepisode) {
 		AM_LevelInit();
 		lastlevel = gamemap;
@@ -572,7 +573,7 @@ void AM_maxOutWindowScale(void) {
 //
 // Handle events (user inputs) in automap mode
 //
-boolean
+SDL_bool
 AM_Responder
 (event_t* ev) {
 
@@ -581,33 +582,33 @@ AM_Responder
 	static int bigstate = 0;
 	static char buffer[20];
 
-	rc = false;
+	rc = SDL_FALSE;
 
 	if(!automapactive) {
 		if(ev->type == ev_keydown && ev->data1 == AM_STARTKEY) {
 			AM_Start();
-			viewactive = false;
-			rc = true;
+			viewactive = SDL_FALSE;
+			rc = SDL_TRUE;
 		}
 	} else if(ev->type == ev_keydown) {
 
-		rc = true;
+		rc = SDL_TRUE;
 		switch(ev->data1) {
 			case AM_PANRIGHTKEY: // pan right
 				if(!followplayer) m_paninc.x = FTOM(F_PANINC);
-				else rc = false;
+				else rc = SDL_FALSE;
 				break;
 			case AM_PANLEFTKEY: // pan left
 				if(!followplayer) m_paninc.x = -FTOM(F_PANINC);
-				else rc = false;
+				else rc = SDL_FALSE;
 				break;
 			case AM_PANUPKEY: // pan up
 				if(!followplayer) m_paninc.y = FTOM(F_PANINC);
-				else rc = false;
+				else rc = SDL_FALSE;
 				break;
 			case AM_PANDOWNKEY: // pan down
 				if(!followplayer) m_paninc.y = -FTOM(F_PANINC);
-				else rc = false;
+				else rc = SDL_FALSE;
 				break;
 			case AM_ZOOMOUTKEY: // zoom out
 				mtof_zoommul = M_ZOOMOUT;
@@ -619,7 +620,7 @@ AM_Responder
 				break;
 			case AM_ENDKEY:
 				bigstate = 0;
-				viewactive = true;
+				viewactive = SDL_TRUE;
 				AM_Stop();
 				break;
 			case AM_GOBIGKEY:
@@ -649,14 +650,14 @@ AM_Responder
 				break;
 			default:
 				cheatstate = 0;
-				rc = false;
+				rc = SDL_FALSE;
 		}
 		if(!deathmatch && cht_CheckCheat(&cheat_amap, ev->data1)) {
-			rc = false;
+			rc = SDL_FALSE;
 			cheating = (cheating + 1) % 3;
 		}
 	} else if(ev->type == ev_keyup) {
-		rc = false;
+		rc = SDL_FALSE;
 		switch(ev->data1) {
 			case AM_PANRIGHTKEY:
 				if(!followplayer) m_paninc.x = 0;
@@ -786,7 +787,7 @@ void AM_clearFB(int color) {
 // faster reject and precalculated slopes.  If the speed is needed,
 // use a hash algorithm to handle  the common cases.
 //
-boolean
+SDL_bool
 AM_clipMline
 (mline_t* ml,
  fline_t* fl) {
@@ -830,7 +831,7 @@ AM_clipMline
 		outcode2 = BOTTOM;
 
 	if(outcode1& outcode2)
-		return false; // trivially outside
+		return SDL_FALSE; // trivially outside
 
 	if(ml->a.x < m_x)
 		outcode1 |= LEFT;
@@ -843,7 +844,7 @@ AM_clipMline
 		outcode2 |= RIGHT;
 
 	if(outcode1& outcode2)
-		return false; // trivially outside
+		return SDL_FALSE; // trivially outside
 
 	// transform to frame-buffer coordinates.
 	fl->a.x = CXMTOF(ml->a.x);
@@ -855,7 +856,7 @@ AM_clipMline
 	DOOUTCODE(outcode2, fl->b.x, fl->b.y);
 
 	if(outcode1& outcode2)
-		return false;
+		return SDL_FALSE;
 
 	while(outcode1 | outcode2) {
 		// may be partially inside box
@@ -897,10 +898,10 @@ AM_clipMline
 		}
 
 		if(outcode1& outcode2)
-			return false; // trivially outside
+			return SDL_FALSE; // trivially outside
 	}
 
-	return true;
+	return SDL_TRUE;
 }
 #undef DOOUTCODE
 
