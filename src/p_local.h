@@ -25,6 +25,8 @@
 #include "r_local.h"
 #endif
 
+#include "m_list.h"
+
 #define FLOATSPEED		(FRACUNIT*4)
 
 
@@ -63,12 +65,12 @@
 // P_TICK
 //
 
-// both the head and tail of the thinker list
-extern thinker_t thinkercap;
+// the thinker list
+extern list thinkers;
 
 
 void P_InitThinkers(void);
-void P_AddThinker(thinker_t* thinker);
+void* P_NewThinker();
 void P_RemoveThinker(thinker_t* thinker);
 
 
