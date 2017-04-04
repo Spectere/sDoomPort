@@ -152,12 +152,12 @@ EV_DoPlat
 		// Find lowest & highest floors around sector
 		rtn = 1;
 		plat = Z_Malloc(sizeof(*plat), PU_LEVSPEC, 0);
-		P_AddThinker(&plat->thinker);
+		plat->thinker = P_NewThinker();
 
 		plat->type = type;
 		plat->sector = sec;
 		plat->sector->specialdata = plat;
-		plat->thinker.function.acp1 = (actionf_p1) T_PlatRaise;
+		plat->thinker->function.acp1 = (actionf_p1) T_PlatRaise;
 		plat->crush = SDL_FALSE;
 		plat->tag = line->tag;
 
@@ -242,7 +242,7 @@ void P_ActivateInStasis(int tag) {
 		   && (activeplats[i])->tag == tag
 		   && (activeplats[i])->status == in_stasis) {
 			(activeplats[i])->status = (activeplats[i])->oldstatus;
-			(activeplats[i])->thinker.function.acp1
+			(activeplats[i])->thinker->function.acp1
 					= (actionf_p1) T_PlatRaise;
 		}
 }
@@ -256,7 +256,7 @@ void EV_StopPlat(line_t* line) {
 		   && ((activeplats[j])->tag == line->tag)) {
 			(activeplats[j])->oldstatus = (activeplats[j])->status;
 			(activeplats[j])->status = in_stasis;
-			(activeplats[j])->thinker.function.acv = (actionf_v)NULL;
+			(activeplats[j])->thinker->function.acv = NULL;
 		}
 }
 
@@ -276,7 +276,7 @@ void P_RemoveActivePlat(plat_t* plat) {
 	for(i = 0; i < MAXPLATS; i++)
 		if(plat == activeplats[i]) {
 			(activeplats[i])->sector->specialdata = NULL;
-			P_RemoveThinker(&(activeplats[i])->thinker);
+			P_RemoveThinker(activeplats[i]->thinker);
 			activeplats[i] = NULL;
 
 			return;

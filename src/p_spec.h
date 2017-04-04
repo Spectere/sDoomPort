@@ -118,7 +118,7 @@ int EV_DoDonut(line_t* line);
 // P_LIGHTS
 //
 typedef struct {
-	thinker_t thinker;
+	thinker_t* thinker;
 	sector_t* sector;
 	int count;
 	int maxlight;
@@ -128,7 +128,7 @@ typedef struct {
 
 
 typedef struct {
-	thinker_t thinker;
+	thinker_t* thinker;
 	sector_t* sector;
 	int count;
 	int maxlight;
@@ -140,7 +140,7 @@ typedef struct {
 
 
 typedef struct {
-	thinker_t thinker;
+	thinker_t* thinker;
 	sector_t* sector;
 	int count;
 	int minlight;
@@ -152,7 +152,7 @@ typedef struct {
 
 
 typedef struct {
-	thinker_t thinker;
+	thinker_t* thinker;
 	sector_t* sector;
 	int minlight;
 	int maxlight;
@@ -260,7 +260,7 @@ typedef enum {
 
 
 typedef struct {
-	thinker_t thinker;
+	thinker_t* thinker;
 	sector_t* sector;
 	fixed_t speed;
 	fixed_t low;
@@ -314,7 +314,7 @@ typedef enum {
 
 
 typedef struct {
-	thinker_t thinker;
+	thinker_t* thinker;
 	vldoor_e type;
 	sector_t* sector;
 	fixed_t topheight;
@@ -458,7 +458,7 @@ typedef enum {
 
 
 typedef struct {
-	thinker_t thinker;
+	thinker_t* thinker;
 	ceiling_e type;
 	sector_t* sector;
 	fixed_t bottomheight;
@@ -540,7 +540,7 @@ typedef enum {
 
 
 typedef struct {
-	thinker_t thinker;
+	thinker_t* thinker;
 	floor_e type;
 	SDL_bool crush;
 	sector_t* sector;

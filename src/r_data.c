@@ -26,6 +26,7 @@
 #include "i_system.h"
 #include "z_zone.h"
 
+#include "m_list.h"
 
 #include "w_wad.h"
 
@@ -741,7 +742,7 @@ void R_PrecacheLevel(void) {
 	spritepresent = alloca(numsprites);
 	memset(spritepresent, 0, numsprites);
 
-	for(th = thinkercap.next; th != &thinkercap; th = th->next) {
+	LIST_ITERATE(th, &thinkers) {
 		if(th->function.acp1 == (actionf_p1)P_MobjThinker)
 			spritepresent[((mobj_t *)th)->sprite] = 1;
 	}
