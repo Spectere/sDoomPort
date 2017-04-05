@@ -178,8 +178,9 @@ T_MovePlane
 //
 // MOVE A FLOOR TO IT'S DESTINATION (UP OR DOWN)
 //
-void T_MoveFloor(floormove_t* floor) {
+void T_MoveFloor(think_t* th) {
 	result_e res;
+	floormove_t* floor = th->object;
 
 	res = T_MovePlane(floor->sector,
 	                  floor->speed,
@@ -210,7 +211,7 @@ void T_MoveFloor(floormove_t* floor) {
 					break;
 			}
 		}
-		P_RemoveThinker(&floor->thinker);
+		P_RemoveThinker(floor->thinker);
 
 		S_StartSound((mobj_t *)&floor->sector->soundorg,
 		             sfx_pstop);
@@ -243,7 +244,7 @@ EV_DoFloor
 		// new floor thinker
 		rtn = 1;
 		floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-		floor->thinker = P_NewThinker();
+		floor->thinker = P_NewThinker(floor);
 		sec->specialdata = floor;
 		floor->thinker->action.acp1 = (actionf_p1) T_MoveFloor;
 		floor->type = floortype;
@@ -431,7 +432,7 @@ EV_BuildStairs
 		// new floor thinker
 		rtn = 1;
 		floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
-		floor->thinker = P_NewThinker();
+		floor->thinker = P_NewThinker(floor);
 		sec->specialdata = floor;
 		floor->thinker->action.acp1 = (actionf_p1) T_MoveFloor;
 		floor->direction = 1;
@@ -482,7 +483,7 @@ EV_BuildStairs
 				secnum = newsecnum;
 				floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
 
-				floor->thinker = P_NewThinker();
+				floor->thinker = P_NewThinker(floor);
 
 				sec->specialdata = floor;
 				floor->thinker->action.acp1 = (actionf_p1) T_MoveFloor;
