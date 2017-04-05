@@ -210,7 +210,7 @@ void P_ArchiveThinkers(void) {
 			*save_p++ = tc_mobj;
 			PADSAVEP();
 			mobj = (mobj_t *)save_p;
-			memcpy(mobj, th, sizeof(*mobj));
+			memcpy(mobj, th->object, sizeof(*mobj));
 			save_p += sizeof(*mobj);
 			mobj->state = (state_t *)(mobj->state - states);
 
@@ -238,7 +238,7 @@ void P_UnArchiveThinkers(void) {
 	// remove all the current thinkers
 	LIST_ITERATE(currentthinker, &thinkers) {
 		if(currentthinker->action.acp1 == (actionf_p1)P_MobjThinker)
-			P_RemoveMobj((mobj_t *)currentthinker);
+			P_RemoveMobj((mobj_t *)currentthinker->object);
 		
 		list_delete_current(&thinkers);
 	}
@@ -328,7 +328,7 @@ void P_ArchiveSpecials(void) {
 				*save_p++ = tc_ceiling;
 				PADSAVEP();
 				ceiling = (ceiling_t *)save_p;
-				memcpy(ceiling, th, sizeof(*ceiling));
+				memcpy(ceiling, th->object, sizeof(*ceiling));
 				save_p += sizeof(*ceiling);
 				ceiling->sector = (sector_t *)(ceiling->sector - sectors);
 			}
@@ -339,7 +339,7 @@ void P_ArchiveSpecials(void) {
 			*save_p++ = tc_ceiling;
 			PADSAVEP();
 			ceiling = (ceiling_t *)save_p;
-			memcpy(ceiling, th, sizeof(*ceiling));
+			memcpy(ceiling, th->object, sizeof(*ceiling));
 			save_p += sizeof(*ceiling);
 			ceiling->sector = (sector_t *)(ceiling->sector - sectors);
 			continue;
@@ -349,7 +349,7 @@ void P_ArchiveSpecials(void) {
 			*save_p++ = tc_door;
 			PADSAVEP();
 			door = (vldoor_t *)save_p;
-			memcpy(door, th, sizeof(*door));
+			memcpy(door, th->object, sizeof(*door));
 			save_p += sizeof(*door);
 			door->sector = (sector_t *)(door->sector - sectors);
 			continue;
@@ -359,7 +359,7 @@ void P_ArchiveSpecials(void) {
 			*save_p++ = tc_floor;
 			PADSAVEP();
 			floor = (floormove_t *)save_p;
-			memcpy(floor, th, sizeof(*floor));
+			memcpy(floor, th->object, sizeof(*floor));
 			save_p += sizeof(*floor);
 			floor->sector = (sector_t *)(floor->sector - sectors);
 			continue;
@@ -369,7 +369,7 @@ void P_ArchiveSpecials(void) {
 			*save_p++ = tc_plat;
 			PADSAVEP();
 			plat = (plat_t *)save_p;
-			memcpy(plat, th, sizeof(*plat));
+			memcpy(plat, th->object, sizeof(*plat));
 			save_p += sizeof(*plat);
 			plat->sector = (sector_t *)(plat->sector - sectors);
 			continue;
@@ -379,7 +379,7 @@ void P_ArchiveSpecials(void) {
 			*save_p++ = tc_flash;
 			PADSAVEP();
 			flash = (lightflash_t *)save_p;
-			memcpy(flash, th, sizeof(*flash));
+			memcpy(flash, th->object, sizeof(*flash));
 			save_p += sizeof(*flash);
 			flash->sector = (sector_t *)(flash->sector - sectors);
 			continue;
@@ -389,7 +389,7 @@ void P_ArchiveSpecials(void) {
 			*save_p++ = tc_strobe;
 			PADSAVEP();
 			strobe = (strobe_t *)save_p;
-			memcpy(strobe, th, sizeof(*strobe));
+			memcpy(strobe, th->object, sizeof(*strobe));
 			save_p += sizeof(*strobe);
 			strobe->sector = (sector_t *)(strobe->sector - sectors);
 			continue;
@@ -399,7 +399,7 @@ void P_ArchiveSpecials(void) {
 			*save_p++ = tc_glow;
 			PADSAVEP();
 			glow = (glow_t *)save_p;
-			memcpy(glow, th, sizeof(*glow));
+			memcpy(glow, th->object, sizeof(*glow));
 			save_p += sizeof(*glow);
 			glow->sector = (sector_t *)(glow->sector - sectors);
 			continue;
