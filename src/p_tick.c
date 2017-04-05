@@ -44,7 +44,10 @@ list thinkers;
 // P_InitThinkers
 //
 void P_InitThinkers(void) {
-	list_new(&thinkers, sizeof(think_t));
+	if(thinkers.data_size == 0)
+		list_new(&thinkers, sizeof(think_t));
+	else
+		list_clear(&thinkers);
 }
 
 
