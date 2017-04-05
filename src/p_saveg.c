@@ -239,8 +239,8 @@ void P_UnArchiveThinkers(void) {
 	LIST_ITERATE(currentthinker, &thinkers) {
 		if(currentthinker->action.acp1 == (actionf_p1)P_MobjThinker)
 			P_RemoveMobj((mobj_t *)currentthinker->object);
-		
-		list_delete_current(&thinkers);
+		else
+			list_delete_current(&thinkers);
 	}
 	P_InitThinkers();
 
