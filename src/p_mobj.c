@@ -510,9 +510,6 @@ void P_RemoveMobj(mobj_t* mobj) {
 
 	// stop any playing sound
 	S_StopSound(mobj);
-
-	// free block
-	P_RemoveThinker(mobj->thinker);
 }
 
 
