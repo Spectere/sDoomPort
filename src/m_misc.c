@@ -139,7 +139,7 @@ M_ReadFile
 	count = SDL_RWread(handle, buf, length, 1);
 	SDL_RWclose(handle);
 
-	if(count < length)
+	if(count != 1)
 		I_Error("Couldn't read file %s", name);
 
 	*buffer = buf;
