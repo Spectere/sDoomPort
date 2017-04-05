@@ -66,19 +66,19 @@ void T_VerticalDoor(think_t* th) {
 				switch(door->type) {
 					case blazeRaise:
 						door->direction = -1; // time to go back down
-						S_StartSound((mobj_t *)&door->sector->soundorg,
+						S_StartSound(&door->sector->soundorg,
 						             sfx_bdcls);
 						break;
 
 					case normal:
 						door->direction = -1; // time to go back down
-						S_StartSound((mobj_t *)&door->sector->soundorg,
+						S_StartSound(&door->sector->soundorg,
 						             sfx_dorcls);
 						break;
 
 					case close30ThenOpen:
 						door->direction = 1;
-						S_StartSound((mobj_t *)&door->sector->soundorg,
+						S_StartSound(&door->sector->soundorg,
 						             sfx_doropn);
 						break;
 
@@ -95,7 +95,7 @@ void T_VerticalDoor(think_t* th) {
 					case raiseIn5Mins:
 						door->direction = 1;
 						door->type = normal;
-						S_StartSound((mobj_t *)&door->sector->soundorg,
+						S_StartSound(&door->sector->soundorg,
 						             sfx_doropn);
 						break;
 
@@ -116,15 +116,15 @@ void T_VerticalDoor(think_t* th) {
 					case blazeRaise:
 					case blazeClose:
 						door->sector->specialdata = NULL;
-						P_RemoveThinker(&door->thinker); // unlink and free
-						S_StartSound((mobj_t *)&door->sector->soundorg,
+						P_RemoveThinker(door->thinker); // unlink and free
+						S_StartSound(&door->sector->soundorg,
 						             sfx_bdcls);
 						break;
 
 					case normal:
 					case close:
 						door->sector->specialdata = NULL;
-						P_RemoveThinker(&door->thinker); // unlink and free
+						P_RemoveThinker(door->thinker); // unlink and free
 						break;
 
 					case close30ThenOpen:
@@ -143,7 +143,7 @@ void T_VerticalDoor(think_t* th) {
 
 					default:
 						door->direction = 1;
-						S_StartSound((mobj_t *)&door->sector->soundorg,
+						S_StartSound(&door->sector->soundorg,
 						             sfx_doropn);
 						break;
 				}
@@ -169,7 +169,7 @@ void T_VerticalDoor(think_t* th) {
 					case blazeOpen:
 					case open:
 						door->sector->specialdata = NULL;
-						P_RemoveThinker(&door->thinker); // unlink and free
+						P_RemoveThinker(door->thinker); // unlink and free
 						break;
 
 					default:
