@@ -55,8 +55,9 @@ slidename_t	slideFrameNames[MAXSLIDEDOORS] =
 //
 // T_VerticalDoor
 //
-void T_VerticalDoor(vldoor_t* door) {
+void T_VerticalDoor(think_t* th) {
 	result_e res;
+	vldoor_t* door = th->object;
 
 	switch(door->direction) {
 		case 0:
@@ -257,7 +258,7 @@ EV_DoDoor
 		// new door thinker
 		rtn = 1;
 		door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
-		door->thinker = P_NewThinker();
+		door->thinker = P_NewThinker(door);
 		sec->specialdata = door;
 
 		door->thinker->action.acp1 = (actionf_p1) T_VerticalDoor;
@@ -422,7 +423,7 @@ EV_VerticalDoor
 
 	// new door thinker
 	door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
-	door->thinker = P_NewThinker();
+	door->thinker = P_NewThinker(door);
 	sec->specialdata = door;
 	door->thinker->action.acp1 = (actionf_p1) T_VerticalDoor;
 	door->sector = sec;
@@ -471,7 +472,7 @@ void P_SpawnDoorCloseIn30(sector_t* sec) {
 
 	door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
 
-	door->thinker = P_NewThinker();
+	door->thinker = P_NewThinker(door);
 
 	sec->specialdata = door;
 	sec->special = 0;
@@ -495,7 +496,7 @@ P_SpawnDoorRaiseIn5Mins
 
 	door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
 
-	door->thinker = P_NewThinker();
+	door->thinker = P_NewThinker(door);
 
 	sec->specialdata = door;
 	sec->special = 0;
@@ -583,8 +584,10 @@ int P_FindSlidingDoorType(line_t*	line)
     return -1;
 }
 
-void T_SlidingDoor (slidedoor_t*	door)
+void T_SlidingDoor (think_t*	th)
 {
+	slidedoor_t door = th->object;
+
     switch(door->status)
     {
       case sd_opening:

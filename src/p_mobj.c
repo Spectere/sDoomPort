@@ -367,7 +367,9 @@ void P_NightmareRespawn(mobj_t* mobj) {
 //
 // P_MobjThinker
 //
-void P_MobjThinker(mobj_t* mobj) {
+void P_MobjThinker(think_t* th) {
+	mobj_t* mobj = th->object;
+
 	// momentum movement
 	if(mobj->momx
 	   || mobj->momy
@@ -473,9 +475,8 @@ mobj_t* P_SpawnMobj
 	else
 		mobj->z = z;
 	
-	mobj->thinker = P_NewThinker();
+	mobj->thinker = P_NewThinker(mobj);
 	mobj->thinker->action.acp1 = (actionf_p1)P_MobjThinker;
-	mobj->thinker->object = mobj;
 
 	return mobj;
 }
@@ -509,6 +510,9 @@ void P_RemoveMobj(mobj_t* mobj) {
 
 	// stop any playing sound
 	S_StopSound(mobj);
+
+	// free block
+	P_RemoveThinker(mobj->thinker);
 }
 
 

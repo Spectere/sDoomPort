@@ -33,8 +33,9 @@
 //
 // T_FireFlicker
 //
-void T_FireFlicker(fireflicker_t* flick) {
+void T_FireFlicker(think_t* th) {
 	int amount;
+	fireflicker_t* flick = th->object;
 
 	if(--flick->count)
 		return;
@@ -62,7 +63,7 @@ void P_SpawnFireFlicker(sector_t* sector) {
 
 	flick = Z_Malloc(sizeof(*flick), PU_LEVSPEC, 0);
 
-	flick->thinker = P_NewThinker();
+	flick->thinker = P_NewThinker(flick);
 
 	flick->thinker->action.acp1 = (actionf_p1) T_FireFlicker;
 	flick->sector = sector;
@@ -81,7 +82,8 @@ void P_SpawnFireFlicker(sector_t* sector) {
 // T_LightFlash
 // Do flashing lights.
 //
-void T_LightFlash(lightflash_t* flash) {
+void T_LightFlash(think_t* th) {
+	lightflash_t* flash = th->object;
 	if(--flash->count)
 		return;
 
@@ -109,7 +111,7 @@ void P_SpawnLightFlash(sector_t* sector) {
 
 	flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
 
-	flash->thinker = P_NewThinker();
+	flash->thinker = P_NewThinker(flash);
 
 	flash->thinker->action.acp1 = (actionf_p1) T_LightFlash;
 	flash->sector = sector;
@@ -130,7 +132,8 @@ void P_SpawnLightFlash(sector_t* sector) {
 //
 // T_StrobeFlash
 //
-void T_StrobeFlash(strobe_t* flash) {
+void T_StrobeFlash(think_t* th) {
+	strobe_t* flash = th->object;
 	if(--flash->count)
 		return;
 
@@ -159,7 +162,7 @@ P_SpawnStrobeFlash
 
 	flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
 
-	flash->thinker = P_NewThinker();
+	flash->thinker = P_NewThinker(flash);
 
 	flash->sector = sector;
 	flash->darktime = fastOrSlow;
@@ -271,7 +274,8 @@ EV_LightTurnOn
 // Spawn glowing light
 //
 
-void T_Glow(glow_t* g) {
+void T_Glow(think_t* th) {
+	glow_t* g = th->object;
 	switch(g->direction) {
 		case -1:
 			// DOWN
@@ -299,7 +303,7 @@ void P_SpawnGlowingLight(sector_t* sector) {
 
 	g = Z_Malloc(sizeof(*g), PU_LEVSPEC, 0);
 
-	g->thinker = P_NewThinker();
+	g->thinker = P_NewThinker(g);
 
 	g->sector = sector;
 	g->minlight = P_FindMinSurroundingLight(sector, sector->lightlevel);

@@ -265,7 +265,7 @@ void P_UnArchiveThinkers(void) {
 				mobj->info = &mobjinfo[mobj->type];
 				mobj->floorz = mobj->subsector->sector->floorheight;
 				mobj->ceilingz = mobj->subsector->sector->ceilingheight;
-				mobj->thinker = P_NewThinker();
+				mobj->thinker = P_NewThinker(mobj);
 				mobj->thinker->action.acp1 = (actionf_p1)P_MobjThinker;
 				break;
 
@@ -440,7 +440,7 @@ void P_UnArchiveSpecials(void) {
 				ceiling->sector = &sectors[(int)ceiling->sector];
 				ceiling->sector->specialdata = ceiling;
 
-				ceiling->thinker = P_NewThinker();
+				ceiling->thinker = P_NewThinker(ceiling);
 				if(ceiling->thinker->action.acp1)
 					ceiling->thinker->action.acp1 = (actionf_p1)T_MoveCeiling;
 
@@ -454,7 +454,7 @@ void P_UnArchiveSpecials(void) {
 				save_p += sizeof(*door);
 				door->sector = &sectors[(int)door->sector];
 				door->sector->specialdata = door;
-				door->thinker = P_NewThinker();
+				door->thinker = P_NewThinker(door);
 				door->thinker->action.acp1 = (actionf_p1)T_VerticalDoor;
 				break;
 
@@ -465,7 +465,7 @@ void P_UnArchiveSpecials(void) {
 				save_p += sizeof(*floor);
 				floor->sector = &sectors[(int)floor->sector];
 				floor->sector->specialdata = floor;
-				floor->thinker = P_NewThinker();
+				floor->thinker = P_NewThinker(floor);
 				floor->thinker->action.acp1 = (actionf_p1)T_MoveFloor;
 				break;
 
@@ -477,7 +477,7 @@ void P_UnArchiveSpecials(void) {
 				plat->sector = &sectors[(int)plat->sector];
 				plat->sector->specialdata = plat;
 
-				plat->thinker = P_NewThinker();
+				plat->thinker = P_NewThinker(plat);
 				if(plat->thinker->action.acp1)
 					plat->thinker->action.acp1 = (actionf_p1)T_PlatRaise;
 
@@ -490,7 +490,7 @@ void P_UnArchiveSpecials(void) {
 				memcpy(flash, save_p, sizeof(*flash));
 				save_p += sizeof(*flash);
 				flash->sector = &sectors[(int)flash->sector];
-				flash->thinker = P_NewThinker();
+				flash->thinker = P_NewThinker(flash);
 				flash->thinker->action.acp1 = (actionf_p1)T_LightFlash;
 				break;
 
@@ -500,7 +500,7 @@ void P_UnArchiveSpecials(void) {
 				memcpy(strobe, save_p, sizeof(*strobe));
 				save_p += sizeof(*strobe);
 				strobe->sector = &sectors[(int)strobe->sector];
-				strobe->thinker = P_NewThinker();
+				strobe->thinker = P_NewThinker(strobe);
 				strobe->thinker->action.acp1 = (actionf_p1)T_StrobeFlash;
 				break;
 
@@ -510,7 +510,7 @@ void P_UnArchiveSpecials(void) {
 				memcpy(glow, save_p, sizeof(*glow));
 				save_p += sizeof(*glow);
 				glow->sector = &sectors[(int)glow->sector];
-				glow->thinker = P_NewThinker();
+				glow->thinker = P_NewThinker(glow);
 				glow->thinker->action.acp1 = (actionf_p1)T_Glow;
 				break;
 

@@ -44,8 +44,9 @@ ceiling_t* activeceilings[MAXCEILINGS];
 // T_MoveCeiling
 //
 
-void T_MoveCeiling(ceiling_t* ceiling) {
+void T_MoveCeiling(think_t* th) {
 	result_e res;
+	ceiling_t* ceiling = th->object;
 
 	switch(ceiling->direction) {
 		case 0:
@@ -180,7 +181,7 @@ EV_DoCeiling
 		// new door thinker
 		rtn = 1;
 		ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
-		ceiling->thinker = P_NewThinker();
+		ceiling->thinker = P_NewThinker(ceiling);
 		sec->specialdata = ceiling;
 		ceiling->thinker->action.acp1 = (actionf_p1)T_MoveCeiling;
 		ceiling->sector = sec;

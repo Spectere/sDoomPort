@@ -73,7 +73,7 @@ extern list thinkers;
 
 
 void P_InitThinkers(void);
-void* P_NewThinker();
+void* P_NewThinker(void* object);
 void P_RemoveThinker(think_t* thinker);
 
 

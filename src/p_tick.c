@@ -52,14 +52,16 @@ void P_InitThinkers(void) {
 // P_NewThinker
 // Allocates and returns a new thinker.
 //
-void* P_NewThinker() {
-	return list_insert_last(&thinkers);
+void* P_NewThinker(void* object) {
+	think_t* new_thinker = list_insert_last(&thinkers);
+	new_thinker->object = object;
+	return new_thinker;
 }
 
 
 //
 // P_RemoveThinker
-// Deallocate immediately so prevent thinkers from being
+// Deallocate immediately to prevent thinkers from being
 // prematurely freed by other linked list functions.
 //
 void P_RemoveThinker(think_t* thinker) {

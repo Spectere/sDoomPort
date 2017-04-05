@@ -43,8 +43,9 @@ plat_t* activeplats[MAXPLATS];
 //
 // Move a plat up and down
 //
-void T_PlatRaise(plat_t* plat) {
+void T_PlatRaise(think_t* th) {
 	result_e res;
+	plat_t* plat = th->object;
 
 	switch(plat->status) {
 		case up:
@@ -152,7 +153,7 @@ EV_DoPlat
 		// Find lowest & highest floors around sector
 		rtn = 1;
 		plat = Z_Malloc(sizeof(*plat), PU_LEVSPEC, 0);
-		plat->thinker = P_NewThinker();
+		plat->thinker = P_NewThinker(plat);
 
 		plat->type = type;
 		plat->sector = sec;
