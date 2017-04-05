@@ -66,7 +66,7 @@ EV_Teleport
 				if(thinker->action.acp1 != (actionf_p1)P_MobjThinker)
 					continue;
 
-				m = (mobj_t *)thinker;
+				m = thinker->object;
 
 				// not a teleportman
 				if(m->type != MT_TELEPORTMAN)

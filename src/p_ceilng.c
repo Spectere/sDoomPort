@@ -248,7 +248,7 @@ void P_RemoveActiveCeiling(ceiling_t* c) {
 	for(i = 0; i < MAXCEILINGS; i++) {
 		if(activeceilings[i] == c) {
 			activeceilings[i]->sector->specialdata = NULL;
-			P_RemoveThinker(&activeceilings[i]->thinker);
+			P_RemoveThinker(activeceilings[i]->thinker);
 			activeceilings[i] = NULL;
 			break;
 		}

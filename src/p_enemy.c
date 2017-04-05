@@ -519,7 +519,7 @@ void A_KeenDie(mobj_t* mo) {
 		if(th->action.acp1 != (actionf_p1)P_MobjThinker)
 			continue;
 
-		mo2 = (mobj_t *)th;
+		mo2 = th->object;
 		if(mo2 != mo
 		   && mo2->type == mo->type
 		   && mo2->health > 0) {
@@ -1534,7 +1534,7 @@ void A_BossDeath(mobj_t* mo) {
 		if(th->action.acp1 != (actionf_p1)P_MobjThinker)
 			continue;
 
-		mo2 = (mobj_t *)th;
+		mo2 = th->object;
 		if(mo2 != mo
 		   && mo2->type == mo->type
 		   && mo2->health > 0) {
@@ -1646,7 +1646,7 @@ void A_BrainAwake(mobj_t* mo) {
 		if(thinker->action.acp1 != (actionf_p1)P_MobjThinker)
 			continue; // not a mobj
 
-		m = (mobj_t *)thinker;
+		m = thinker->object;
 
 		if(m->type == MT_BOSSTARGET) {
 			braintargets[numbraintargets] = m;
