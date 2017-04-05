@@ -200,12 +200,12 @@ typedef enum {
 // P_ArchiveThinkers
 //
 void P_ArchiveThinkers(void) {
-	thinker_t* th;
+	think_t* th;
 	mobj_t* mobj;
 
 	// save off the current thinkers
 	LIST_ITERATE(th, &thinkers) {
-		if(th->function.acp1 == (actionf_p1)P_MobjThinker) {
+		if(th->action.acp1 == (actionf_p1)P_MobjThinker) {
 			*save_p++ = tc_mobj;
 			PADSAVEP();
 			mobj = (mobj_t *)save_p;
@@ -231,13 +231,12 @@ void P_ArchiveThinkers(void) {
 //
 void P_UnArchiveThinkers(void) {
 	Uint8 tclass;
-	thinker_t* currentthinker;
-	thinker_t* next;
+	think_t* currentthinker;
 	mobj_t* mobj;
 
 	// remove all the current thinkers
 	LIST_ITERATE(currentthinker, &thinkers) {
-		if(currentthinker->function.acp1 == (actionf_p1)P_MobjThinker)
+		if(currentthinker->action.acp1 == (actionf_p1)P_MobjThinker)
 			P_RemoveMobj((mobj_t *)currentthinker);
 		
 		list_delete_current(&thinkers);
@@ -267,7 +266,7 @@ void P_UnArchiveThinkers(void) {
 				mobj->floorz = mobj->subsector->sector->floorheight;
 				mobj->ceilingz = mobj->subsector->sector->ceilingheight;
 				mobj->thinker = P_NewThinker();
-				mobj->thinker->function.acp1 = (actionf_p1)P_MobjThinker;
+				mobj->thinker->action.acp1 = (actionf_p1)P_MobjThinker;
 				break;
 
 			default:
@@ -307,7 +306,7 @@ enum {
 // T_PlatRaise, (plat_t: sector_t *), - active list
 //
 void P_ArchiveSpecials(void) {
-	thinker_t* th;
+	think_t* th;
 	ceiling_t* ceiling;
 	vldoor_t* door;
 	floormove_t* floor;
@@ -319,7 +318,7 @@ void P_ArchiveSpecials(void) {
 
 	// save off the current thinkers
 	LIST_ITERATE(th, &thinkers) {
-		if(th->function.acv == (actionf_v)NULL) {
+		if(th->action.acv == (actionf_v)NULL) {
 			for(i = 0; i < MAXCEILINGS; i++)
 				if(activeceilings[i] == (ceiling_t *)th)
 					break;
@@ -335,7 +334,7 @@ void P_ArchiveSpecials(void) {
 			continue;
 		}
 
-		if(th->function.acp1 == (actionf_p1)T_MoveCeiling) {
+		if(th->action.acp1 == (actionf_p1)T_MoveCeiling) {
 			*save_p++ = tc_ceiling;
 			PADSAVEP();
 			ceiling = (ceiling_t *)save_p;
@@ -345,7 +344,7 @@ void P_ArchiveSpecials(void) {
 			continue;
 		}
 
-		if(th->function.acp1 == (actionf_p1)T_VerticalDoor) {
+		if(th->action.acp1 == (actionf_p1)T_VerticalDoor) {
 			*save_p++ = tc_door;
 			PADSAVEP();
 			door = (vldoor_t *)save_p;
@@ -355,7 +354,7 @@ void P_ArchiveSpecials(void) {
 			continue;
 		}
 
-		if(th->function.acp1 == (actionf_p1)T_MoveFloor) {
+		if(th->action.acp1 == (actionf_p1)T_MoveFloor) {
 			*save_p++ = tc_floor;
 			PADSAVEP();
 			floor = (floormove_t *)save_p;
@@ -365,7 +364,7 @@ void P_ArchiveSpecials(void) {
 			continue;
 		}
 
-		if(th->function.acp1 == (actionf_p1)T_PlatRaise) {
+		if(th->action.acp1 == (actionf_p1)T_PlatRaise) {
 			*save_p++ = tc_plat;
 			PADSAVEP();
 			plat = (plat_t *)save_p;
@@ -375,7 +374,7 @@ void P_ArchiveSpecials(void) {
 			continue;
 		}
 
-		if(th->function.acp1 == (actionf_p1)T_LightFlash) {
+		if(th->action.acp1 == (actionf_p1)T_LightFlash) {
 			*save_p++ = tc_flash;
 			PADSAVEP();
 			flash = (lightflash_t *)save_p;
@@ -385,7 +384,7 @@ void P_ArchiveSpecials(void) {
 			continue;
 		}
 
-		if(th->function.acp1 == (actionf_p1)T_StrobeFlash) {
+		if(th->action.acp1 == (actionf_p1)T_StrobeFlash) {
 			*save_p++ = tc_strobe;
 			PADSAVEP();
 			strobe = (strobe_t *)save_p;
@@ -395,7 +394,7 @@ void P_ArchiveSpecials(void) {
 			continue;
 		}
 
-		if(th->function.acp1 == (actionf_p1)T_Glow) {
+		if(th->action.acp1 == (actionf_p1)T_Glow) {
 			*save_p++ = tc_glow;
 			PADSAVEP();
 			glow = (glow_t *)save_p;
@@ -442,8 +441,8 @@ void P_UnArchiveSpecials(void) {
 				ceiling->sector->specialdata = ceiling;
 
 				ceiling->thinker = P_NewThinker();
-				if(ceiling->thinker->function.acp1)
-					ceiling->thinker->function.acp1 = (actionf_p1)T_MoveCeiling;
+				if(ceiling->thinker->action.acp1)
+					ceiling->thinker->action.acp1 = (actionf_p1)T_MoveCeiling;
 
 				P_AddActiveCeiling(ceiling);
 				break;
@@ -456,7 +455,7 @@ void P_UnArchiveSpecials(void) {
 				door->sector = &sectors[(int)door->sector];
 				door->sector->specialdata = door;
 				door->thinker = P_NewThinker();
-				door->thinker->function.acp1 = (actionf_p1)T_VerticalDoor;
+				door->thinker->action.acp1 = (actionf_p1)T_VerticalDoor;
 				break;
 
 			case tc_floor:
@@ -467,7 +466,7 @@ void P_UnArchiveSpecials(void) {
 				floor->sector = &sectors[(int)floor->sector];
 				floor->sector->specialdata = floor;
 				floor->thinker = P_NewThinker();
-				floor->thinker->function.acp1 = (actionf_p1)T_MoveFloor;
+				floor->thinker->action.acp1 = (actionf_p1)T_MoveFloor;
 				break;
 
 			case tc_plat:
@@ -479,8 +478,8 @@ void P_UnArchiveSpecials(void) {
 				plat->sector->specialdata = plat;
 
 				plat->thinker = P_NewThinker();
-				if(plat->thinker->function.acp1)
-					plat->thinker->function.acp1 = (actionf_p1)T_PlatRaise;
+				if(plat->thinker->action.acp1)
+					plat->thinker->action.acp1 = (actionf_p1)T_PlatRaise;
 
 				P_AddActivePlat(plat);
 				break;
@@ -492,7 +491,7 @@ void P_UnArchiveSpecials(void) {
 				save_p += sizeof(*flash);
 				flash->sector = &sectors[(int)flash->sector];
 				flash->thinker = P_NewThinker();
-				flash->thinker->function.acp1 = (actionf_p1)T_LightFlash;
+				flash->thinker->action.acp1 = (actionf_p1)T_LightFlash;
 				break;
 
 			case tc_strobe:
@@ -502,7 +501,7 @@ void P_UnArchiveSpecials(void) {
 				save_p += sizeof(*strobe);
 				strobe->sector = &sectors[(int)strobe->sector];
 				strobe->thinker = P_NewThinker();
-				strobe->thinker->function.acp1 = (actionf_p1)T_StrobeFlash;
+				strobe->thinker->action.acp1 = (actionf_p1)T_StrobeFlash;
 				break;
 
 			case tc_glow:
@@ -512,7 +511,7 @@ void P_UnArchiveSpecials(void) {
 				save_p += sizeof(*glow);
 				glow->sector = &sectors[(int)glow->sector];
 				glow->thinker = P_NewThinker();
-				glow->thinker->function.acp1 = (actionf_p1)T_Glow;
+				glow->thinker->action.acp1 = (actionf_p1)T_Glow;
 				break;
 
 			default:

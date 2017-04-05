@@ -507,7 +507,7 @@ P_LookForPlayers
 // Uses special tag 666.
 //
 void A_KeenDie(mobj_t* mo) {
-	thinker_t* th;
+	think_t* th;
 	mobj_t* mo2;
 	line_t junk;
 
@@ -516,7 +516,7 @@ void A_KeenDie(mobj_t* mo) {
 	// scan the remaining thinkers
 	// to see if all Keens are dead
 	LIST_ITERATE(th, &thinkers) {
-		if(th->function.acp1 != (actionf_p1)P_MobjThinker)
+		if(th->action.acp1 != (actionf_p1)P_MobjThinker)
 			continue;
 
 		mo2 = (mobj_t *)th;
@@ -1325,13 +1325,13 @@ A_PainShootSkull
 	angle_t an;
 	int prestep;
 	int count;
-	thinker_t* currentthinker;
+	think_t* currentthinker;
 
 	// count total number of skull currently on the level
 	count = 0;
 
 	LIST_ITERATE(currentthinker, &thinkers) {
-		if((currentthinker->function.acp1 == (actionf_p1)P_MobjThinker)
+		if((currentthinker->action.acp1 == (actionf_p1)P_MobjThinker)
 		   && ((mobj_t *)currentthinker)->type == MT_SKULL)
 			count++;
 	}
@@ -1454,7 +1454,7 @@ void A_Explode(mobj_t* thingy) {
 // if on first boss level
 //
 void A_BossDeath(mobj_t* mo) {
-	thinker_t* th;
+	think_t* th;
 	mobj_t* mo2;
 	line_t junk;
 	int i;
@@ -1531,7 +1531,7 @@ void A_BossDeath(mobj_t* mo) {
 	// scan the remaining thinkers to see
 	// if all bosses are dead
 	LIST_ITERATE(th, &thinkers) {
-		if(th->function.acp1 != (actionf_p1)P_MobjThinker)
+		if(th->action.acp1 != (actionf_p1)P_MobjThinker)
 			continue;
 
 		mo2 = (mobj_t *)th;
@@ -1635,7 +1635,7 @@ int numbraintargets;
 int braintargeton;
 
 void A_BrainAwake(mobj_t* mo) {
-	thinker_t* thinker;
+	think_t* thinker;
 	mobj_t* m;
 
 	// find all the target spots
@@ -1643,7 +1643,7 @@ void A_BrainAwake(mobj_t* mo) {
 	braintargeton = 0;
 
 	LIST_ITERATE(thinker, &thinkers) {
-		if(thinker->function.acp1 != (actionf_p1)P_MobjThinker)
+		if(thinker->action.acp1 != (actionf_p1)P_MobjThinker)
 			continue; // not a mobj
 
 		m = (mobj_t *)thinker;

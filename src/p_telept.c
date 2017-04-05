@@ -42,7 +42,7 @@ EV_Teleport
 	mobj_t* m;
 	mobj_t* fog;
 	unsigned an;
-	thinker_t* thinker;
+	think_t* thinker;
 	sector_t* sector;
 	fixed_t oldx;
 	fixed_t oldy;
@@ -63,7 +63,7 @@ EV_Teleport
 		if(sectors[i].tag == tag) {
 			LIST_ITERATE(thinker, &thinkers) {
 				// not a mobj
-				if(thinker->function.acp1 != (actionf_p1)P_MobjThinker)
+				if(thinker->action.acp1 != (actionf_p1)P_MobjThinker)
 					continue;
 
 				m = (mobj_t *)thinker;
