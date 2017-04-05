@@ -681,7 +681,7 @@ void R_PrecacheLevel(void) {
 	int lump;
 
 	texture_t* texture;
-	thinker_t* th;
+	think_t* th;
 	spriteframe_t* sf;
 
 	if(demoplayback)
@@ -743,8 +743,8 @@ void R_PrecacheLevel(void) {
 	memset(spritepresent, 0, numsprites);
 
 	LIST_ITERATE(th, &thinkers) {
-		if(th->function.acp1 == (actionf_p1)P_MobjThinker)
-			spritepresent[((mobj_t *)th)->sprite] = 1;
+		if(th->action.acp1 == (actionf_p1)P_MobjThinker)
+			spritepresent[((mobj_t *)th->object)->sprite] = 1;
 	}
 
 	spritememory = 0;

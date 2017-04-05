@@ -74,13 +74,6 @@ void P_RemoveThinker(think_t* thinker) {
 
 
 //
-// P_AllocateThinker
-// Allocates memory and adds a new thinker at the end of the list.
-//
-void P_AllocateThinker(thinker_t* thinker) {}
-
-
-//
 // P_RunThinkers
 // This got a whole lot simpler.
 //
@@ -88,8 +81,8 @@ void P_RunThinkers(void) {
 	think_t* thinker;
 
 	LIST_ITERATE(thinker, &thinkers) {
-		if(thinker->acp1)
-			thinker->acp1(thinker);
+		if(thinker->action.acp1)
+			thinker->action.acp1(thinker);
 	}
 }
 

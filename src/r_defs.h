@@ -72,7 +72,6 @@ struct line_s;
 //  position is prolly just buffered, not
 //  updated.
 typedef struct {
-	thinker_t thinker; // not used for anything
 	fixed_t x;
 	fixed_t y;
 	fixed_t z;

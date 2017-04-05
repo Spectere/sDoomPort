@@ -37,22 +37,15 @@ typedef union {
 	actionf_p1 acp1;
 	actionf_v acv;
 	actionf_p2 acp2;
-
 } actionf_t;
 
 
 // Historically, "think_t" is yet another
 //  function pointer to a routine to handle
 //  an actor.
-typedef actionf_t think_t;
-
-
-// Doubly linked list of actors.
-typedef struct thinker_s {
-	struct thinker_s* prev;
-	struct thinker_s* next;
-	think_t function;
-
-} thinker_t;
+typedef struct think_s {
+	actionf_t action;
+	void* object;
+} think_t;
 
 #endif
