@@ -546,10 +546,10 @@ void WI_updateAnimatedBack(void) {
 }
 
 void WI_drawAnimatedBack(void) {
-	/*int i;
+	int i;
 	anim_t* a;
 
-	if(commercial)
+	if(gamemode == commercial)
 		return;
 
 	if(wbs->epsd > 2)
@@ -560,7 +560,7 @@ void WI_drawAnimatedBack(void) {
 
 		if(a->ctr >= 0)
 			V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[a->ctr]);
-	}*/
+	}
 }
 
 //
