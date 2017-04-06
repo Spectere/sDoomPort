@@ -54,8 +54,7 @@
 #define HU_INPUTHEIGHT	1
 
 
-char* chat_macros[] =
-{
+char* chat_macros[] = {
 	HUSTR_CHATMACRO0,
 	HUSTR_CHATMACRO1,
 	HUSTR_CHATMACRO2,
@@ -68,8 +67,7 @@ char* chat_macros[] =
 	HUSTR_CHATMACRO9
 };
 
-char* player_names[] =
-{
+char* player_names[] = {
 	HUSTR_PLRGREEN,
 	HUSTR_PLRINDIGO,
 	HUSTR_PLRBROWN,
@@ -104,9 +102,7 @@ static SDL_bool headsupactive = SDL_FALSE;
 // The actual names can be found in DStrings.h.
 //
 
-char* mapnames[] = // DOOM shareware/registered/retail (Ultimate) names.
-{
-
+char* mapnames[] = { // DOOM shareware/registered/retail (Ultimate) names.
 	HUSTR_E1M1,
 	HUSTR_E1M2,
 	HUSTR_E1M3,
@@ -158,8 +154,7 @@ char* mapnames[] = // DOOM shareware/registered/retail (Ultimate) names.
 	"NEWLEVEL"
 };
 
-char* mapnames2[] = // DOOM 2 map names.
-{
+char* mapnames2[] = { // DOOM 2 map names.
 	HUSTR_1,
 	HUSTR_2,
 	HUSTR_3,
@@ -197,8 +192,7 @@ char* mapnames2[] = // DOOM 2 map names.
 };
 
 
-char* mapnamesp[] = // Plutonia WAD map names.
-{
+char* mapnamesp[] = { // Plutonia WAD map names.
 	PHUSTR_1,
 	PHUSTR_2,
 	PHUSTR_3,
@@ -236,8 +230,7 @@ char* mapnamesp[] = // Plutonia WAD map names.
 };
 
 
-char* mapnamest[] = // TNT WAD map names.
-{
+char* mapnamest[] = { // TNT WAD map names.
 	THUSTR_1,
 	THUSTR_2,
 	THUSTR_3,
@@ -277,8 +270,7 @@ char* mapnamest[] = // TNT WAD map names.
 
 const char* shiftxform;
 
-const char french_shiftxform[] =
-{
+const char french_shiftxform[] = {
 	0,
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
 	11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -319,9 +311,7 @@ const char french_shiftxform[] =
 
 };
 
-const char english_shiftxform[] =
-{
-
+const char english_shiftxform[] = {
 	0,
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
 	11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -361,8 +351,7 @@ const char english_shiftxform[] =
 	'{', '|', '}', '~', 127
 };
 
-char frenchKeyMap[128] =
-{
+char frenchKeyMap[128] = {
 	0,
 	1,2,3,4,5,6,7,8,9,10,
 	11,12,13,14,15,16,17,18,19,20,

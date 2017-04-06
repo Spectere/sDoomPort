@@ -58,11 +58,7 @@ int clipammo[NUMAMMO] = {10, 4, 20, 1};
 // Returns false if the ammo can't be picked up at all
 //
 
-SDL_bool
-P_GiveAmmo
-(player_t* player,
- ammotype_t ammo,
- int num) {
+SDL_bool P_GiveAmmo(player_t* player, ammotype_t ammo, int num) {
 	int oldammo;
 
 	if(ammo == am_noammo)
@@ -145,11 +141,7 @@ P_GiveAmmo
 // P_GiveWeapon
 // The weapon name may have a MF_DROPPED flag ored in.
 //
-SDL_bool
-P_GiveWeapon
-(player_t* player,
- weapontype_t weapon,
- SDL_bool dropped) {
+SDL_bool P_GiveWeapon(player_t* player, weapontype_t weapon, SDL_bool dropped) {
 	SDL_bool gaveammo;
 	SDL_bool gaveweapon;
 
@@ -200,10 +192,7 @@ P_GiveWeapon
 // P_GiveBody
 // Returns false if the body isn't needed at all
 //
-SDL_bool
-P_GiveBody
-(player_t* player,
- int num) {
+SDL_bool P_GiveBody(player_t* player, int num) {
 	if(player->health >= MAXHEALTH)
 		return SDL_FALSE;
 
@@ -221,10 +210,7 @@ P_GiveBody
 // Returns false if the armor is worse
 // than the current armor.
 //
-SDL_bool
-P_GiveArmor
-(player_t* player,
- int armortype) {
+SDL_bool P_GiveArmor(player_t* player, int armortype) {
 	int hits;
 
 	hits = armortype * 100;
@@ -241,10 +227,7 @@ P_GiveArmor
 //
 // P_GiveCard
 //
-void
-P_GiveCard
-(player_t* player,
- card_t card) {
+void P_GiveCard(player_t* player, card_t card) {
 	if(player->cards[card])
 		return;
 
@@ -256,10 +239,7 @@ P_GiveCard
 //
 // P_GivePower
 //
-SDL_bool
-P_GivePower
-(player_t* player,
- int /*powertype_t*/ power) {
+SDL_bool P_GivePower(player_t* player, int /*powertype_t*/ power) {
 	if(power == pw_invulnerability) {
 		player->powers[power] = INVULNTICS;
 		return SDL_TRUE;
@@ -298,10 +278,7 @@ P_GivePower
 //
 // P_TouchSpecialThing
 //
-void
-P_TouchSpecialThing
-(mobj_t* special,
- mobj_t* toucher) {
+void P_TouchSpecialThing(mobj_t* special, mobj_t* toucher) {
 	player_t* player;
 	int i;
 	fixed_t delta;
@@ -620,10 +597,7 @@ P_TouchSpecialThing
 //
 // KillMobj
 //
-void
-P_KillMobj
-(mobj_t* source,
- mobj_t* target) {
+void P_KillMobj(mobj_t* source, mobj_t* target) {
 	mobjtype_t item;
 	mobj_t* mo;
 
@@ -716,12 +690,7 @@ P_KillMobj
 // Source can be NULL for slime, barrel explosions
 // and other environmental stuff.
 //
-void
-P_DamageMobj
-(mobj_t* target,
- mobj_t* inflictor,
- mobj_t* source,
- int damage) {
+void P_DamageMobj(mobj_t* target, mobj_t* inflictor, mobj_t* source, int damage) {
 	unsigned ang;
 	int saved;
 	player_t* player;

@@ -39,10 +39,7 @@
 // Gives an estimation of distance (not exact)
 //
 
-fixed_t
-P_AproxDistance
-(fixed_t dx,
- fixed_t dy) {
+fixed_t P_AproxDistance(fixed_t dx, fixed_t dy) {
 	dx = abs(dx);
 	dy = abs(dy);
 	if(dx < dy)
@@ -55,11 +52,7 @@ P_AproxDistance
 // P_PointOnLineSide
 // Returns 0 or 1
 //
-int
-P_PointOnLineSide
-(fixed_t x,
- fixed_t y,
- line_t* line) {
+int P_PointOnLineSide(fixed_t x, fixed_t y, line_t* line) {
 	fixed_t dx;
 	fixed_t dy;
 	fixed_t left;
@@ -95,10 +88,7 @@ P_PointOnLineSide
 // Considers the line to be infinite
 // Returns side 0 or 1, -1 if box crosses the line.
 //
-int
-P_BoxOnLineSide
-(fixed_t* tmbox,
- line_t* ld) {
+int P_BoxOnLineSide(fixed_t* tmbox, line_t* ld) {
 	int p1 = 0;
 	int p2 = 0;
 
@@ -142,11 +132,7 @@ P_BoxOnLineSide
 // P_PointOnDivlineSide
 // Returns 0 or 1.
 //
-int
-P_PointOnDivlineSide
-(fixed_t x,
- fixed_t y,
- divline_t* line) {
+int P_PointOnDivlineSide(fixed_t x, fixed_t y, divline_t* line) {
 	fixed_t dx;
 	fixed_t dy;
 	fixed_t left;
@@ -187,10 +173,7 @@ P_PointOnDivlineSide
 //
 // P_MakeDivline
 //
-void
-P_MakeDivline
-(line_t* li,
- divline_t* dl) {
+void P_MakeDivline(line_t* li, divline_t* dl) {
 	dl->x = li->v1->x;
 	dl->y = li->v1->y;
 	dl->dx = li->dx;
@@ -205,10 +188,7 @@ P_MakeDivline
 // This is only called by the addthings
 // and addlines traversers.
 //
-fixed_t
-P_InterceptVector
-(divline_t* v2,
- divline_t* v1) {
+fixed_t P_InterceptVector(divline_t* v2, divline_t* v1) {
 #if 1
 	fixed_t frac;
 	fixed_t num;
@@ -427,11 +407,7 @@ void P_SetThingPosition(mobj_t* thing) {
 // to P_BlockLinesIterator, then make one or more calls
 // to it.
 //
-SDL_bool
-P_BlockLinesIterator
-(int x,
- int y,
- SDL_bool (*func)(line_t*)) {
+SDL_bool P_BlockLinesIterator(int x, int y, SDL_bool (*func)(line_t*)) {
 	int offset;
 	short* list;
 	line_t* ld;
@@ -465,11 +441,7 @@ P_BlockLinesIterator
 //
 // P_BlockThingsIterator
 //
-SDL_bool
-P_BlockThingsIterator
-(int x,
- int y,
- SDL_bool (*func)(mobj_t*)) {
+SDL_bool P_BlockThingsIterator(int x, int y, SDL_bool (*func)(mobj_t*)) {
 	mobj_t* mobj;
 
 	if(x < 0
@@ -620,10 +592,7 @@ SDL_bool PIT_AddThingIntercepts(mobj_t* thing) {
 // Returns true if the traverser function returns true
 // for all lines.
 // 
-SDL_bool
-P_TraverseIntercepts
-(traverser_t func,
- fixed_t maxfrac) {
+SDL_bool P_TraverseIntercepts(traverser_t func, fixed_t maxfrac) {
 	int count;
 	fixed_t dist;
 	intercept_t* scan;
@@ -674,14 +643,7 @@ P_TraverseIntercepts
 // Returns true if the traverser function returns true
 // for all lines.
 //
-SDL_bool
-P_PathTraverse
-(fixed_t x1,
- fixed_t y1,
- fixed_t x2,
- fixed_t y2,
- int flags,
- SDL_bool (*trav)(intercept_t*)) {
+SDL_bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flags, SDL_bool (*trav)(intercept_t*)) {
 	fixed_t xt1;
 	fixed_t yt1;
 	fixed_t xt2;

@@ -46,11 +46,7 @@ int sightcounts[2];
 // P_DivlineSide
 // Returns side 0 (front), 1 (back), or 2 (on).
 //
-int
-P_DivlineSide
-(fixed_t x,
- fixed_t y,
- divline_t* node) {
+int P_DivlineSide(fixed_t x, fixed_t y, divline_t* node) {
 	fixed_t dx;
 	fixed_t dy;
 	fixed_t left;
@@ -97,10 +93,7 @@ P_DivlineSide
 // along the first divline.
 // This is only called by the addthings and addlines traversers.
 //
-fixed_t
-P_InterceptVector2
-(divline_t* v2,
- divline_t* v1) {
+fixed_t P_InterceptVector2(divline_t* v2, divline_t* v1) {
 	fixed_t frac;
 	fixed_t num;
 	fixed_t den;
@@ -279,10 +272,7 @@ SDL_bool P_CrossBSPNode(int bspnum) {
 //  if a straight line between t1 and t2 is unobstructed.
 // Uses REJECT.
 //
-SDL_bool
-P_CheckSight
-(mobj_t* t1,
- mobj_t* t2) {
+SDL_bool P_CheckSight(mobj_t* t1, mobj_t* t2) {
 	int s1;
 	int s2;
 	int pnum;

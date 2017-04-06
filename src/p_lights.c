@@ -154,11 +154,7 @@ void T_StrobeFlash(think_t* th) {
 // After the map has been loaded, scan each sector
 // for specials that spawn thinkers
 //
-void
-P_SpawnStrobeFlash
-(sector_t* sector,
- int fastOrSlow,
- int inSync) {
+void P_SpawnStrobeFlash(sector_t* sector, int fastOrSlow, int inSync) {
 	strobe_t* flash;
 
 	flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
@@ -236,10 +232,7 @@ void EV_TurnTagLightsOff(line_t* line) {
 //
 // TURN LINE'S TAG LIGHTS ON
 //
-void
-EV_LightTurnOn
-(line_t* line,
- int bright) {
+void EV_LightTurnOn(line_t* line, int bright) {
 	int i;
 	int j;
 	sector_t* sector;

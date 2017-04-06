@@ -71,7 +71,7 @@
 
 // GLOBAL LOCATIONS
 #define WI_TITLEY		2
-#define WI_SPACINGY    		33
+#define WI_SPACINGY		33
 
 // SINGPLE-PLAYER STUFF
 #define SP_STATSX		50
@@ -85,7 +85,7 @@
 #define NG_STATSY		50
 #define NG_STATSX		(32 + SDL_SwapLE16(star->width)/2 + 32*!dofrags)
 
-#define NG_SPACINGX    		64
+#define NG_SPACINGX		64
 
 
 // DEATHMATCH STUFF
@@ -98,7 +98,7 @@
 
 #define DM_KILLERSX		10
 #define DM_KILLERSY		100
-#define DM_VICTIMSX    		5
+#define DM_VICTIMSX		5
 #define DM_VICTIMSY		50
 
 
@@ -162,8 +162,7 @@ typedef struct {
 } anim_t;
 
 
-static point_t lnodes[NUMEPISODES][NUMMAPS] =
-{
+static point_t lnodes[NUMEPISODES][NUMMAPS] = {
 	// Episode 0 World Map
 	{
 		{185, 164}, // location of level 0 (CJ)
@@ -202,7 +201,6 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] =
 		{140, 25}, // location of level 7 (CJ)
 		{281, 136} // location of level 8 (CJ)
 	}
-
 };
 
 
@@ -211,8 +209,7 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] =
 // Using patches saves a lot of space,
 //  as they replace 320x200 full screen frames.
 //
-static anim_t epsd0animinfo[] =
-{
+static anim_t epsd0animinfo[] = {
 	{ANIM_ALWAYS, TICRATE / 3, 3, {224, 104}},
 	{ANIM_ALWAYS, TICRATE / 3, 3, {184, 160}},
 	{ANIM_ALWAYS, TICRATE / 3, 3, {112, 136}},
@@ -225,8 +222,7 @@ static anim_t epsd0animinfo[] =
 	{ANIM_ALWAYS, TICRATE / 3, 3, {64, 24}}
 };
 
-static anim_t epsd1animinfo[] =
-{
+static anim_t epsd1animinfo[] = {
 	{ANIM_LEVEL, TICRATE / 3, 1, {128, 136}, 1},
 	{ANIM_LEVEL, TICRATE / 3, 1, {128, 136}, 2},
 	{ANIM_LEVEL, TICRATE / 3, 1, {128, 136}, 3},
@@ -238,8 +234,7 @@ static anim_t epsd1animinfo[] =
 	{ANIM_LEVEL, TICRATE / 3, 1, {128, 136}, 8}
 };
 
-static anim_t epsd2animinfo[] =
-{
+static anim_t epsd2animinfo[] = {
 	{ANIM_ALWAYS, TICRATE / 3, 3, {104, 168}},
 	{ANIM_ALWAYS, TICRATE / 3, 3, {40, 136}},
 	{ANIM_ALWAYS, TICRATE / 3, 3, {160, 96}},
@@ -248,15 +243,13 @@ static anim_t epsd2animinfo[] =
 	{ANIM_ALWAYS, TICRATE / 4, 3, {40, 0}}
 };
 
-static int NUMANIMS[NUMEPISODES] =
-{
+static int NUMANIMS[NUMEPISODES] = {
 	sizeof(epsd0animinfo) / sizeof(anim_t),
 	sizeof(epsd1animinfo) / sizeof(anim_t),
 	sizeof(epsd2animinfo) / sizeof(anim_t)
 };
 
-static anim_t* anims[NUMEPISODES] =
-{
+static anim_t* anims[NUMEPISODES] = {
 	epsd0animinfo,
 	epsd1animinfo,
 	epsd2animinfo
@@ -432,14 +425,9 @@ void WI_drawEL(void) {
 
 	V_DrawPatch((SCREENWIDTH - SDL_SwapLE16(lnames[wbs->next]->width)) / 2,
 	            y, FB, lnames[wbs->next]);
-
 }
 
-void
-WI_drawOnLnode
-(int n,
- patch_t* c[]) {
-
+void WI_drawOnLnode(int n, patch_t* c[]) {
 	int i;
 	int left;
 	int top;
@@ -570,13 +558,7 @@ void WI_drawAnimatedBack(void) {
 // Returns new x position.
 //
 
-int
-WI_drawNum
-(int x,
- int y,
- int n,
- int digits) {
-
+int WI_drawNum(int x, int y, int n, int digits) {
 	int fontwidth = SDL_SwapLE16(num[0]->width);
 	int neg;
 	int temp;
@@ -617,14 +599,9 @@ WI_drawNum
 		V_DrawPatch(x -= 8, y, FB, wiminus);
 
 	return x;
-
 }
 
-void
-WI_drawPercent
-(int x,
- int y,
- int p) {
+void WI_drawPercent(int x, int y, int p) {
 	if(p < 0)
 		return;
 
@@ -637,12 +614,7 @@ WI_drawPercent
 // Display level completion time and par,
 //  or "sucks" message if overflow.
 //
-void
-WI_drawTime
-(int x,
- int y,
- int t) {
-
+void WI_drawTime(int x, int y, int t) {
 	int div;
 	int n;
 
@@ -681,14 +653,12 @@ void WI_initNoState(void) {
 }
 
 void WI_updateNoState(void) {
-
 	WI_updateAnimatedBack();
 
 	if(!--cnt) {
 		WI_End();
 		G_WorldDone();
 	}
-
 }
 
 static SDL_bool snl_pointeron = SDL_FALSE;
@@ -712,7 +682,6 @@ void WI_updateShowNextLoc(void) {
 }
 
 void WI_drawShowNextLoc(void) {
-
 	int i;
 	int last;
 
@@ -746,7 +715,6 @@ void WI_drawShowNextLoc(void) {
 	if((gamemode != commercial)
 	   || wbs->next != 30)
 		WI_drawEL();
-
 }
 
 void WI_drawNoState(void) {
@@ -781,7 +749,6 @@ static int dm_totals[MAXPLAYERS];
 
 
 void WI_initDeathmatchStats(void) {
-
 	int i;
 	int j;
 
@@ -806,7 +773,6 @@ void WI_initDeathmatchStats(void) {
 
 
 void WI_updateDeathmatchStats(void) {
-
 	int i;
 	int j;
 
@@ -975,7 +941,6 @@ static int dofrags;
 static int ng_state;
 
 void WI_initNetgameStats(void) {
-
 	int i;
 
 	state = StatCount;
@@ -1000,7 +965,6 @@ void WI_initNetgameStats(void) {
 
 
 void WI_updateNetgameStats(void) {
-
 	int i;
 	int fsum;
 
@@ -1182,7 +1146,6 @@ void WI_drawNetgameStats(void) {
 
 		y += WI_SPACINGY;
 	}
-
 }
 
 static int sp_state;
@@ -1199,7 +1162,6 @@ void WI_initStats(void) {
 }
 
 void WI_updateStats(void) {
-
 	WI_updateAnimatedBack();
 
 	if(acceleratestage && sp_state != 10) {
@@ -1280,7 +1242,6 @@ void WI_updateStats(void) {
 			cnt_pause = TICRATE;
 		}
 	}
-
 }
 
 void WI_drawStats(void) {
@@ -1312,7 +1273,6 @@ void WI_drawStats(void) {
 		V_DrawPatch(SCREENWIDTH / 2 + SP_TIMEX, SP_TIMEY, FB, par);
 		WI_drawTime(SCREENWIDTH - SP_TIMEX, SP_TIMEY, cnt_par);
 	}
-
 }
 
 void WI_checkForAccelerate(void) {
@@ -1369,7 +1329,6 @@ void WI_Ticker(void) {
 			WI_updateNoState();
 			break;
 	}
-
 }
 
 void WI_loadData(void) {
@@ -1523,7 +1482,6 @@ void WI_loadData(void) {
 		sprintf(name, "WIBP%d", i + 1);
 		bp[i] = W_CacheLumpName(name, PU_STATIC);
 	}
-
 }
 
 void WI_unloadData(void) {
@@ -1607,7 +1565,6 @@ void WI_Drawer(void) {
 
 
 void WI_initVariables(wbstartstruct_t* wbstartstruct) {
-
 	wbs = wbstartstruct;
 
 #ifdef RANGECHECKING
@@ -1648,7 +1605,6 @@ void WI_initVariables(wbstartstruct_t* wbstartstruct) {
 }
 
 void WI_Start(wbstartstruct_t* wbstartstruct) {
-
 	WI_initVariables(wbstartstruct);
 	WI_loadData();
 

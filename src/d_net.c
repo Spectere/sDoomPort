@@ -128,10 +128,7 @@ int ExpandTics(int low) {
 //
 // HSendPacket
 //
-void
-HSendPacket
-(int node,
- int flags) {
+void HSendPacket(int node, int flags) {
 	netbuffer->checksum = NetbufferChecksum() | flags;
 
 	if(!node) {

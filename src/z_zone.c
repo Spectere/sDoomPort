@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This source is available for distribution and/or modification
 // only under the terms of the DOOM Source Code License as
@@ -160,10 +161,7 @@ void Z_Free(void* ptr) {
 #define MINFRAGMENT		64
 
 
-void* Z_Malloc
-(int size,
- int tag,
- void* user) {
+void* Z_Malloc(int size, int tag, void* user) {
 	int extra;
 	memblock_t* start;
 	memblock_t* rover;
@@ -259,10 +257,7 @@ void* Z_Malloc
 //
 // Z_FreeTags
 //
-void
-Z_FreeTags
-(int lowtag,
- int hightag) {
+void Z_FreeTags(int lowtag, int hightag) {
 	memblock_t* block;
 	memblock_t* next;
 
@@ -286,10 +281,7 @@ Z_FreeTags
 // Z_DumpHeap
 // Note: TFileDumpHeap( stdout ) ?
 //
-void
-Z_DumpHeap
-(int lowtag,
- int hightag) {
+void Z_DumpHeap(int lowtag, int hightag) {
 	memblock_t* block;
 
 	printf("zone size: %i  location: %p\n",
@@ -376,10 +368,7 @@ void Z_CheckHeap(void) {
 //
 // Z_ChangeTag
 //
-void
-Z_ChangeTag2
-(void* ptr,
- int tag) {
+void Z_ChangeTag2(void* ptr, int tag) {
 	memblock_t* block;
 
 	block = (memblock_t *) ((Uint8 *)ptr - sizeof(memblock_t));

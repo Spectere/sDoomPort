@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This source is available for distribution and/or modification
 // only under the terms of the DOOM Source Code License as
@@ -52,58 +53,16 @@ extern int usegamma;
 void V_Init(void);
 
 
-void
-V_CopyRect
-(int srcx,
- int srcy,
- int srcscrn,
- int width,
- int height,
- int destx,
- int desty,
- int destscrn);
-
-void
-V_DrawPatch
-(int x,
- int y,
- int scrn,
- patch_t* patch);
-
-void
-V_DrawPatchDirect
-(int x,
- int y,
- int scrn,
- patch_t* patch);
+void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty, int destscrn);
+void V_DrawPatch(int x, int y, int scrn, patch_t* patch);
+void V_DrawPatchDirect(int x, int y, int scrn, patch_t* patch);
 
 
 // Draw a linear block of pixels into the view buffer.
-void
-V_DrawBlock
-(int x,
- int y,
- int scrn,
- int width,
- int height,
- Uint8* src);
+void V_DrawBlock(int x, int y, int scrn, int width, int height, Uint8* src);
 
 // Reads a linear block of pixels into the view buffer.
-void
-V_GetBlock
-(int x,
- int y,
- int scrn,
- int width,
- int height,
- Uint8* dest);
-
-
-void
-V_MarkRect
-(int x,
- int y,
- int width,
- int height);
+void V_GetBlock(int x, int y, int scrn, int width, int height, Uint8* dest);
+void V_MarkRect(int x, int y, int width, int height);
 
 #endif

@@ -36,8 +36,7 @@
 //
 // CHANGE THE TEXTURE OF A WALL SWITCH TO ITS OPPOSITE
 //
-switchlist_t alphSwitchList[] =
-{
+switchlist_t alphSwitchList[] = {
 	// Doom shareware episode 1 switches
 	{"SW1BRCOM", "SW2BRCOM", 1},
 	{"SW1BRN1", "SW2BRN1", 1},
@@ -137,12 +136,7 @@ void P_InitSwitchList(void) {
 //
 // Start a button counting down till it turns off.
 //
-void
-P_StartButton
-(line_t* line,
- bwhere_e w,
- int texture,
- int time) {
+void P_StartButton(line_t* line, bwhere_e w, int texture, int time) {
 	int i;
 
 	// See if button is already pressed
@@ -174,10 +168,7 @@ P_StartButton
 // Function that changes wall texture.
 // Tell it if switch is ok to use again (1=yes, it's a button).
 //
-void
-P_ChangeSwitchTexture
-(line_t* line,
- int useAgain) {
+void P_ChangeSwitchTexture(line_t* line, int useAgain) {
 	int texTop;
 	int texMid;
 	int texBot;
@@ -236,11 +227,7 @@ P_ChangeSwitchTexture
 // Called when a thing uses a special line.
 // Only the front sides of lines are usable.
 //
-SDL_bool
-P_UseSpecialLine
-(mobj_t* thing,
- line_t* line,
- int side) {
+SDL_bool P_UseSpecialLine(mobj_t* thing, line_t* line, int side) {
 
 	// Err...
 	// Use the back sides of VERY SPECIAL lines...

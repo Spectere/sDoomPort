@@ -573,11 +573,7 @@ void F_CastDrawer(void) {
 //
 // F_DrawPatchCol
 //
-void
-F_DrawPatchCol
-(int x,
- patch_t* patch,
- int col) {
+void F_DrawPatchCol(int x, patch_t* patch, int col) {
 	column_t* column;
 	Uint8* source;
 	Uint8* dest;

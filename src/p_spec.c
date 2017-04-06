@@ -90,8 +90,7 @@ extern anim_t* lastanim;
 //  and end entry, in the order found in
 //  the WAD file.
 //
-animdef_t animdefs[] =
-{
+animdef_t animdefs[] = {
 	{SDL_FALSE, "NUKAGE3", "NUKAGE1", 8},
 	{SDL_FALSE, "FWATER4", "FWATER1", 8},
 	{SDL_FALSE, "SWATER4", "SWATER1", 8},
@@ -184,10 +183,7 @@ void P_InitPicAnims(void) {
 //  given the number of the current sector,
 //  the line number, and the side (0/1) that you want.
 //
-side_t* getSide
-(int currentSector,
- int line,
- int side) {
+side_t* getSide(int currentSector, int line, int side) {
 	return &sides[(sectors[currentSector].lines[line])->sidenum[side]];
 }
 
@@ -198,10 +194,7 @@ side_t* getSide
 //  given the number of the current sector,
 //  the line number and the side (0/1) that you want.
 //
-sector_t* getSector
-(int currentSector,
- int line,
- int side) {
+sector_t* getSector(int currentSector, int line, int side) {
 	return sides[(sectors[currentSector].lines[line])->sidenum[side]].sector;
 }
 
@@ -211,10 +204,7 @@ sector_t* getSector
 // Given the sector number and the line number,
 //  it will tell you whether the line is two-sided or not.
 //
-int
-twoSided
-(int sector,
- int line) {
+int twoSided(int sector, int line) {
 	return (sectors[sector].lines[line])->flags & ML_TWOSIDED;
 }
 
@@ -224,9 +214,7 @@ twoSided
 // Return sector_t * of sector next to current.
 // NULL if not two-sided line
 //
-sector_t* getNextSector
-(line_t* line,
- sector_t* sec) {
+sector_t* getNextSector(line_t* line, sector_t* sec) {
 	if(!(line->flags & ML_TWOSIDED))
 		return NULL;
 
@@ -293,10 +281,7 @@ fixed_t P_FindHighestFloorSurrounding(sector_t* sec) {
 // 20 adjoining sectors max!
 #define MAX_ADJOINING_SECTORS    	20
 
-fixed_t
-P_FindNextHighestFloor
-(sector_t* sec,
- int currentheight) {
+fixed_t P_FindNextHighestFloor(sector_t* sec, int currentheight) {
 	int i;
 	int h;
 	int min;
@@ -389,10 +374,7 @@ fixed_t P_FindHighestCeilingSurrounding(sector_t* sec) {
 //
 // RETURN NEXT SECTOR # THAT LINE TAG REFERS TO
 //
-int
-P_FindSectorFromLineTag
-(line_t* line,
- int start) {
+int P_FindSectorFromLineTag(line_t* line, int start) {
 	int i;
 
 	for(i = start + 1; i < numsectors; i++)
@@ -406,10 +388,7 @@ P_FindSectorFromLineTag
 //
 // Find minimum light from an adjacent sector
 //
-int
-P_FindMinSurroundingLight
-(sector_t* sector,
- int max) {
+int P_FindMinSurroundingLight(sector_t* sector, int max) {
 	int i;
 	int min;
 	line_t* line;
@@ -441,11 +420,7 @@ P_FindMinSurroundingLight
 // Called every time a thing origin is about
 //  to cross a line with a non 0 special.
 //
-void
-P_CrossSpecialLine
-(int linenum,
- int side,
- mobj_t* thing) {
+void P_CrossSpecialLine(int linenum, int side, mobj_t* thing) {
 	line_t* line;
 	int ok;
 
@@ -900,10 +875,7 @@ P_CrossSpecialLine
 // P_ShootSpecialLine - IMPACT SPECIALS
 // Called when a thing shoots a special line.
 //
-void
-P_ShootSpecialLine
-(mobj_t* thing,
- line_t* line) {
+void P_ShootSpecialLine(mobj_t* thing, line_t* line) {
 	int ok;
 
 	//	Impacts that other things can activate.

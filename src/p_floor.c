@@ -40,14 +40,7 @@
 //
 // Move a plane (floor or ceiling) and check for crushing
 //
-result_e
-T_MovePlane
-(sector_t* sector,
- fixed_t speed,
- fixed_t dest,
- SDL_bool crush,
- int floorOrCeiling,
- int direction) {
+result_e T_MovePlane(sector_t* sector, fixed_t speed, fixed_t dest, SDL_bool crush, int floorOrCeiling, int direction) {
 	SDL_bool flag;
 	fixed_t lastpos;
 
@@ -211,10 +204,7 @@ void T_MoveFloor(think_t* th) {
 //
 // HANDLE FLOOR TYPES
 //
-int
-EV_DoFloor
-(line_t* line,
- floor_e floortype) {
+int EV_DoFloor(line_t* line, floor_e floortype) {
 	int secnum;
 	int rtn;
 	int i;
@@ -389,10 +379,7 @@ EV_DoFloor
 //
 // BUILD A STAIRCASE!
 //
-int
-EV_BuildStairs
-(line_t* line,
- stair_e type) {
+int EV_BuildStairs(line_t* line, stair_e type) {
 	int secnum;
 	int height;
 	int i;

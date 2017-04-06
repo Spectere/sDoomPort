@@ -108,11 +108,7 @@ extern int iquetail;
 
 void P_RespawnSpecials(void);
 
-mobj_t* P_SpawnMobj
-(fixed_t x,
- fixed_t y,
- fixed_t z,
- mobjtype_t type);
+mobj_t* P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
 
 void P_RemoveMobj(mobj_t* th);
 SDL_bool P_SetMobjState(mobj_t* mobj, statenum_t state);
@@ -218,25 +214,9 @@ SDL_bool P_ChangeSector(sector_t* sector, SDL_bool crunch);
 
 extern mobj_t* linetarget; // who got hit (or NULL)
 
-fixed_t
-P_AimLineAttack
-(mobj_t* t1,
- angle_t angle,
- fixed_t distance);
-
-void
-P_LineAttack
-(mobj_t* t1,
- angle_t angle,
- fixed_t distance,
- fixed_t slope,
- int damage);
-
-void
-P_RadiusAttack
-(mobj_t* spot,
- mobj_t* source,
- int damage);
+fixed_t P_AimLineAttack(mobj_t* t1, angle_t angle, fixed_t distance);
+void P_LineAttack(mobj_t* t1, angle_t angle, fixed_t distance, fixed_t slope, int damage);
+void P_RadiusAttack(mobj_t* spot, mobj_t* source, int damage);
 
 
 //
@@ -258,17 +238,8 @@ extern mobj_t** blocklinks; // for thing chains
 extern int maxammo[NUMAMMO];
 extern int clipammo[NUMAMMO];
 
-void
-P_TouchSpecialThing
-(mobj_t* special,
- mobj_t* toucher);
-
-void
-P_DamageMobj
-(mobj_t* target,
- mobj_t* inflictor,
- mobj_t* source,
- int damage);
+void P_TouchSpecialThing(mobj_t* special, mobj_t* toucher);
+void P_DamageMobj(mobj_t* target, mobj_t* inflictor, mobj_t* source, int damage);
 
 
 //

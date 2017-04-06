@@ -165,12 +165,7 @@ lighttable_t* colormaps;
 // Clip and draw a column
 //  from a patch into a cached post.
 //
-void
-R_DrawColumnInCache
-(column_t* patch,
- Uint8* cache,
- int originy,
- int cacheheight) {
+void R_DrawColumnInCache(column_t* patch, Uint8* cache, int originy, int cacheheight) {
 	int count;
 	int position;
 	Uint8* source;
@@ -336,9 +331,7 @@ void R_GenerateLookup(int texnum) {
 //
 // R_GetColumn
 //
-Uint8* R_GetColumn
-(int tex,
- int col) {
+Uint8* R_GetColumn(int tex, int col) {
 	int lump;
 	int ofs;
 

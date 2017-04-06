@@ -33,11 +33,7 @@
 //
 // TELEPORTATION
 //
-int
-EV_Teleport
-(line_t* line,
- int side,
- mobj_t* thing) {
+int EV_Teleport(line_t* line, int side, mobj_t* thing) {
 	int i;
 	int tag;
 	mobj_t* m;

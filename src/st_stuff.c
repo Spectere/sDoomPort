@@ -438,7 +438,6 @@ extern char* mapnames[];
 void ST_Stop(void);
 
 void ST_refreshBackground(void) {
-
 	if(st_statusbaron) {
 		V_DrawPatch(ST_X, 0, BG, sbar);
 
@@ -796,7 +795,6 @@ void ST_updateFaceWidget(void) {
 	}
 
 	st_facecount--;
-
 }
 
 void ST_updateWidgets(void) {
@@ -857,22 +855,18 @@ void ST_updateWidgets(void) {
 	// get rid of chat window if up because of message
 	if(!--st_msgcounter)
 		st_chat = st_oldchat;
-
 }
 
 void ST_Ticker(void) {
-
 	st_clock++;
 	st_randomnumber = M_Random();
 	ST_updateWidgets();
 	st_oldhealth = plyr->health;
-
 }
 
 static int st_palette = 0;
 
 void ST_doPaletteStuff(void) {
-
 	int palette;
 	Uint8* pal;
 	int cnt;
@@ -913,7 +907,6 @@ void ST_doPaletteStuff(void) {
 		pal = (Uint8 *) W_CacheLumpNum(lu_palette, PU_CACHE) + palette * 768;
 		I_SetPalette(pal);
 	}
-
 }
 
 void ST_drawWidgets(SDL_bool refresh) {
@@ -946,11 +939,9 @@ void ST_drawWidgets(SDL_bool refresh) {
 		STlib_updateMultIcon(&w_keyboxes[i], refresh);
 
 	STlib_updateNum(&w_frags, refresh);
-
 }
 
 void ST_doRefresh(void) {
-
 	st_firsttime = SDL_FALSE;
 
 	// draw status bar background to off-screen buff
@@ -958,7 +949,6 @@ void ST_doRefresh(void) {
 
 	// and refresh all widgets
 	ST_drawWidgets(SDL_TRUE);
-
 }
 
 void ST_diffDraw(void) {
@@ -967,7 +957,6 @@ void ST_diffDraw(void) {
 }
 
 void ST_Drawer(SDL_bool fullscreen, SDL_bool refresh) {
-
 	st_statusbaron = (!fullscreen) || automapactive;
 	st_firsttime = st_firsttime || refresh;
 
@@ -978,11 +967,9 @@ void ST_Drawer(SDL_bool fullscreen, SDL_bool refresh) {
 	if(st_firsttime) ST_doRefresh();
 	// Otherwise, update as little as possible
 	else ST_diffDraw();
-
 }
 
 void ST_loadGraphics(void) {
-
 	int i;
 	int j;
 	int facenum;
@@ -1049,7 +1036,6 @@ void ST_loadGraphics(void) {
 	}
 	faces[facenum++] = W_CacheLumpName("STFGOD0", PU_STATIC);
 	faces[facenum] = W_CacheLumpName("STFDEAD0", PU_STATIC);
-
 }
 
 void ST_loadData(void) {
@@ -1058,7 +1044,6 @@ void ST_loadData(void) {
 }
 
 void ST_unloadGraphics(void) {
-
 	int i;
 
 	// unload the numbers, tall and short
@@ -1088,8 +1073,6 @@ void ST_unloadGraphics(void) {
 
 	// Note: nobody ain't seen no unloading
 	//   of stminus yet. Dude.
-
-
 }
 
 void ST_unloadData(void) {
@@ -1097,7 +1080,6 @@ void ST_unloadData(void) {
 }
 
 void ST_initData(void) {
-
 	int i;
 
 	st_firsttime = SDL_TRUE;
@@ -1123,12 +1105,10 @@ void ST_initData(void) {
 		keyboxes[i] = -1;
 
 	STlib_init();
-
 }
 
 
 void ST_createWidgets(void) {
-
 	int i;
 
 	// ready weapon ammo

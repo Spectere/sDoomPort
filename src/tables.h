@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This source is available for distribution and/or modification
 // only under the terms of the DOOM Source Code License as
@@ -82,9 +83,6 @@ extern angle_t tantoangle[SLOPERANGE + 1];
 
 // Utility function,
 //  called by R_PointToAngle.
-Sint32
-SlopeDiv
-(Uint32 num,
- Uint32 den);
+Sint32 SlopeDiv(Uint32 num, Uint32 den);
 
 #endif

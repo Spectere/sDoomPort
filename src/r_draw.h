@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -79,10 +80,7 @@ void R_DrawSpan(void);
 void R_DrawSpanLow(void);
 
 
-void
-R_InitBuffer
-(int width,
- int height);
+void R_InitBuffer(int width, int height);
 
 
 // Initialize color translation tables,

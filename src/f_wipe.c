@@ -41,11 +41,7 @@ static Uint8* wipe_scr_end;
 static Uint8* wipe_scr;
 
 
-void
-wipe_shittyColMajorXform
-(short* array,
- int width,
- int height) {
+void wipe_shittyColMajorXform(short* array, int width, int height) {
 	int x;
 	int y;
 	short* dest;
@@ -62,20 +58,12 @@ wipe_shittyColMajorXform
 
 }
 
-int
-wipe_initColorXForm
-(int width,
- int height,
- int ticks) {
+int wipe_initColorXForm(int width, int height, int ticks) {
 	memcpy(wipe_scr, wipe_scr_start, width * height);
 	return 0;
 }
 
-int
-wipe_doColorXForm
-(int width,
- int height,
- int ticks) {
+int wipe_doColorXForm(int width, int height, int ticks) {
 	SDL_bool changed;
 	Uint8* w;
 	Uint8* e;
@@ -111,22 +99,14 @@ wipe_doColorXForm
 
 }
 
-int
-wipe_exitColorXForm
-(int width,
- int height,
- int ticks) {
+int wipe_exitColorXForm(int width, int height, int ticks) {
 	return 0;
 }
 
 
 static int* y;
 
-int
-wipe_initMelt
-(int width,
- int height,
- int ticks) {
+int wipe_initMelt(int width, int height, int ticks) {
 	int i, r;
 
 	// copy start screen to main screen
@@ -151,11 +131,7 @@ wipe_initMelt
 	return 0;
 }
 
-int
-wipe_doMelt
-(int width,
- int height,
- int ticks) {
+int wipe_doMelt(int width, int height, int ticks) {
 	int i;
 	int j;
 	int dy;
@@ -199,46 +175,25 @@ wipe_doMelt
 
 }
 
-int
-wipe_exitMelt
-(int width,
- int height,
- int ticks) {
+int wipe_exitMelt(int width, int height, int ticks) {
 	Z_Free(y);
 	return 0;
 }
 
-int
-wipe_StartScreen
-(int x,
- int y,
- int width,
- int height) {
+int wipe_StartScreen(int x, int y, int width, int height) {
 	wipe_scr_start = screens[2];
 	I_ReadScreen(wipe_scr_start);
 	return 0;
 }
 
-int
-wipe_EndScreen
-(int x,
- int y,
- int width,
- int height) {
+int wipe_EndScreen(int x, int y, int width, int height) {
 	wipe_scr_end = screens[3];
 	I_ReadScreen(wipe_scr_end);
 	V_DrawBlock(x, y, 0, width, height, wipe_scr_start); // restore start scr.
 	return 0;
 }
 
-int
-wipe_ScreenWipe
-(int wipeno,
- int x,
- int y,
- int width,
- int height,
- int ticks) {
+int wipe_ScreenWipe(int wipeno, int x, int y, int width, int height, int ticks) {
 	int rc;
 	static int (*wipes[])(int, int, int) =
 	{

@@ -41,13 +41,7 @@ void HUlib_clearTextLine(hu_textline_t* t) {
 	t->needsupdate = SDL_TRUE;
 }
 
-void
-HUlib_initTextLine
-(hu_textline_t* t,
- int x,
- int y,
- patch_t** f,
- int sc) {
+void HUlib_initTextLine(hu_textline_t* t, int x, int y, patch_t** f, int sc) {
 	t->x = x;
 	t->y = y;
 	t->f = f;
@@ -55,10 +49,7 @@ HUlib_initTextLine
 	HUlib_clearTextLine(t);
 }
 
-SDL_bool
-HUlib_addCharToTextLine
-(hu_textline_t* t,
- char ch) {
+SDL_bool HUlib_addCharToTextLine(hu_textline_t* t, char ch) {
 
 	if(t->len == HU_MAXLINELENGTH)
 		return SDL_FALSE;
@@ -82,10 +73,7 @@ SDL_bool HUlib_delCharFromTextLine(hu_textline_t* t) {
 
 }
 
-void
-HUlib_drawTextLine
-(hu_textline_t* l,
- SDL_bool drawcursor) {
+void HUlib_drawTextLine(hu_textline_t* l, SDL_bool drawcursor) {
 
 	int i;
 	int w;
@@ -146,15 +134,7 @@ void HUlib_eraseTextLine(hu_textline_t* l) {
 	if(l->needsupdate) l->needsupdate--;
 }
 
-void
-HUlib_initSText
-(hu_stext_t* s,
- int x,
- int y,
- int h,
- patch_t** font,
- int startchar,
- SDL_bool* on) {
+void HUlib_initSText(hu_stext_t* s, int x, int y, int h, patch_t** font, int startchar, SDL_bool* on) {
 
 	int i;
 
@@ -184,11 +164,7 @@ void HUlib_addLineToSText(hu_stext_t* s) {
 
 }
 
-void
-HUlib_addMessageToSText
-(hu_stext_t* s,
- char* prefix,
- char* msg) {
+void HUlib_addMessageToSText(hu_stext_t* s, char* prefix, char* msg) {
 	HUlib_addLineToSText(s);
 	if(prefix)
 		while(*prefix)
@@ -232,14 +208,7 @@ void HUlib_eraseSText(hu_stext_t* s) {
 
 }
 
-void
-HUlib_initIText
-(hu_itext_t* it,
- int x,
- int y,
- patch_t** font,
- int startchar,
- SDL_bool* on) {
+void HUlib_initIText(hu_itext_t* it, int x, int y, patch_t** font, int startchar, SDL_bool* on) {
 	it->lm = 0; // default left margin is start of text
 	it->on = on;
 	it->laston = SDL_TRUE;
@@ -264,10 +233,7 @@ void HUlib_resetIText(hu_itext_t* it) {
 	HUlib_clearTextLine(&it->l);
 }
 
-void
-HUlib_addPrefixToIText
-(hu_itext_t* it,
- char* str) {
+void HUlib_addPrefixToIText(hu_itext_t* it, char* str) {
 	while(*str)
 		HUlib_addCharToTextLine(&it->l, *(str++));
 	it->lm = it->l.len;
@@ -275,10 +241,7 @@ HUlib_addPrefixToIText
 
 // wrapper function for handling general keyed input.
 // returns true if it ate the key
-SDL_bool
-HUlib_keyInIText
-(hu_itext_t* it,
- unsigned char ch) {
+SDL_bool HUlib_keyInIText(hu_itext_t* it, unsigned char ch) {
 
 	if(ch >= ' ' && ch <= '_')
 		HUlib_addCharToTextLine(&it->l, (char) ch);

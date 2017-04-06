@@ -141,70 +141,22 @@ void STlib_init(void);
 
 
 // Number widget routines
-void
-STlib_initNum
-(st_number_t* n,
- int x,
- int y,
- patch_t** pl,
- int* num,
- SDL_bool* on,
- int width);
-
-void
-STlib_updateNum
-(st_number_t* n,
- SDL_bool refresh);
+void STlib_initNum(st_number_t* n, int x, int y, patch_t** pl, int* num, SDL_bool* on, int width);
+void STlib_updateNum(st_number_t* n, SDL_bool refresh);
 
 
 // Percent widget routines
-void
-STlib_initPercent
-(st_percent_t* p,
- int x,
- int y,
- patch_t** pl,
- int* num,
- SDL_bool* on,
- patch_t* percent);
-
-
-void
-STlib_updatePercent
-(st_percent_t* per,
- int refresh);
+void STlib_initPercent(st_percent_t* p, int x, int y, patch_t** pl, int* num, SDL_bool* on, patch_t* percent);
+void STlib_updatePercent(st_percent_t* per, int refresh);
 
 
 // Multiple Icon widget routines
-void
-STlib_initMultIcon
-(st_multicon_t* mi,
- int x,
- int y,
- patch_t** il,
- int* inum,
- SDL_bool* on);
+void STlib_initMultIcon(st_multicon_t* mi, int x, int y, patch_t** il, int* inum, SDL_bool* on);
+void STlib_updateMultIcon(st_multicon_t* mi, SDL_bool refresh);
 
-
-void
-STlib_updateMultIcon
-(st_multicon_t* mi,
- SDL_bool refresh);
 
 // Binary Icon widget routines
-
-void
-STlib_initBinIcon
-(st_binicon_t* b,
- int x,
- int y,
- patch_t* i,
- SDL_bool* val,
- SDL_bool* on);
-
-void
-STlib_updateBinIcon
-(st_binicon_t* bi,
- SDL_bool refresh);
+void STlib_initBinIcon(st_binicon_t* b, int x, int y, patch_t* i, SDL_bool* val, SDL_bool* on);
+void STlib_updateBinIcon(st_binicon_t* bi, SDL_bool refresh);
 
 #endif

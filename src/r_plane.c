@@ -107,11 +107,7 @@ void R_InitPlanes(void) {
 //
 // BASIC PRIMITIVE
 //
-void
-R_MapPlane
-(int y,
- int x1,
- int x2) {
+void R_MapPlane(int y, int x1, int x2) {
 	angle_t angle;
 	fixed_t distance;
 	fixed_t length;
@@ -194,10 +190,7 @@ void R_ClearPlanes(void) {
 //
 // R_FindPlane
 //
-void* R_FindPlane
-(fixed_t height,
- int picnum,
- int lightlevel) {
+void* R_FindPlane(fixed_t height, int picnum, int lightlevel) {
 	visplane_t* check;
 
 	if(picnum == skyflatnum) {
@@ -232,10 +225,7 @@ void* R_FindPlane
 //
 // R_CheckPlane
 //
-void* R_CheckPlane
-(visplane_t* pl,
- int start,
- int stop) {
+void* R_CheckPlane(visplane_t* pl, int start, int stop) {
 	visplane_t* new_visplane;
 	int intrl;
 	int intrh;
@@ -292,13 +282,7 @@ void* R_CheckPlane
 //
 // R_MakeSpans
 //
-void
-R_MakeSpans
-(int x,
- int t1,
- int b1,
- int t2,
- int b2) {
+void R_MakeSpans(int x, int t1, int b1, int t2, int b2) {
 	while(t1 < t2 && t1 <= b1) {
 		R_MapPlane(t1, spanstart[t1], x - 1);
 		t1++;

@@ -781,10 +781,7 @@ void G_PlayerReborn(int player) {
 //
 void P_SpawnPlayer(mapthing_t* mthing);
 
-SDL_bool
-G_CheckSpot
-(int playernum,
- mapthing_t* mthing) {
+SDL_bool G_CheckSpot(int playernum, mapthing_t* mthing) {
 	fixed_t x;
 	fixed_t y;
 	subsector_t* ss;
@@ -1163,10 +1160,7 @@ void G_DoLoadGame(void) {
 // Called by the menu task.
 // Description is a 24 byte text string 
 //
-void
-G_SaveGame
-(int slot,
- char* description) {
+void G_SaveGame(int slot, char* description) {
 	savegameslot = slot;
 	strcpy(savedescription, description);
 	sendsave = SDL_TRUE;
@@ -1233,11 +1227,7 @@ skill_t d_skill;
 int d_episode;
 int d_map;
 
-void
-G_DeferedInitNew
-(skill_t skill,
- int episode,
- int map) {
+void G_DeferedInitNew(skill_t skill, int episode, int map) {
 	d_skill = skill;
 	d_episode = episode;
 	d_map = map;
@@ -1263,11 +1253,7 @@ void G_DoNewGame(void) {
 extern int skytexture;
 
 
-void
-G_InitNew
-(skill_t skill,
- int episode,
- int map) {
+void G_InitNew(skill_t skill, int episode, int map) {
 	int i;
 
 	if(paused) {

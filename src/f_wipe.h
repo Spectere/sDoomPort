@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -35,29 +36,8 @@ enum {
 	wipe_NUMWIPES
 };
 
-int
-wipe_StartScreen
-(int x,
- int y,
- int width,
- int height);
-
-
-int
-wipe_EndScreen
-(int x,
- int y,
- int width,
- int height);
-
-
-int
-wipe_ScreenWipe
-(int wipeno,
- int x,
- int y,
- int width,
- int height,
- int ticks);
+int wipe_StartScreen(int x, int y, int width, int height);
+int wipe_EndScreen(int x, int y, int width, int height);
+int wipe_ScreenWipe(int wipeno, int x, int y, int width, int height, int ticks);
 
 #endif
