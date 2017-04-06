@@ -386,7 +386,7 @@ void HU_Init(void) {
 	int j;
 	char buffer[9];
 
-	if(french)
+	if(language == french)
 		shiftxform = french_shiftxform;
 	else
 		shiftxform = english_shiftxform;
@@ -518,7 +518,7 @@ void HU_Ticker(void) {
 			if(!playeringame[i])
 				continue;
 			if(i != consoleplayer
-			   && (c = players[i].cmd.chatchar)) {
+			   && ((c = players[i].cmd.chatchar))) {
 				if(c <= HU_BROADCAST)
 					chat_dest[i] = c;
 				else {

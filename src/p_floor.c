@@ -152,19 +152,6 @@ T_MovePlane
 							//return crushed;
 						}
 						return pastdest;
-					} else {
-						lastpos = sector->ceilingheight;
-						sector->ceilingheight += speed;
-						flag = P_ChangeSector(sector, crush);
-						// UNUSED
-#if 0
-		if (flag == true)
-		{
-		    sector->ceilingheight = lastpos;
-		    P_ChangeSector(sector,crush);
-		    return crushed;
-		}
-#endif
 					}
 					break;
 			}
@@ -417,8 +404,8 @@ EV_BuildStairs
 
 	floormove_t* floor;
 
-	fixed_t stairsize;
-	fixed_t speed;
+	fixed_t stairsize = 0;
+	fixed_t speed = 0;
 
 	secnum = -1;
 	rtn = 0;

@@ -84,7 +84,7 @@ STlib_drawNum
 
 	int w = SDL_SwapLE16(n->p[0]->width);
 	int h = SDL_SwapLE16(n->p[0]->height);
-	int x = n->x;
+	int x;
 
 	int neg;
 

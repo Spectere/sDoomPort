@@ -33,7 +33,6 @@ int
 cht_CheckCheat
 (cheatseq_t* cht,
  char key) {
-	int i;
 	int rc = 0;
 
 	if(!cht->p)
@@ -65,6 +64,7 @@ cht_GetParam
 	unsigned char *p, c;
 
 	p = cht->sequence;
+	// ReSharper disable once CppPossiblyErroneousEmptyStatements
 	while(*(p++) != 1);
 
 	do {

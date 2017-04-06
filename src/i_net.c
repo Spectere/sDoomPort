@@ -37,10 +37,7 @@ void (*netsend)(void);
 // I_InitNetwork
 //
 void I_InitNetwork(void) {
-	SDL_bool trueval = SDL_TRUE;
 	int i;
-	int p;
-	struct hostent* hostentry; // host information entry
 
 	doomcom = malloc(sizeof (*doomcom));
 	memset(doomcom, 0, sizeof(*doomcom));

@@ -267,7 +267,7 @@ R_PointToAngle
 	x -= viewx;
 	y -= viewy;
 
-	if((!x) && (!y))
+	if(!x && !y)
 		return 0;
 
 	if(x >= 0) {
@@ -278,49 +278,48 @@ R_PointToAngle
 			if(x > y) {
 				// octant 0
 				return tantoangle[SlopeDiv(y, x)];
-			} else {
-				// octant 1
-				return ANG90 - 1 - tantoangle[SlopeDiv(x, y)];
 			}
-		} else {
-			// y<0
-			y = -y;
 
-			if(x > y) {
-				// octant 8
-				return -tantoangle[SlopeDiv(y, x)];
-			} else {
-				// octant 7
-				return ANG270 + tantoangle[SlopeDiv(x, y)];
-			}
+			// octant 1
+			return ANG90 - 1 - tantoangle[SlopeDiv(x, y)];
 		}
-	} else {
-		// x<0
-		x = -x;
 
-		if(y >= 0) {
-			// y>= 0
-			if(x > y) {
-				// octant 3
-				return ANG180 - 1 - tantoangle[SlopeDiv(y, x)];
-			} else {
-				// octant 2
-				return ANG90 + tantoangle[SlopeDiv(x, y)];
-			}
+		// y<0
+		y = -y;
+
+		if(x > y) {
+			// octant 8
+			return -tantoangle[SlopeDiv(y, x)];
 		} else {
-			// y<0
-			y = -y;
-
-			if(x > y) {
-				// octant 4
-				return ANG180 + tantoangle[SlopeDiv(y, x)];
-			} else {
-				// octant 5
-				return ANG270 - 1 - tantoangle[SlopeDiv(x, y)];
-			}
+			// octant 7
+			return ANG270 + tantoangle[SlopeDiv(x, y)];
 		}
 	}
-	return 0;
+
+	// x<0
+	x = -x;
+
+	if(y >= 0) {
+		// y>= 0
+		if(x > y) {
+			// octant 3
+			return ANG180 - 1 - tantoangle[SlopeDiv(y, x)];
+		}
+
+		// octant 2
+		return ANG90 + tantoangle[SlopeDiv(x, y)];
+	}
+
+	// y<0
+	y = -y;
+
+	if(x > y) {
+		// octant 4
+		return ANG180 + tantoangle[SlopeDiv(y, x)];
+	}
+
+	// octant 5
+	return ANG270 - 1 - tantoangle[SlopeDiv(x, y)];
 }
 
 
@@ -523,9 +522,6 @@ void R_InitTextureMapping(void) {
 
 	// Take out the fencepost cases from viewangletox.
 	for(i = 0; i < FINEANGLES / 2; i++) {
-		t = FixedMul(finetangent[i], focallength);
-		t = centerx - t;
-
 		if(viewangletox[i] == -1)
 			viewangletox[i] = 0;
 		else if(viewangletox[i] == viewwidth + 1)
@@ -613,6 +609,7 @@ void R_ExecuteSetViewSize(void) {
 		viewheight = (setblocks * 168 / 10) & ~7;
 	}
 
+	/* TODO: Fix low detail mode. */
 	detailshift = setdetail;
 	viewwidth = scaledviewwidth >> detailshift;
 

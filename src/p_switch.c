@@ -253,7 +253,6 @@ P_UseSpecialLine
 
 			default:
 				return SDL_FALSE;
-				break;
 		}
 	}
 
@@ -273,7 +272,6 @@ P_UseSpecialLine
 
 			default:
 				return SDL_FALSE;
-				break;
 		}
 	}
 

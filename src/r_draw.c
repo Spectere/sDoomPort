@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -715,10 +716,11 @@ void R_FillBackScreen(void) {
 			dest += 64;
 		}
 
-		if(SCREENWIDTH & 63) {
+		/* Might be necessary if we uncap the screen resolution. */
+		/*if(SCREENWIDTH & 63) {
 			memcpy(dest, src + ((y & 63) << 6), SCREENWIDTH & 63);
 			dest += (SCREENWIDTH & 63);
-		}
+		}*/
 	}
 
 	patch = W_CacheLumpName("brdr_t",PU_CACHE);
