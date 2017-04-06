@@ -546,7 +546,7 @@ void WI_updateAnimatedBack(void) {
 }
 
 void WI_drawAnimatedBack(void) {
-	int i;
+	/*int i;
 	anim_t* a;
 
 	if(commercial)
@@ -560,8 +560,7 @@ void WI_drawAnimatedBack(void) {
 
 		if(a->ctr >= 0)
 			V_DrawPatch(a->loc.x, a->loc.y, FB, a->p[a->ctr]);
-	}
-
+	}*/
 }
 
 //
@@ -893,16 +892,11 @@ void WI_updateDeathmatchStats(void) {
 
 
 void WI_drawDeathmatchStats(void) {
-
 	int i;
 	int j;
 	int x;
 	int y;
 	int w;
-
-	int lh; // line height
-
-	lh = WI_SPACINGY;
 
 	WI_slamBackground();
 
@@ -1481,7 +1475,7 @@ void WI_loadData(void) {
 	sp_secret = W_CacheLumpName("WISCRT2", PU_STATIC);
 
 	// Yuck. 
-	if(french) {
+	if(language == french) {
 		// "items"
 		if(netgame && !deathmatch)
 			items = W_CacheLumpName("WIOBJ", PU_STATIC);

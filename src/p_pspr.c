@@ -466,6 +466,7 @@ A_Saw
 	                        linetarget->x, linetarget->y);
 	if(angle - player->mo->angle > ANG180) {
 		if(angle - player->mo->angle < -ANG90 / 20)
+			// ReSharper disable once CppUnreachableCode
 			player->mo->angle = angle + ANG90 / 21;
 		else
 			player->mo->angle -= ANG90 / 20;
@@ -760,12 +761,11 @@ void P_SetupPsprites(player_t* player) {
 void P_MovePsprites(player_t* player) {
 	int i;
 	pspdef_t* psp;
-	state_t* state;
 
 	psp = &player->psprites[0];
 	for(i = 0; i < NUMPSPRITES; i++ , psp++) {
 		// a null state means not active
-		if((state = psp->state)) {
+		if(psp->state) {
 			// drop tic count and possibly change state
 
 			// a -1 tic count never changes

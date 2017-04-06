@@ -486,6 +486,7 @@ void D_AddFile(char* file) {
 	int numwadfiles;
 	char* newfile;
 
+	// ReSharper disable once CppPossiblyErroneousEmptyStatements
 	for(numwadfiles = 0; wadfiles[numwadfiles]; numwadfiles++);
 
 	newfile = malloc(strlen(file) + 1);
@@ -539,8 +540,7 @@ void IdentifyVersion(void) {
 	doom1wad = malloc(strlen(doomwaddir) + 1 + 9 + 1);
 	sprintf(doom1wad, "%s/doom1.wad", doomwaddir);
 
-	// Bug, dear Shawn.
-	// Insufficient malloc, caused spurious realloc errors.
+	// Final Doom.
 	plutoniawad = malloc(strlen(doomwaddir) + 1 + /*9*/12 + 1);
 	sprintf(plutoniawad, "%s/plutonia.wad", doomwaddir);
 
@@ -1128,6 +1128,7 @@ void D_DoomMain(void) {
 	p = M_CheckParm("-statcopy");
 	if(p && p < myargc - 1) {
 		// for statistics driver
+		// ReSharper disable once CppEntityAssignedButNoRead
 		extern void* statcopy;
 
 		statcopy = (void*)atoi(myargv[p + 1]);

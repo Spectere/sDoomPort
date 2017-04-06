@@ -1048,7 +1048,7 @@ void ST_loadGraphics(void) {
 		faces[facenum++] = W_CacheLumpName(namebuf, PU_STATIC);
 	}
 	faces[facenum++] = W_CacheLumpName("STFGOD0", PU_STATIC);
-	faces[facenum++] = W_CacheLumpName("STFDEAD0", PU_STATIC);
+	faces[facenum] = W_CacheLumpName("STFDEAD0", PU_STATIC);
 
 }
 

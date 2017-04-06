@@ -128,7 +128,6 @@ M_ReadFile
  Uint8** buffer) {
 	SDL_RWops* handle;
 	int count, length;
-	struct stat fileinfo;
 	Uint8* buf;
 
 	handle = SDL_RWFromFile(name, "rb");
@@ -347,17 +346,18 @@ void M_LoadDefaults(void) {
 					newstring = (char *) malloc(len);
 					strparm[len - 1] = 0;
 					strcpy(newstring, strparm + 1);
-				} else if(strparm[0] == '0' && strparm[1] == 'x')
+				} else if(strparm[0] == '0' && strparm[1] == 'x') {
 					sscanf(strparm + 2, "%x", &parm);
-				else
+				} else {
 					sscanf(strparm, "%i", &parm);
+				}
 				for(i = 0; i < numdefaults; i++)
 					if(!strcmp(def, defaults[i].name)) {
 						if(!isstring)
 							*defaults[i].location = parm;
 						else
-							*defaults[i].location =
-									(int) newstring;
+							// ReSharper disable once CppLocalVariableMightNotBeInitialized
+							*defaults[i].location = (int)newstring;
 						break;
 					}
 			}

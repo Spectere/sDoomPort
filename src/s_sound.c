@@ -587,8 +587,10 @@ S_ChangeMusic
 	if((musicnum <= mus_None)
 	   || (musicnum >= NUMMUSIC)) {
 		I_Error("Bad music number %d", musicnum);
-	} else
-		music = &S_music[musicnum];
+		return;
+	}
+	
+	music = &S_music[musicnum];
 
 	if(mus_playing == music)
 		return;

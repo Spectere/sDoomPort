@@ -494,7 +494,6 @@ menu_t SaveDef =
 //
 void M_ReadSaveStrings(void) {
 	SDL_RWops* handle;
-	int count;
 	int i;
 	char name[256];
 
@@ -510,7 +509,7 @@ void M_ReadSaveStrings(void) {
 			LoadMenu[i].status = 0;
 			continue;
 		}
-		count = SDL_RWread(handle, &savegamestrings[i], SAVESTRINGSIZE, 1);
+		SDL_RWread(handle, &savegamestrings[i], SAVESTRINGSIZE, 1);
 		SDL_RWclose(handle);
 		LoadMenu[i].status = 1;
 	}
@@ -897,8 +896,6 @@ void M_Options(int choice) {
 //      Toggle messages on/off
 //
 void M_ChangeMessages(int choice) {
-	// warning: unused parameter `int choice'
-	choice = 0;
 	showMessages = 1 - showMessages;
 
 	if(!showMessages)
@@ -923,7 +920,6 @@ void M_EndGameResponse(int ch) {
 }
 
 void M_EndGame(int choice) {
-	choice = 0;
 	if(!usergame) {
 		S_StartSound(NULL, sfx_oof);
 		return;
@@ -942,17 +938,14 @@ void M_EndGame(int choice) {
 // M_ReadThis
 //
 void M_ReadThis(int choice) {
-	choice = 0;
 	M_SetupNextMenu(&ReadDef1);
 }
 
 void M_ReadThis2(int choice) {
-	choice = 0;
 	M_SetupNextMenu(&ReadDef2);
 }
 
 void M_FinishReadThis(int choice) {
-	choice = 0;
 	M_SetupNextMenu(&MainDef);
 }
 
@@ -1026,20 +1019,14 @@ void M_ChangeSensitivity(int choice) {
 
 
 void M_ChangeDetail(int choice) {
-	choice = 0;
-	detailLevel = 1 - detailLevel;
+	detailLevel = !detailLevel;
 
-	// FIXME - does not work. Remove anyway?
-	fprintf(stderr, "M_ChangeDetail: low detail mode n.a.\n");
+	R_SetViewSize (screenblocks, detailLevel);
 
-	return;
-
-	/*R_SetViewSize (screenblocks, detailLevel);
-
-	if (!detailLevel)
-	players[consoleplayer].message = DETAILHI;
+	if(!detailLevel)
+		players[consoleplayer].message = DETAILHI;
 	else
-	players[consoleplayer].message = DETAILLO;*/
+		players[consoleplayer].message = DETAILLO;
 }
 
 

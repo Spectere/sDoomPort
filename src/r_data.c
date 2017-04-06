@@ -174,9 +174,6 @@ R_DrawColumnInCache
 	int count;
 	int position;
 	Uint8* source;
-	Uint8* dest;
-
-	dest = (Uint8 *)cache + 3;
 
 	while(patch->topdelta != 0xff) {
 		source = (Uint8 *)patch + 3;
@@ -228,11 +225,7 @@ void R_GenerateComposite(int texnum) {
 	colofs = texturecolumnofs[texnum];
 
 	// Composite the columns together.
-	patch = texture->patches;
-
-	for(i = 0 , patch = texture->patches;
-	    i < texture->patchcount;
-	    i++ , patch++) {
+	for(i = 0, patch = texture->patches; i < texture->patchcount; i++, patch++) {
 		realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
 		x1 = patch->originx;
 		x2 = x1 + SDL_SwapLE16(realpatch->width);
@@ -296,11 +289,8 @@ void R_GenerateLookup(int texnum) {
 	//  with only a single patch are all done.
 	patchcount = (Uint8 *)alloca(texture->width);
 	memset(patchcount, 0, texture->width);
-	patch = texture->patches;
 
-	for(i = 0 , patch = texture->patches;
-	    i < texture->patchcount;
-	    i++ , patch++) {
+	for(i = 0, patch = texture->patches; i < texture->patchcount; i++, patch++) {
 		realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
 		x1 = patch->originx;
 		x2 = x1 + SDL_SwapLE16(realpatch->width);

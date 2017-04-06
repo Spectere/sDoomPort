@@ -183,18 +183,18 @@ mline_t cheat_player_arrow[] = {
 
 #define R (FRACUNIT)
 mline_t triangle_guy[] = {
-	{{-.867 * R, -.5 * R}, {.867 * R, -.5 * R}},
-	{{.867 * R, -.5 * R} , {0, R}},
-	{{0, R}, {-.867 * R, -.5 * R}}
+	{{-0.867 * R, -0.5 * R}, {0.867 * R, -0.5 * R}},
+	{{0.867 * R, -0.5 * R} , {0, R}},
+	{{0, R}, {-0.867 * R, -0.5 * R}}
 };
 #undef R
 #define NUMTRIANGLEGUYLINES (sizeof(triangle_guy)/sizeof(mline_t))
 
 #define R (FRACUNIT)
 mline_t thintriangle_guy[] = {
-	{{-.5 * R, -.7 * R}, {R, 0}},
-	{{R, 0}, {-.5 * R, .7 * R}},
-	{{-.5 * R, .7 * R}, {-.5 * R, -.7 * R}}
+	{{-0.5 * R, -0.7 * R}, {R, 0}},
+	{{R, 0}, {-0.5 * R, 0.7 * R}},
+	{{-0.5 * R, 0.7 * R}, {-0.5 * R, -0.7 * R}}
 };
 #undef R
 #define NUMTHINTRIANGLEGUYLINES (sizeof(thintriangle_guy)/sizeof(mline_t))
@@ -578,7 +578,6 @@ AM_Responder
 (event_t* ev) {
 
 	int rc;
-	static int cheatstate = 0;
 	static int bigstate = 0;
 	static char buffer[20];
 
@@ -649,7 +648,6 @@ AM_Responder
 				plr->message = AMSTR_MARKSCLEARED;
 				break;
 			default:
-				cheatstate = 0;
 				rc = SDL_FALSE;
 		}
 		if(!deathmatch && cht_CheckCheat(&cheat_amap, ev->data1)) {
@@ -728,9 +726,7 @@ void AM_doFollowPlayer(void) {
 //
 //
 void AM_updateLightLev(void) {
-	static nexttic
-	=
-	0;
+	static int nexttic = 0;
 	//static int litelevels[] = { 0, 3, 5, 6, 6, 7, 7, 7 };
 	static int litelevels[] = {0, 4, 7, 10, 12, 14, 15, 15};
 	static int litelevelscnt = 0;
@@ -798,13 +794,9 @@ AM_clipMline
 		TOP =8
 	};
 
-	register outcode1
-	=
-	0;
-	register outcode2
-	=
-	0;
-	register outside;
+	register Sint32 outcode1 = 0;
+	register Sint32 outcode2 = 0;
+	register Sint32 outside;
 
 	fpoint_t tmp;
 	int dx;
@@ -882,7 +874,7 @@ AM_clipMline
 			dx = fl->b.x - fl->a.x;
 			tmp.y = fl->a.y + (dy * (f_w - 1 - fl->a.x)) / dx;
 			tmp.x = f_w - 1;
-		} else if(outside& LEFT) {
+		} else {
 			dy = fl->b.y - fl->a.y;
 			dx = fl->b.x - fl->a.x;
 			tmp.y = fl->a.y + (dy * (-fl->a.x)) / dx;
@@ -923,9 +915,7 @@ AM_drawFline
 	register int ay;
 	register int d;
 
-	static fuck
-	=
-	0;
+	static Sint32 fuck = 0;
 
 	// For debugging only
 	if(fl->a.x < 0 || fl->a.x >= f_w

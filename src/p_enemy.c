@@ -450,11 +450,8 @@ P_LookForPlayers
 	int c;
 	int stop;
 	player_t* player;
-	sector_t* sector;
 	angle_t an;
 	fixed_t dist;
-
-	sector = actor->subsector->sector;
 
 	c = 0;
 	stop = (actor->lastlook - 1) & 3;
@@ -496,8 +493,6 @@ P_LookForPlayers
 		actor->target = player->mo;
 		return SDL_TRUE;
 	}
-
-	return SDL_FALSE;
 }
 
 
@@ -1507,7 +1502,6 @@ void A_BossDeath(mobj_t* mo) {
 
 					default:
 						return;
-						break;
 				}
 				break;
 
@@ -1564,7 +1558,6 @@ void A_BossDeath(mobj_t* mo) {
 				junk.tag = 666;
 				EV_DoFloor(&junk, lowerFloorToLowest);
 				return;
-				break;
 
 			case 4:
 				switch(gamemap) {
@@ -1572,13 +1565,11 @@ void A_BossDeath(mobj_t* mo) {
 						junk.tag = 666;
 						EV_DoDoor(&junk, blazeOpen);
 						return;
-						break;
 
 					case 8:
 						junk.tag = 666;
 						EV_DoFloor(&junk, lowerFloorToLowest);
 						return;
-						break;
 				}
 		}
 	}
