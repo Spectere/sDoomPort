@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,8 +23,8 @@
 #ifndef __D_TEXTUR__
 #define __D_TEXTUR__
 
+#include <SDL_stdinc.h>
 #include "doomtype.h"
-
 
 //
 // Flats?
