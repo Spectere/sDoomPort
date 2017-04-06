@@ -153,6 +153,8 @@ T_MovePlane
 						}
 						return pastdest;
 					}
+					sector->ceilingheight += speed;
+					P_ChangeSector(sector, crush);
 					break;
 			}
 			break;
