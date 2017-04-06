@@ -186,11 +186,7 @@ void T_VerticalDoor(think_t* th) {
 // Move a locked door up/down
 //
 
-int
-EV_DoLockedDoor
-(line_t* line,
- vldoor_e type,
- mobj_t* thing) {
+int EV_DoLockedDoor(line_t* line, vldoor_e type, mobj_t* thing) {
 	player_t* p;
 
 	p = thing->player;
@@ -238,10 +234,7 @@ EV_DoLockedDoor
 }
 
 
-int
-EV_DoDoor
-(line_t* line,
- vldoor_e type) {
+int EV_DoDoor(line_t* line, vldoor_e type) {
 	int secnum, rtn;
 	sector_t* sec;
 	vldoor_t* door;
@@ -325,10 +318,7 @@ EV_DoDoor
 //
 // EV_VerticalDoor : open a door manually, no tag value
 //
-void
-EV_VerticalDoor
-(line_t* line,
- mobj_t* thing) {
+void EV_VerticalDoor(line_t* line, mobj_t* thing) {
 	player_t* player;
 	sector_t* sec;
 	vldoor_t* door;
@@ -486,10 +476,7 @@ void P_SpawnDoorCloseIn30(sector_t* sec) {
 //
 // Spawn a door that opens after 5 minutes
 //
-void
-P_SpawnDoorRaiseIn5Mins
-(sector_t* sec,
- int secnum) {
+void P_SpawnDoorRaiseIn5Mins(sector_t* sec, int secnum) {
 	vldoor_t* door;
 
 	door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
@@ -523,43 +510,41 @@ P_SpawnDoorRaiseIn5Mins
 
 slideframe_t slideFrames[MAXSLIDEDOORS];
 
-void P_InitSlidingDoorFrames(void)
-{
-    int		i;
-    int		f1;
-    int		f2;
-    int		f3;
-    int		f4;
-	
-// DOOM II ONLY...
-    if ( gamemode != commercial)
-	return;
-	
-    for (i = 0;i < MAXSLIDEDOORS; i++)
-    {
-	if (!slideFrameNames[i].frontFrame1[0])
-	    break;
-			
-	f1 = R_TextureNumForName(slideFrameNames[i].frontFrame1);
-	f2 = R_TextureNumForName(slideFrameNames[i].frontFrame2);
-	f3 = R_TextureNumForName(slideFrameNames[i].frontFrame3);
-	f4 = R_TextureNumForName(slideFrameNames[i].frontFrame4);
+void P_InitSlidingDoorFrames(void) {
+	int		i;
+	int		f1;
+	int		f2;
+	int		f3;
+	int		f4;
 
-	slideFrames[i].frontFrames[0] = f1;
-	slideFrames[i].frontFrames[1] = f2;
-	slideFrames[i].frontFrames[2] = f3;
-	slideFrames[i].frontFrames[3] = f4;
-		
-	f1 = R_TextureNumForName(slideFrameNames[i].backFrame1);
-	f2 = R_TextureNumForName(slideFrameNames[i].backFrame2);
-	f3 = R_TextureNumForName(slideFrameNames[i].backFrame3);
-	f4 = R_TextureNumForName(slideFrameNames[i].backFrame4);
+	// DOOM II ONLY...
+	if(gamemode != commercial)
+		return;
 
-	slideFrames[i].backFrames[0] = f1;
-	slideFrames[i].backFrames[1] = f2;
-	slideFrames[i].backFrames[2] = f3;
-	slideFrames[i].backFrames[3] = f4;
-    }
+	for(i = 0; i < MAXSLIDEDOORS; i++) {
+		if(!slideFrameNames[i].frontFrame1[0])
+			break;
+
+		f1 = R_TextureNumForName(slideFrameNames[i].frontFrame1);
+		f2 = R_TextureNumForName(slideFrameNames[i].frontFrame2);
+		f3 = R_TextureNumForName(slideFrameNames[i].frontFrame3);
+		f4 = R_TextureNumForName(slideFrameNames[i].frontFrame4);
+
+		slideFrames[i].frontFrames[0] = f1;
+		slideFrames[i].frontFrames[1] = f2;
+		slideFrames[i].frontFrames[2] = f3;
+		slideFrames[i].frontFrames[3] = f4;
+
+		f1 = R_TextureNumForName(slideFrameNames[i].backFrame1);
+		f2 = R_TextureNumForName(slideFrameNames[i].backFrame2);
+		f3 = R_TextureNumForName(slideFrameNames[i].backFrame3);
+		f4 = R_TextureNumForName(slideFrameNames[i].backFrame4);
+
+		slideFrames[i].backFrames[0] = f1;
+		slideFrames[i].backFrames[1] = f2;
+		slideFrames[i].backFrames[2] = f3;
+		slideFrames[i].backFrames[3] = f4;
+	}
 }
 
 
@@ -567,160 +552,137 @@ void P_InitSlidingDoorFrames(void)
 // Return index into "slideFrames" array
 // for which door type to use
 //
-int P_FindSlidingDoorType(line_t*	line)
-{
-    int		i;
-    int		val;
-	
-    for (i = 0;i < MAXSLIDEDOORS;i++)
-    {
-	val = sides[line->sidenum[0]].midtexture;
-	if (val == slideFrames[i].frontFrames[0])
-	    return i;
-    }
-	
-    return -1;
+int P_FindSlidingDoorType(line_t*	line) {
+	int		i;
+	int		val;
+
+	for(i = 0; i < MAXSLIDEDOORS; i++)
+	{
+		val = sides[line->sidenum[0]].midtexture;
+		if(val == slideFrames[i].frontFrames[0])
+			return i;
+	}
+
+	return -1;
 }
 
-void T_SlidingDoor (think_t*	th)
-{
+void T_SlidingDoor(think_t* th) {
 	slidedoor_t door = th->object;
 
-    switch(door->status)
-    {
-      case sd_opening:
-	if (!door->timer--)
-	{
-	    if (++door->frame == SNUMFRAMES)
-	    {
-// IF DOOR IS DONE OPENING...
-		sides[door->line->sidenum[0]].midtexture = 0;
-		sides[door->line->sidenum[1]].midtexture = 0;
-		door->line->flags &= ML_BLOCKING^0xff;
-					
-		if (door->type == sdt_openOnly)
-		{
-		    door->frontsector->specialdata = NULL;
-		    P_RemoveThinker (&door->thinker);
-		    break;
-		}
-					
-		door->timer = SDOORWAIT;
-		door->status = sd_waiting;
-	    }
-	    else
-	    {
-// IF DOOR NEEDS TO ANIMATE TO NEXT FRAME...
-		door->timer = SWAITTICS;
-					
-		sides[door->line->sidenum[0]].midtexture =
-		    slideFrames[door->whichDoorIndex].
-		    frontFrames[door->frame];
-		sides[door->line->sidenum[1]].midtexture =
-		    slideFrames[door->whichDoorIndex].
-		    backFrames[door->frame];
-	    }
-	}
-	break;
-			
-      case sd_waiting:
-// IF DOOR IS DONE WAITING...
-	if (!door->timer--)
-	{
-// CAN DOOR CLOSE?
-	    if (door->frontsector->thinglist != NULL ||
-		door->backsector->thinglist != NULL)
-	    {
-		door->timer = SDOORWAIT;
-		break;
-	    }
+	switch(door->status) {
+		case sd_opening:
+			if(!door->timer--) {
+				if(++door->frame == SNUMFRAMES) {
+					// IF DOOR IS DONE OPENING...
+					sides[door->line->sidenum[0]].midtexture = 0;
+					sides[door->line->sidenum[1]].midtexture = 0;
+					door->line->flags &= ML_BLOCKING ^ 0xff;
 
-//door->frame = SNUMFRAMES-1;
-	    door->status = sd_closing;
-	    door->timer = SWAITTICS;
+					if(door->type == sdt_openOnly)
+					{
+						door->frontsector->specialdata = NULL;
+						P_RemoveThinker(&door->thinker);
+						break;
+					}
+
+					door->timer = SDOORWAIT;
+					door->status = sd_waiting;
+				} else {
+					// IF DOOR NEEDS TO ANIMATE TO NEXT FRAME...
+					door->timer = SWAITTICS;
+
+					sides[door->line->sidenum[0]].midtexture =
+						slideFrames[door->whichDoorIndex].
+						frontFrames[door->frame];
+					sides[door->line->sidenum[1]].midtexture =
+						slideFrames[door->whichDoorIndex].
+						backFrames[door->frame];
+				}
+			}
+			break;
+
+		case sd_waiting:
+			// IF DOOR IS DONE WAITING...
+			if(!door->timer--) {
+				// CAN DOOR CLOSE?
+				if(door->frontsector->thinglist != NULL ||
+					door->backsector->thinglist != NULL) {
+					door->timer = SDOORWAIT;
+					break;
+				}
+
+				//door->frame = SNUMFRAMES-1;
+				door->status = sd_closing;
+				door->timer = SWAITTICS;
+			}
+			break;
+
+		case sd_closing:
+			if(!door->timer--) {
+				if(--door->frame < 0) {
+					// IF DOOR IS DONE CLOSING...
+					door->line->flags |= ML_BLOCKING;
+					door->frontsector->specialdata = NULL;
+					P_RemoveThinker(&door->thinker);
+					break;
+				} else {
+					// IF DOOR NEEDS TO ANIMATE TO NEXT FRAME...
+					door->timer = SWAITTICS;
+
+					sides[door->line->sidenum[0]].midtexture =
+						slideFrames[door->whichDoorIndex].
+						frontFrames[door->frame];
+					sides[door->line->sidenum[1]].midtexture =
+						slideFrames[door->whichDoorIndex].
+						backFrames[door->frame];
+				}
+			}
+			break;
 	}
-	break;
-			
-      case sd_closing:
-	if (!door->timer--)
-	{
-	    if (--door->frame < 0)
-	    {
-// IF DOOR IS DONE CLOSING...
-		door->line->flags |= ML_BLOCKING;
-		door->frontsector->specialdata = NULL;
-		P_RemoveThinker (&door->thinker);
-		break;
-	    }
-	    else
-	    {
-// IF DOOR NEEDS TO ANIMATE TO NEXT FRAME...
-		door->timer = SWAITTICS;
-					
-		sides[door->line->sidenum[0]].midtexture =
-		    slideFrames[door->whichDoorIndex].
-		    frontFrames[door->frame];
-		sides[door->line->sidenum[1]].midtexture =
-		    slideFrames[door->whichDoorIndex].
-		    backFrames[door->frame];
-	    }
-	}
-	break;
-    }
 }
 
 
-
-void
-EV_SlidingDoor
-( line_t*	line,
-  mobj_t*	thing )
-{
-    sector_t*		sec;
-    slidedoor_t*	door;
+void EV_SlidingDoor(line_t*	line,  mobj_t*	thing) {
+	sector_t*		sec;
+	slidedoor_t*	door;
 	
-// DOOM II ONLY...
-    if (gamemode != commercial)
+	// DOOM II ONLY...
+	if (gamemode != commercial)
 	return;
     
-// Make sure door isn't already being animated
-    sec = line->frontsector;
-    door = NULL;
-    if (sec->specialdata)
-    {
-	if (!thing->player)
-	    return;
-			
-	door = sec->specialdata;
-	if (door->type == sdt_openAndClose)
-	{
-	    if (door->status == sd_waiting)
-		door->status = sd_closing;
+	// Make sure door isn't already being animated
+	sec = line->frontsector;
+	door = NULL;
+	if (sec->specialdata) {
+		if (!thing->player)
+			return;
+		door = sec->specialdata;
+		if (door->type == sdt_openAndClose) {
+			if (door->status == sd_waiting)
+				door->status = sd_closing;
+		} else
+			return;
 	}
-	else
-	    return;
-    }
-    
-// Init sliding door vars
-    if (!door)
-    {
-	door = Z_Malloc (sizeof(*door), PU_LEVSPEC, 0);
-	P_AddThinker (&door->thinker);
-	sec->specialdata = door;
-		
-	door->type = sdt_openAndClose;
-	door->status = sd_opening;
-	door->whichDoorIndex = P_FindSlidingDoorType(line);
 
-	if (door->whichDoorIndex < 0)
-	    I_Error("EV_SlidingDoor: Can't use texture for sliding door!");
-			
-	door->frontsector = sec;
-	door->backsector = line->backsector;
-	door->thinker.function = T_SlidingDoor;
-	door->timer = SWAITTICS;
-	door->frame = 0;
-	door->line = line;
-    }
+	// Init sliding door vars
+    if (!door) {
+		door = Z_Malloc (sizeof(*door), PU_LEVSPEC, 0);
+		P_AddThinker (&door->thinker);
+		sec->specialdata = door;
+
+		door->type = sdt_openAndClose;
+		door->status = sd_opening;
+		door->whichDoorIndex = P_FindSlidingDoorType(line);
+
+		if (door->whichDoorIndex < 0)
+			I_Error("EV_SlidingDoor: Can't use texture for sliding door!");
+
+		door->frontsector = sec;
+		door->backsector = line->backsector;
+		door->thinker.function = T_SlidingDoor;
+		door->timer = SWAITTICS;
+		door->frame = 0;
+		door->line = line;
+	}
 }
 #endif

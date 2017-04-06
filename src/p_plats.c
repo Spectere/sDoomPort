@@ -120,11 +120,7 @@ void T_PlatRaise(think_t* th) {
 // Do Platforms
 //  "amount" is only used for SOME platforms.
 //
-int
-EV_DoPlat
-(line_t* line,
- plattype_e type,
- int amount) {
+int EV_DoPlat(line_t* line, plattype_e type, int amount) {
 	plat_t* plat;
 	int secnum;
 	int rtn;

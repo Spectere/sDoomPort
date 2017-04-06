@@ -182,13 +182,7 @@ int I_GetSfxLumpNum(sfxinfo_t* sfx) {
 // Pitching (that is, increased speed of playback)
 //  is set, but currently not used by mixing.
 //
-int
-I_StartSound
-(int id,
- int vol,
- int sep,
- int pitch,
- int priority) {
+int I_StartSound(int id, int vol, int sep, int pitch, int priority) {
 	return 0;
 }
 
@@ -229,12 +223,7 @@ void I_UpdateSound(void) {}
 void I_SubmitSound(void) {}
 
 
-void
-I_UpdateSoundParams
-(int handle,
- int vol,
- int sep,
- int pitch) {}
+void I_UpdateSoundParams(int handle, int vol, int sep, int pitch) {}
 
 
 void I_ShutdownSound(void) {

@@ -48,10 +48,7 @@ sector_t* backsector;
 list drawsegs;
 
 
-void
-R_StoreWallRange
-(int start,
- int stop);
+void R_StoreWallRange(int start, int stop);
 
 
 //
@@ -90,10 +87,7 @@ void R_InitSegs(void) {
 //  e.g. single sided LineDefs (middle texture)
 //  that entirely block the view.
 // 
-void
-R_ClipSolidWallSegment
-(int first,
- int last) {
+void R_ClipSolidWallSegment(int first, int last) {
 	cliprange_t* next;
 	cliprange_t* start;
 
@@ -174,10 +168,7 @@ crunch:
 // Does handle windows,
 //  e.g. LineDefs with upper and lower texture.
 //
-void
-R_ClipPassWallSegment
-(int first,
- int last) {
+void R_ClipPassWallSegment(int first, int last) {
 	cliprange_t* start;
 
 	// Find the first range that touches the range
@@ -333,8 +324,7 @@ clipsolid:
 // Returns true
 //  if some part of the bbox might be visible.
 //
-int checkcoord[12][4] =
-{
+int checkcoord[12][4] = {
 	{3,0,2,1},
 	{3,0,2,0},
 	{3,1,2,0},

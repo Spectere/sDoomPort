@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -50,14 +51,7 @@ int I_GetSfxLumpNum(sfxinfo_t* sfxinfo);
 
 
 // Starts a sound in a particular sound channel.
-int
-I_StartSound
-(int id,
- int vol,
- int sep,
- int pitch,
- int priority);
-
+int I_StartSound(int id, int vol, int sep, int pitch, int priority);
 
 // Stops a sound channel.
 void I_StopSound(int handle);
@@ -69,13 +63,7 @@ int I_SoundIsPlaying(int handle);
 
 // Updates the volume, separation,
 //  and pitch of a sound channel.
-void
-I_UpdateSoundParams
-(int handle,
- int vol,
- int sep,
- int pitch);
-
+void I_UpdateSoundParams(int handle, int vol, int sep, int pitch);
 
 //
 //  MUSIC I/O

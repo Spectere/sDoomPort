@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -26,9 +27,7 @@
 #include "r_state.h"
 
 // Retrieve column data for span blitting.
-Uint8* R_GetColumn
-(int tex,
- int col);
+Uint8* R_GetColumn(int tex, int col);
 
 
 // I/O, setting up the stuff.

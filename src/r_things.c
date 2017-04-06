@@ -87,12 +87,7 @@ char* spritename;
 // R_InstallSpriteLump
 // Local function for R_InitSprites.
 //
-void
-R_InstallSpriteLump
-(int lump,
- unsigned frame,
- unsigned rotation,
- SDL_bool flipped) {
+void R_InstallSpriteLump(int lump, unsigned frame, unsigned rotation, SDL_bool flipped) {
 	int r;
 
 	if(frame >= 29 || rotation > 8)
@@ -352,11 +347,7 @@ void R_DrawMaskedColumn(column_t* column) {
 // R_DrawVisSprite
 //  mfloorclip and mceilingclip should also be set.
 //
-void
-R_DrawVisSprite
-(vissprite_t* vis,
- int x1,
- int x2) {
+void R_DrawVisSprite(vissprite_t* vis, int x1, int x2) {
 	column_t* column;
 	int texturecolumn;
 	fixed_t frac;

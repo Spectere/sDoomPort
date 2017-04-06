@@ -33,13 +33,11 @@
 
 // Each screen is [SCREENWIDTH*SCREENHEIGHT]; 
 Uint8* screens[5];
-
 int dirtybox[4];
 
 
 // Now where did these came from?
-Uint8 gammatable[5][256] =
-{
+Uint8 gammatable[5][256] = {
 	{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,
 		17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,
 		33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,
@@ -128,12 +126,7 @@ int usegamma;
 //
 // V_MarkRect 
 // 
-void
-V_MarkRect
-(int x,
- int y,
- int width,
- int height) {
+void V_MarkRect(int x, int y, int width, int height) {
 	M_AddToBox(dirtybox, x, y);
 	M_AddToBox(dirtybox, x + width - 1, y + height - 1);
 }
@@ -142,16 +135,7 @@ V_MarkRect
 //
 // V_CopyRect 
 // 
-void
-V_CopyRect
-(int srcx,
- int srcy,
- int srcscrn,
- int width,
- int height,
- int destx,
- int desty,
- int destscrn) {
+void V_CopyRect(int srcx, int srcy, int srcscrn, int width, int height, int destx, int desty, int destscrn) {
 	Uint8* src;
 	Uint8* dest;
 
@@ -185,13 +169,7 @@ V_CopyRect
 // V_DrawPatch
 // Masks a column based masked pic to the screen. 
 //
-void
-V_DrawPatch
-(int x,
- int y,
- int scrn,
- patch_t* patch) {
-
+void V_DrawPatch(int x, int y, int scrn, patch_t* patch) {
 	int count;
 	int col;
 	column_t* column;
@@ -247,13 +225,7 @@ V_DrawPatch
 // Masks a column based masked pic to the screen.
 // Flips horizontally, e.g. to mirror face.
 //
-void
-V_DrawPatchFlipped
-(int x,
- int y,
- int scrn,
- patch_t* patch) {
-
+void V_DrawPatchFlipped(int x, int y, int scrn, patch_t* patch) {
 	int count;
 	int col;
 	column_t* column;
@@ -307,12 +279,7 @@ V_DrawPatchFlipped
 // V_DrawPatchDirect
 // Draws directly to the screen on the pc. 
 //
-void
-V_DrawPatchDirect
-(int x,
- int y,
- int scrn,
- patch_t* patch) {
+void V_DrawPatchDirect(int x, int y, int scrn, patch_t* patch) {
 	V_DrawPatch(x, y, scrn, patch);
 
 	/*
@@ -373,14 +340,7 @@ V_DrawPatchDirect
 // V_DrawBlock
 // Draw a linear block of pixels into the view buffer.
 //
-void
-V_DrawBlock
-(int x,
- int y,
- int scrn,
- int width,
- int height,
- Uint8* src) {
+void V_DrawBlock(int x, int y, int scrn, int width, int height, Uint8* src) {
 	Uint8* dest;
 
 #ifdef RANGECHECK 
@@ -409,14 +369,7 @@ V_DrawBlock
 // V_GetBlock
 // Gets a linear block of pixels from the view buffer.
 //
-void
-V_GetBlock
-(int x,
- int y,
- int scrn,
- int width,
- int height,
- Uint8* dest) {
+void V_GetBlock(int x, int y, int scrn, int width, int height, Uint8* dest) {
 	Uint8* src;
 
 #ifdef RANGECHECK 

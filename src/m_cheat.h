@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -35,15 +36,7 @@ typedef struct {
 
 } cheatseq_t;
 
-int
-cht_CheckCheat
-(cheatseq_t* cht,
- char key);
-
-
-void
-cht_GetParam
-(cheatseq_t* cht,
- char* buffer);
+int cht_CheckCheat(cheatseq_t* cht, char key);
+void cht_GetParam(cheatseq_t* cht, char* buffer);
 
 #endif

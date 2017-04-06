@@ -58,12 +58,7 @@
 //
 extern patch_t* hu_font[HU_FONTSIZE];
 
-int
-M_DrawText
-(int x,
- int y,
- SDL_bool direct,
- char* string) {
+int M_DrawText(int x, int y, SDL_bool direct, char* string) {
 	int c;
 	int w;
 
@@ -96,11 +91,7 @@ M_DrawText
 #define O_BINARY 0
 #endif
 
-SDL_bool
-M_WriteFile
-(char const* name,
- void* source,
- int length) {
+SDL_bool M_WriteFile(char const* name, void* source, int length) {
 	SDL_RWops* handle;
 	int count;
 
@@ -122,10 +113,7 @@ M_WriteFile
 //
 // M_ReadFile
 //
-int
-M_ReadFile
-(char const* name,
- Uint8** buffer) {
+int M_ReadFile(char const* name, Uint8** buffer) {
 	SDL_RWops* handle;
 	int count, length;
 	Uint8* buf;
@@ -218,8 +206,7 @@ typedef struct {
 	char* stringvalue; // somehow less hacky than the original code
 } default_t;
 
-default_t defaults[] =
-{
+default_t defaults[] = {
 	{"mouse_sensitivity",&mouseSensitivity, 5},
 	{"sfx_volume",&snd_SfxVolume, 8},
 	{"music_volume",&snd_MusicVolume, 8},
@@ -402,13 +389,7 @@ typedef struct {
 //
 // WritePCXfile
 //
-void
-WritePCXfile
-(char* filename,
- Uint8* data,
- int width,
- int height,
- Uint8* palette) {
+void WritePCXfile(char* filename, Uint8* data, int width, int height, Uint8* palette) {
 	int i;
 	int length;
 	pcx_t* pcx;

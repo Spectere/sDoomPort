@@ -122,25 +122,13 @@ void HUlib_eraseTextLine(hu_textline_t* l);
 //
 
 // ?
-void
-HUlib_initSText
-(hu_stext_t* s,
- int x,
- int y,
- int h,
- patch_t** font,
- int startchar,
- SDL_bool* on);
+void HUlib_initSText(hu_stext_t* s, int x, int y, int h, patch_t** font, int startchar, SDL_bool* on);
 
 // add a new line
 void HUlib_addLineToSText(hu_stext_t* s);
 
 // ?
-void
-HUlib_addMessageToSText
-(hu_stext_t* s,
- char* prefix,
- char* msg);
+void HUlib_addMessageToSText(hu_stext_t* s, char* prefix, char* msg);
 
 // draws stext
 void HUlib_drawSText(hu_stext_t* s);
@@ -149,14 +137,7 @@ void HUlib_drawSText(hu_stext_t* s);
 void HUlib_eraseSText(hu_stext_t* s);
 
 // Input Text Line widget routines
-void
-HUlib_initIText
-(hu_itext_t* it,
- int x,
- int y,
- patch_t** font,
- int startchar,
- SDL_bool* on);
+void HUlib_initIText(hu_itext_t* it, int x, int y, patch_t** font, int startchar, SDL_bool* on);
 
 // enforces left margin
 void HUlib_delCharFromIText(hu_itext_t* it);
@@ -168,16 +149,10 @@ void HUlib_eraseLineFromIText(hu_itext_t* it);
 void HUlib_resetIText(hu_itext_t* it);
 
 // left of left-margin
-void
-HUlib_addPrefixToIText
-(hu_itext_t* it,
- char* str);
+void HUlib_addPrefixToIText(hu_itext_t* it, char* str);
 
 // whether eaten
-SDL_bool
-HUlib_keyInIText
-(hu_itext_t* it,
- unsigned char ch);
+SDL_bool HUlib_keyInIText(hu_itext_t* it, unsigned char ch);
 
 void HUlib_drawIText(hu_itext_t* it);
 

@@ -104,8 +104,7 @@ void (*messageRoutine)(int response);
 
 #define SAVESTRINGSIZE 	24
 
-char gammamsg[5][26] =
-{
+char gammamsg[5][26] = {
 	GAMMALVL0,
 	GAMMALVL1,
 	GAMMALVL2,
@@ -239,8 +238,7 @@ enum {
 	main_end
 } main_e;
 
-menuitem_t MainMenu[] =
-{
+menuitem_t MainMenu[] = {
 	{1,"M_NGAME",M_NewGame,'n'},
 	{1,"M_OPTION",M_Options,'o'},
 	{1,"M_LOADG",M_LoadGame,'l'},
@@ -250,8 +248,7 @@ menuitem_t MainMenu[] =
 	{1,"M_QUITG",M_QuitDOOM,'q'}
 };
 
-menu_t MainDef =
-{
+menu_t MainDef = {
 	main_end,
 	NULL,
 	MainMenu,
@@ -272,16 +269,14 @@ enum {
 	ep_end
 } episodes_e;
 
-menuitem_t EpisodeMenu[] =
-{
+menuitem_t EpisodeMenu[] = {
 	{1,"M_EPI1", M_Episode,'k'},
 	{1,"M_EPI2", M_Episode,'t'},
 	{1,"M_EPI3", M_Episode,'i'},
 	{1,"M_EPI4", M_Episode,'t'}
 };
 
-menu_t EpiDef =
-{
+menu_t EpiDef = {
 	ep_end, // # of menu items
 	&MainDef, // previous menu
 	EpisodeMenu, // menuitem_t ->
@@ -302,8 +297,7 @@ enum {
 	newg_end
 } newgame_e;
 
-menuitem_t NewGameMenu[] =
-{
+menuitem_t NewGameMenu[] = {
 	{1,"M_JKILL", M_ChooseSkill, 'i'},
 	{1,"M_ROUGH", M_ChooseSkill, 'h'},
 	{1,"M_HURT", M_ChooseSkill, 'h'},
@@ -311,8 +305,7 @@ menuitem_t NewGameMenu[] =
 	{1,"M_NMARE", M_ChooseSkill, 'n'}
 };
 
-menu_t NewDef =
-{
+menu_t NewDef = {
 	newg_end, // # of menu items
 	&EpiDef, // previous menu
 	NewGameMenu, // menuitem_t ->
@@ -337,8 +330,7 @@ enum {
 	opt_end
 } options_e;
 
-menuitem_t OptionsMenu[] =
-{
+menuitem_t OptionsMenu[] = {
 	{1,"M_ENDGAM", M_EndGame,'e'},
 	{1,"M_MESSG", M_ChangeMessages,'m'},
 	{1,"M_DETAIL", M_ChangeDetail,'g'},
@@ -349,8 +341,7 @@ menuitem_t OptionsMenu[] =
 	{1,"M_SVOL", M_Sound,'s'}
 };
 
-menu_t OptionsDef =
-{
+menu_t OptionsDef = {
 	opt_end,
 	&MainDef,
 	OptionsMenu,
@@ -367,13 +358,11 @@ enum {
 	read1_end
 } read_e;
 
-menuitem_t ReadMenu1[] =
-{
+menuitem_t ReadMenu1[] = {
 	{1,"",M_ReadThis2,0}
 };
 
-menu_t ReadDef1 =
-{
+menu_t ReadDef1 = {
 	read1_end,
 	&MainDef,
 	ReadMenu1,
@@ -387,13 +376,11 @@ enum {
 	read2_end
 } read_e2;
 
-menuitem_t ReadMenu2[] =
-{
+menuitem_t ReadMenu2[] = {
 	{1,"",M_FinishReadThis,0}
 };
 
-menu_t ReadDef2 =
-{
+menu_t ReadDef2 = {
 	read2_end,
 	&ReadDef1,
 	ReadMenu2,
@@ -413,16 +400,14 @@ enum {
 	sound_end
 } sound_e;
 
-menuitem_t SoundMenu[] =
-{
+menuitem_t SoundMenu[] = {
 	{2,"M_SFXVOL",M_SfxVol,'s'},
 	{-1,"",0},
 	{2,"M_MUSVOL",M_MusicVol,'m'},
 	{-1,"",0}
 };
 
-menu_t SoundDef =
-{
+menu_t SoundDef = {
 	sound_end,
 	&OptionsDef,
 	SoundMenu,
@@ -444,8 +429,7 @@ enum {
 	load_end
 } load_e;
 
-menuitem_t LoadMenu[] =
-{
+menuitem_t LoadMenu[] = {
 	{1,"", M_LoadSelect,'1'},
 	{1,"", M_LoadSelect,'2'},
 	{1,"", M_LoadSelect,'3'},
@@ -454,8 +438,7 @@ menuitem_t LoadMenu[] =
 	{1,"", M_LoadSelect,'6'}
 };
 
-menu_t LoadDef =
-{
+menu_t LoadDef = {
 	load_end,
 	&MainDef,
 	LoadMenu,
@@ -467,8 +450,7 @@ menu_t LoadDef =
 //
 // SAVE GAME MENU
 //
-menuitem_t SaveMenu[] =
-{
+menuitem_t SaveMenu[] = {
 	{1,"", M_SaveSelect,'1'},
 	{1,"", M_SaveSelect,'2'},
 	{1,"", M_SaveSelect,'3'},
@@ -477,8 +459,7 @@ menuitem_t SaveMenu[] =
 	{1,"", M_SaveSelect,'6'}
 };
 
-menu_t SaveDef =
-{
+menu_t SaveDef = {
 	load_end,
 	&MainDef,
 	SaveMenu,
@@ -713,7 +694,6 @@ void M_DrawReadThis1(void) {
 		default:
 			break;
 	}
-	return;
 }
 
 
@@ -735,7 +715,6 @@ void M_DrawReadThis2(void) {
 		default:
 			break;
 	}
-	return;
 }
 
 
@@ -953,8 +932,7 @@ void M_FinishReadThis(int choice) {
 //
 // M_QuitDOOM
 //
-int quitsounds[8] =
-{
+int quitsounds[8] = {
 	sfx_pldeth,
 	sfx_dmpain,
 	sfx_popain,
@@ -965,8 +943,7 @@ int quitsounds[8] =
 	sfx_sgtatk
 };
 
-int quitsounds2[8] =
-{
+int quitsounds2[8] = {
 	sfx_vilact,
 	sfx_getpow,
 	sfx_boscub,
@@ -1054,12 +1031,7 @@ void M_SizeDisplay(int choice) {
 //
 //      Menu Functions
 //
-void
-M_DrawThermo
-(int x,
- int y,
- int thermWidth,
- int thermDot) {
+void M_DrawThermo(int x, int y, int thermWidth, int thermDot) {
 	int xx;
 	int i;
 
@@ -1077,28 +1049,18 @@ M_DrawThermo
 }
 
 
-void
-M_DrawEmptyCell
-(menu_t* menu,
- int item) {
+void M_DrawEmptyCell(menu_t* menu, int item) {
 	V_DrawPatchDirect(menu->x - 10, menu->y + item * LINEHEIGHT - 1, 0,
 	                  W_CacheLumpName("M_CELL1",PU_CACHE));
 }
 
-void
-M_DrawSelCell
-(menu_t* menu,
- int item) {
+void M_DrawSelCell(menu_t* menu, int item) {
 	V_DrawPatchDirect(menu->x - 10, menu->y + item * LINEHEIGHT - 1, 0,
 	                  W_CacheLumpName("M_CELL2",PU_CACHE));
 }
 
 
-void
-M_StartMessage
-(char* string,
- void* routine,
- SDL_bool input) {
+void M_StartMessage(char* string, void* routine, SDL_bool input) {
 	messageLastMenuActive = menuactive;
 	messageToPrint = 1;
 	messageString = string;
@@ -1155,11 +1117,7 @@ int M_StringHeight(char* string) {
 //
 //      Write a string using the hu_font
 //
-void
-M_WriteText
-(int x,
- int y,
- char* string) {
+void M_WriteText(int x, int y, char* string) {
 	int w;
 	char* ch;
 	int c;

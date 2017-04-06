@@ -28,8 +28,7 @@
 // Information about all the music
 //
 
-musicinfo_t S_music[] =
-{
+musicinfo_t S_music[] = {
 	{0},
 	{"e1m1", 0},
 	{"e1m2", 0},
@@ -105,8 +104,7 @@ musicinfo_t S_music[] =
 // Information about all the sfx
 //
 
-sfxinfo_t S_sfx[] =
-{
+sfxinfo_t S_sfx[] = {
 	// S_sfx[0] needs to be a dummy for odd reasons.
 	{"none", SDL_FALSE, 0, 0, -1, -1, 0},
 

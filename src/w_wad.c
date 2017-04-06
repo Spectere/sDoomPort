@@ -51,10 +51,7 @@ void d_strupr(char* s) {
 	}
 }
 
-void
-ExtractFileBase
-(char* path,
- char* dest) {
+void ExtractFileBase(char* path, char* dest) {
 	char* src;
 	int length;
 
@@ -360,10 +357,7 @@ int W_LumpLength(int lump) {
 // Loads the lump into the given buffer,
 //  which must be >= W_LumpLength().
 //
-void
-W_ReadLump
-(int lump,
- void* dest) {
+void W_ReadLump(int lump, void* dest) {
 	int c;
 	lumpinfo_t* l;
 	SDL_RWops* handle;
@@ -399,9 +393,7 @@ W_ReadLump
 //
 // W_CacheLumpNum
 //
-void* W_CacheLumpNum
-(int lump,
- int tag) {
+void* W_CacheLumpNum(int lump, int tag) {
 	if((unsigned)lump >= numlumps)
 		I_Error("W_CacheLumpNum: %i >= numlumps", lump);
 
@@ -423,9 +415,7 @@ void* W_CacheLumpNum
 //
 // W_CacheLumpName
 //
-void* W_CacheLumpName
-(char* name,
- int tag) {
+void* W_CacheLumpName(char* name, int tag) {
 	return W_CacheLumpNum(W_GetNumForName(name), tag);
 }
 

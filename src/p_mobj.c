@@ -46,10 +46,7 @@ void P_SpawnMapThing(mapthing_t* mthing);
 //
 int test;
 
-SDL_bool
-P_SetMobjState
-(mobj_t* mobj,
- statenum_t state) {
+SDL_bool P_SetMobjState(mobj_t* mobj, statenum_t state) {
 	state_t* st;
 
 	do {
@@ -427,11 +424,7 @@ void P_MobjThinker(think_t* th) {
 //
 // P_SpawnMobj
 //
-mobj_t* P_SpawnMobj
-(fixed_t x,
- fixed_t y,
- fixed_t z,
- mobjtype_t type) {
+mobj_t* P_SpawnMobj (fixed_t x, fixed_t y, fixed_t z, mobjtype_t type) {
 	mobj_t* mobj;
 	state_t* st;
 	mobjinfo_t* info;
@@ -740,11 +733,7 @@ void P_SpawnMapThing(mapthing_t* mthing) {
 //
 extern fixed_t attackrange;
 
-void
-P_SpawnPuff
-(fixed_t x,
- fixed_t y,
- fixed_t z) {
+void P_SpawnPuff(fixed_t x, fixed_t y, fixed_t z) {
 	mobj_t* th;
 
 	z += ((P_Random() - P_Random()) << 10);
@@ -765,12 +754,7 @@ P_SpawnPuff
 //
 // P_SpawnBlood
 // 
-void
-P_SpawnBlood
-(fixed_t x,
- fixed_t y,
- fixed_t z,
- int damage) {
+void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, int damage) {
 	mobj_t* th;
 
 	z += ((P_Random() - P_Random()) << 10);
@@ -812,10 +796,7 @@ void P_CheckMissileSpawn(mobj_t* th) {
 //
 // P_SpawnMissile
 //
-mobj_t* P_SpawnMissile
-(mobj_t* source,
- mobj_t* dest,
- mobjtype_t type) {
+mobj_t* P_SpawnMissile(mobj_t* source, mobj_t* dest, mobjtype_t type) {
 	mobj_t* th;
 	angle_t an;
 	int dist;
@@ -856,10 +837,7 @@ mobj_t* P_SpawnMissile
 // P_SpawnPlayerMissile
 // Tries to aim at a nearby monster
 //
-void
-P_SpawnPlayerMissile
-(mobj_t* source,
- mobjtype_t type) {
+void P_SpawnPlayerMissile(mobj_t* source, mobjtype_t type) {
 	mobj_t* th;
 	angle_t an;
 

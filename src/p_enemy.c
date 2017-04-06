@@ -59,14 +59,12 @@ typedef enum {
 //
 // P_NewChaseDir related LUT.
 //
-dirtype_t opposite[] =
-{
+dirtype_t opposite[] = {
 	DI_WEST, DI_SOUTHWEST, DI_SOUTH, DI_SOUTHEAST,
 	DI_EAST, DI_NORTHEAST, DI_NORTH, DI_NORTHWEST, DI_NODIR
 };
 
-dirtype_t diags[] =
-{
+dirtype_t diags[] = {
 	DI_NORTHWEST, DI_NORTHEAST, DI_SOUTHWEST, DI_SOUTHEAST
 };
 
@@ -91,10 +89,7 @@ void A_Fall(mobj_t* actor);
 
 mobj_t* soundtarget;
 
-void
-P_RecursiveSound
-(sector_t* sec,
- int soundblocks) {
+void P_RecursiveSound(sector_t* sec, int soundblocks) {
 	int i;
 	line_t* check;
 	sector_t* other;
@@ -138,10 +133,7 @@ P_RecursiveSound
 // If a monster yells at a player,
 // it will alert other monsters to the player.
 //
-void
-P_NoiseAlert
-(mobj_t* target,
- mobj_t* emmiter) {
+void P_NoiseAlert(mobj_t* target, mobj_t* emmiter) {
 	soundtarget = target;
 	validcount++;
 	P_RecursiveSound(emmiter->subsector->sector, 0);
@@ -443,10 +435,7 @@ void P_NewChaseDir(mobj_t* actor) {
 // If allaround is false, only look 180 degrees in front.
 // Returns true if a player is targeted.
 //
-SDL_bool
-P_LookForPlayers
-(mobj_t* actor,
- SDL_bool allaround) {
+SDL_bool P_LookForPlayers(mobj_t* actor, SDL_bool allaround) {
 	int c;
 	int stop;
 	player_t* player;
@@ -1308,10 +1297,7 @@ void A_SkullAttack(mobj_t* actor) {
 // A_PainShootSkull
 // Spawn a lost soul and launch it at the target
 //
-void
-A_PainShootSkull
-(mobj_t* actor,
- angle_t angle) {
+void A_PainShootSkull(mobj_t* actor, angle_t angle) {
 	fixed_t x;
 	fixed_t y;
 	fixed_t z;
@@ -1593,29 +1579,17 @@ void A_BabyMetal(mobj_t* mo) {
 	A_Chase(mo);
 }
 
-void
-A_OpenShotgun2
-(player_t* player,
- pspdef_t* psp) {
+void A_OpenShotgun2(player_t* player, pspdef_t* psp) {
 	S_StartSound(player->mo, sfx_dbopn);
 }
 
-void
-A_LoadShotgun2
-(player_t* player,
- pspdef_t* psp) {
+void A_LoadShotgun2(player_t* player, pspdef_t* psp) {
 	S_StartSound(player->mo, sfx_dbload);
 }
 
-void
-A_ReFire
-(player_t* player,
- pspdef_t* psp);
+void A_ReFire(player_t* player, pspdef_t* psp);
 
-void
-A_CloseShotgun2
-(player_t* player,
- pspdef_t* psp) {
+void A_CloseShotgun2(player_t* player, pspdef_t* psp) {
 	S_StartSound(player->mo, sfx_dbcls);
 	A_ReFire(player, psp);
 }

@@ -123,19 +123,10 @@ static int nextcleanup;
 //
 // Internals.
 //
-int
-S_getChannel
-(void* origin,
- sfxinfo_t* sfxinfo);
+int S_getChannel(void* origin, sfxinfo_t* sfxinfo);
 
 
-int
-S_AdjustSoundParams
-(mobj_t* listener,
- mobj_t* source,
- int* vol,
- int* sep,
- int* pitch);
+int S_AdjustSoundParams(mobj_t* listener, mobj_t* source, int* vol, int* sep, int* pitch);
 
 void S_StopChannel(int cnum);
 
@@ -145,9 +136,7 @@ void S_StopChannel(int cnum);
 // Sets channels, SFX and music volume,
 //  allocates channel buffer, sets S_sfx lookup.
 //
-void S_Init
-(int sfxVolume,
- int musicVolume) {
+void S_Init(int sfxVolume, int musicVolume) {
 	int i;
 
 	fprintf(stderr, "S_Init: default sfx volume %d\n", sfxVolume);
@@ -230,12 +219,7 @@ void S_Start(void) {
 }
 
 
-void
-S_StartSoundAtVolume
-(void* origin_p,
- int sfx_id,
- int volume) {
-
+void S_StartSoundAtVolume(void* origin_p, int sfx_id, int volume) {
 	int rc;
 	int sep;
 	int pitch;
@@ -361,10 +345,7 @@ S_StartSoundAtVolume
 	                                     priority);
 }
 
-void
-S_StartSound
-(void* origin,
- int sfx_id) {
+void S_StartSound(void* origin,	int sfx_id) {
 #ifdef SAWDEBUG
 	// if (sfx_id == sfx_sawful)
 	// sfx_id = sfx_itemup;
@@ -375,65 +356,64 @@ S_StartSound
 
 	// UNUSED. We had problems, had we not?
 #ifdef SAWDEBUG
-{
-    int i;
-    int n;
-	
-    static mobj_t*      last_saw_origins[10] = {1,1,1,1,1,1,1,1,1,1};
-    static int		first_saw=0;
-    static int		next_saw=0;
-	
-    if (sfx_id == sfx_sawidl
-	|| sfx_id == sfx_sawful
-	|| sfx_id == sfx_sawhit)
-    {
-	for (i=first_saw;i!=next_saw;i=(i+1)%10)
-	    if (last_saw_origins[i] != origin)
-		fprintf(stderr, "old origin 0x%lx != "
-			"origin 0x%lx for sfx %d\n",
-			last_saw_origins[i],
-			origin,
-			sfx_id);
-	    
-	last_saw_origins[next_saw] = origin;
-	next_saw = (next_saw + 1) % 10;
-	if (next_saw == first_saw)
-	    first_saw = (first_saw + 1) % 10;
-	    
-	for (n=i=0; i<numChannels ; i++)
 	{
-	    if (channels[i].sfxinfo == &S_sfx[sfx_sawidl]
-		|| channels[i].sfxinfo == &S_sfx[sfx_sawful]
-		|| channels[i].sfxinfo == &S_sfx[sfx_sawhit]) n++;
-	}
-	    
-	if (n>1)
-	{
-	    for (i=0; i<numChannels ; i++)
-	    {
-		if (channels[i].sfxinfo == &S_sfx[sfx_sawidl]
-		    || channels[i].sfxinfo == &S_sfx[sfx_sawful]
-		    || channels[i].sfxinfo == &S_sfx[sfx_sawhit])
+		int i;
+		int n;
+
+		static mobj_t*      last_saw_origins[10] = { 1,1,1,1,1,1,1,1,1,1 };
+		static int		first_saw = 0;
+		static int		next_saw = 0;
+
+		if(sfx_id == sfx_sawidl
+			|| sfx_id == sfx_sawful
+			|| sfx_id == sfx_sawhit)
 		{
-		    fprintf(stderr,
-			    "chn: sfxinfo=0x%lx, origin=0x%lx, "
-			    "handle=%d\n",
-			    channels[i].sfxinfo,
-			    channels[i].origin,
-			    channels[i].handle);
+			for(i = first_saw; i != next_saw; i = (i + 1) % 10)
+				if(last_saw_origins[i] != origin)
+					fprintf(stderr, "old origin 0x%lx != "
+						"origin 0x%lx for sfx %d\n",
+						last_saw_origins[i],
+						origin,
+						sfx_id);
+
+			last_saw_origins[next_saw] = origin;
+			next_saw = (next_saw + 1) % 10;
+			if(next_saw == first_saw)
+				first_saw = (first_saw + 1) % 10;
+
+			for(n = i = 0; i < numChannels; i++)
+			{
+				if(channels[i].sfxinfo == &S_sfx[sfx_sawidl]
+					|| channels[i].sfxinfo == &S_sfx[sfx_sawful]
+					|| channels[i].sfxinfo == &S_sfx[sfx_sawhit]) n++;
+			}
+
+			if(n > 1)
+			{
+				for(i = 0; i < numChannels; i++)
+				{
+					if(channels[i].sfxinfo == &S_sfx[sfx_sawidl]
+						|| channels[i].sfxinfo == &S_sfx[sfx_sawful]
+						|| channels[i].sfxinfo == &S_sfx[sfx_sawhit])
+					{
+						fprintf(stderr,
+							"chn: sfxinfo=0x%lx, origin=0x%lx, "
+							"handle=%d\n",
+							channels[i].sfxinfo,
+							channels[i].origin,
+							channels[i].handle);
+					}
+				}
+				fprintf(stderr, "\n");
+			}
 		}
-	    }
-	    fprintf(stderr, "\n");
 	}
-    }
-}
 #endif
 
 }
 
 
 void S_StopSound(void* origin) {
-
 	int cnum;
 
 	for(cnum = 0; cnum < numChannels; cnum++) {
@@ -562,7 +542,6 @@ void S_SetMusicVolume(int volume) {
 
 
 void S_SetSfxVolume(int volume) {
-
 	if(volume < 0 || volume > 127)
 		I_Error("Attempt to set sfx volume at %d", volume);
 
@@ -577,10 +556,7 @@ void S_StartMusic(int m_id) {
 	S_ChangeMusic(m_id, SDL_FALSE);
 }
 
-void
-S_ChangeMusic
-(int musicnum,
- int looping) {
+void S_ChangeMusic(int musicnum, int looping) {
 	musicinfo_t* music;
 	char namebuf[9];
 
@@ -639,8 +615,8 @@ void S_StopChannel(int cnum) {
 		// stop the sound playing
 		if(I_SoundIsPlaying(c->handle)) {
 #ifdef SAWDEBUG
-	    if (c->sfxinfo == &S_sfx[sfx_sawful])
-		fprintf(stderr, "stopped\n");
+			if(c->sfxinfo == &S_sfx[sfx_sawful])
+				fprintf(stderr, "stopped\n");
 #endif
 			I_StopSound(c->handle);
 		}
@@ -649,7 +625,7 @@ void S_StopChannel(int cnum) {
 		//  if other channels are playing the sound
 		for(i = 0; i < numChannels; i++) {
 			if(cnum != i
-			   && c->sfxinfo == channels[i].sfxinfo) {
+				&& c->sfxinfo == channels[i].sfxinfo) {
 				break;
 			}
 		}
@@ -668,13 +644,7 @@ void S_StopChannel(int cnum) {
 // If the sound is not audible, returns a 0.
 // Otherwise, modifies parameters and returns 1.
 //
-int
-S_AdjustSoundParams
-(mobj_t* listener,
- mobj_t* source,
- int* vol,
- int* sep,
- int* pitch) {
+int S_AdjustSoundParams(mobj_t* listener, mobj_t* source, int* vol, int* sep, int* pitch) {
 	fixed_t approx_dist;
 	fixed_t adx;
 	fixed_t ady;
@@ -734,10 +704,7 @@ S_AdjustSoundParams
 // S_getChannel :
 //   If none available, return -1.  Otherwise channel #.
 //
-int
-S_getChannel
-(void* origin,
- sfxinfo_t* sfxinfo) {
+int S_getChannel(void* origin, sfxinfo_t* sfxinfo) {
 	// channel number to use
 	int cnum;
 

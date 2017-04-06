@@ -50,15 +50,7 @@ void STlib_init(void) {
 
 
 // ?
-void
-STlib_initNum
-(st_number_t* n,
- int x,
- int y,
- patch_t** pl,
- int* num,
- SDL_bool* on,
- int width) {
+void STlib_initNum(st_number_t* n, int x, int y, patch_t** pl, int* num, SDL_bool* on, int width) {
 	n->x = x;
 	n->y = y;
 	n->oldnum = 0;
@@ -74,11 +66,7 @@ STlib_initNum
 //  based on differences from the old number.
 // Note: worth the trouble?
 //
-void
-STlib_drawNum
-(st_number_t* n,
- SDL_bool refresh) {
-
+void STlib_drawNum(st_number_t* n, SDL_bool refresh) {
 	int numdigits = n->width;
 	int num = *n->num;
 
@@ -133,33 +121,19 @@ STlib_drawNum
 
 
 //
-void
-STlib_updateNum
-(st_number_t* n,
- SDL_bool refresh) {
+void STlib_updateNum(st_number_t* n, SDL_bool refresh) {
 	if(*n->on) STlib_drawNum(n, refresh);
 }
 
 
 //
-void
-STlib_initPercent
-(st_percent_t* p,
- int x,
- int y,
- patch_t** pl,
- int* num,
- SDL_bool* on,
- patch_t* percent) {
+void STlib_initPercent(st_percent_t* p, int x, int y, patch_t** pl, int* num, SDL_bool* on, patch_t* percent) {
 	STlib_initNum(&p->n, x, y, pl, num, on, 3);
 	p->p = percent;
 }
 
 
-void
-STlib_updatePercent
-(st_percent_t* per,
- int refresh) {
+void STlib_updatePercent(st_percent_t* per, int refresh) {
 	if(refresh && *per->n.on)
 		V_DrawPatch(per->n.x, per->n.y, FG, per->p);
 
@@ -167,14 +141,7 @@ STlib_updatePercent
 }
 
 
-void
-STlib_initMultIcon
-(st_multicon_t* i,
- int x,
- int y,
- patch_t** il,
- int* inum,
- SDL_bool* on) {
+void STlib_initMultIcon(st_multicon_t* i, int x, int y, patch_t** il, int* inum, SDL_bool* on) {
 	i->x = x;
 	i->y = y;
 	i->oldinum = -1;
@@ -184,10 +151,7 @@ STlib_initMultIcon
 }
 
 
-void
-STlib_updateMultIcon
-(st_multicon_t* mi,
- SDL_bool refresh) {
+void STlib_updateMultIcon(st_multicon_t* mi, SDL_bool refresh) {
 	int w;
 	int h;
 	int x;
@@ -213,14 +177,7 @@ STlib_updateMultIcon
 }
 
 
-void
-STlib_initBinIcon
-(st_binicon_t* b,
- int x,
- int y,
- patch_t* i,
- SDL_bool* val,
- SDL_bool* on) {
+void STlib_initBinIcon(st_binicon_t* b, int x, int y, patch_t* i, SDL_bool* val, SDL_bool* on) {
 	b->x = x;
 	b->y = y;
 	b->oldval = 0;
@@ -230,10 +187,7 @@ STlib_initBinIcon
 }
 
 
-void
-STlib_updateBinIcon
-(st_binicon_t* bi,
- SDL_bool refresh) {
+void STlib_updateBinIcon(st_binicon_t* bi, SDL_bool refresh) {
 	int x;
 	int y;
 	int w;

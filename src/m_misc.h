@@ -29,30 +29,11 @@
 // MISC
 //
 
-
-SDL_bool
-M_WriteFile
-(char const* name,
- void* source,
- int length);
-
-int
-M_ReadFile
-(char const* name,
- Uint8** buffer);
-
+SDL_bool M_WriteFile(char const* name, void* source, int length);
+int M_ReadFile(char const* name, Uint8** buffer);
 void M_ScreenShot(void);
-
 void M_LoadDefaults(void);
-
 void M_SaveDefaults(void);
-
-
-int
-M_DrawText
-(int x,
- int y,
- SDL_bool direct,
- char* string);
+int M_DrawText(int x, int y, SDL_bool direct, char* string);
 
 #endif

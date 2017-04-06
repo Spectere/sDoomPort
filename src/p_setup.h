@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
+// Copyright (C) 2017 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,12 +23,7 @@
 #define __P_SETUP__
 
 // NOT called by W_Ticker. Fixme.
-void
-P_SetupLevel
-(int episode,
- int map,
- int playermask,
- skill_t skill);
+void P_SetupLevel(int episode, int map, int playermask, skill_t skill);
 
 // Called by startup code.
 void P_Init(void);

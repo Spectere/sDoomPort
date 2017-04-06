@@ -87,11 +87,7 @@ short* maskedtexturecol;
 //
 // R_RenderMaskedSegRange
 //
-void
-R_RenderMaskedSegRange
-(drawseg_t* ds,
- int x1,
- int x2) {
+void R_RenderMaskedSegRange(drawseg_t* ds, int x1, int x2) {
 	unsigned index;
 	column_t* col;
 	int lightnum;
@@ -327,10 +323,7 @@ void R_RenderSegLoop(void) {
 // A wall segment will be drawn
 //  between start and stop pixels (inclusive).
 //
-void
-R_StoreWallRange
-(int start,
- int stop) {
+void R_StoreWallRange(int start, int stop) {
 	fixed_t hyp;
 	fixed_t sineval;
 	angle_t distangle, offsetangle;
@@ -379,18 +372,17 @@ R_StoreWallRange
 	} else {
 		// UNUSED: try to fix the stretched line bug
 #if 0
-	if (rw_distance < FRACUNIT/2)
-	{
-	    fixed_t		trx,try;
-	    fixed_t		gxt,gyt;
+		if(rw_distance < FRACUNIT / 2) {
+			fixed_t		trx, try;
+			fixed_t		gxt, gyt;
 
-	    trx = curline->v1->x - viewx;
-	    try = curline->v1->y - viewy;
-			
-	    gxt = FixedMul(trx,viewcos); 
-	    gyt = -FixedMul(try,viewsin); 
-	    ds_p->scale1 = FixedDiv(projection, gxt-gyt)<<detailshift;
-	}
+			trx = curline->v1->x - viewx;
+			try = curline->v1->y - viewy;
+
+			gxt = FixedMul(trx, viewcos);
+			gyt = -FixedMul(try, viewsin);
+			ds_p->scale1 = FixedDiv(projection, gxt - gyt) << detailshift;
+		}
 #endif
 		ds_p->scale2 = ds_p->scale1;
 	}

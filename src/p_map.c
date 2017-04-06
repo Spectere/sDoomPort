@@ -103,11 +103,7 @@ SDL_bool PIT_StompThing(mobj_t* thing) {
 //
 // P_TeleportMove
 //
-SDL_bool
-P_TeleportMove
-(mobj_t* thing,
- fixed_t x,
- fixed_t y) {
+SDL_bool P_TeleportMove(mobj_t* thing, fixed_t x, fixed_t y) {
 	int xl;
 	int xh;
 	int yl;
@@ -349,11 +345,7 @@ SDL_bool PIT_CheckThing(mobj_t* thing) {
 //  speciallines[]
 //  numspeciallines
 //
-SDL_bool
-P_CheckPosition
-(mobj_t* thing,
- fixed_t x,
- fixed_t y) {
+SDL_bool P_CheckPosition(mobj_t* thing, fixed_t x, fixed_t y) {
 	int xl;
 	int xh;
 	int yl;
@@ -424,11 +416,7 @@ P_CheckPosition
 // Attempt to move to a new position,
 // crossing special lines unless MF_TELEPORT is set.
 //
-SDL_bool
-P_TryMove
-(mobj_t* thing,
- fixed_t x,
- fixed_t y) {
+SDL_bool P_TryMove(mobj_t* thing, fixed_t x, fixed_t y) {
 	fixed_t oldx;
 	fixed_t oldy;
 	int side;
@@ -957,11 +945,7 @@ SDL_bool PTR_ShootTraverse(intercept_t* in) {
 //
 // P_AimLineAttack
 //
-fixed_t
-P_AimLineAttack
-(mobj_t* t1,
- angle_t angle,
- fixed_t distance) {
+fixed_t P_AimLineAttack(mobj_t* t1, angle_t angle, fixed_t distance) {
 	fixed_t x2;
 	fixed_t y2;
 
@@ -996,13 +980,7 @@ P_AimLineAttack
 // If damage == 0, it is just a test trace
 // that will leave linetarget set.
 //
-void
-P_LineAttack
-(mobj_t* t1,
- angle_t angle,
- fixed_t distance,
- fixed_t slope,
- int damage) {
+void P_LineAttack(mobj_t* t1, angle_t angle, fixed_t distance, fixed_t slope, int damage) {
 	fixed_t x2;
 	fixed_t y2;
 
@@ -1131,11 +1109,7 @@ SDL_bool PIT_RadiusAttack(mobj_t* thing) {
 // P_RadiusAttack
 // Source is the creature that caused the explosion at spot.
 //
-void
-P_RadiusAttack
-(mobj_t* spot,
- mobj_t* source,
- int damage) {
+void P_RadiusAttack(mobj_t* spot, mobj_t* source, int damage) {
 	int x;
 	int y;
 
@@ -1237,10 +1211,7 @@ SDL_bool PIT_ChangeSector(mobj_t* thing) {
 //
 // P_ChangeSector
 //
-SDL_bool
-P_ChangeSector
-(sector_t* sector,
- SDL_bool crunch) {
+SDL_bool P_ChangeSector(sector_t* sector, SDL_bool crunch) {
 	int x;
 	int y;
 

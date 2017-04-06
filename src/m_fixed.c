@@ -27,24 +27,11 @@
 
 #include "m_fixed.h"
 
-// Fixme. __USE_C_FIXED__ or something.
-
-fixed_t
-FixedMul
-(fixed_t a,
- fixed_t b) {
+fixed_t FixedMul(fixed_t a, fixed_t b) {
 	return (Sint64) a * (Sint64) b >> FRACBITS;
 }
 
-
-//
-// FixedDiv, C version.
-//
-
-fixed_t
-FixedDiv
-(fixed_t a,
- fixed_t b) {
+fixed_t FixedDiv(fixed_t a, fixed_t b) {
 	Sint64 c;
 	if(abs(a) >> 14 >= abs(b))
 		return (a ^ b) < 0 ? MININT : MAXINT;
