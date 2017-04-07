@@ -91,6 +91,27 @@ static int MapSDLKey(SDL_Keysym keysym) {
 	return -1;
 }
 
+void HandleWindowEvent(SDL_Event event) {
+	event_t d_event;
+
+	switch(event.window.event) {
+		case SDL_WINDOWEVENT_CLOSE:
+			/* TODO: Put a common quit function together. */
+			d_event.type = ev_keydown;
+			d_event.data1 = KEY_F10;
+			break;
+		case SDL_WINDOWEVENT_MINIMIZED:
+			/* TODO: Put a common menu/pause function together. */
+			d_event.type = ev_keydown;
+			d_event.data1 = KEY_ESCAPE;
+			break;
+		default:
+			return;
+	}
+
+	D_PostEvent(&d_event);
+}
+
 void I_GetEvent(void) {
 	event_t d_event;
 	SDL_Event sdl_event;
@@ -102,42 +123,45 @@ void I_GetEvent(void) {
 		dispatch_event = SDL_FALSE;
 
 		switch(sdl_event.type) {
-		case SDL_KEYDOWN:
-			d_event.type = ev_keydown;
-			break;
-		case SDL_KEYUP:
-			d_event.type = ev_keyup;
-			break;
-		case SDL_MOUSEMOTION:
-			button_mask = SDL_GetMouseState(NULL, NULL);
+			case SDL_KEYDOWN:
+				d_event.type = ev_keydown;
+				break;
+			case SDL_KEYUP:
+				d_event.type = ev_keyup;
+				break;
+			case SDL_MOUSEMOTION:
+				button_mask = SDL_GetMouseState(NULL, NULL);
 
-			d_event.type = ev_mouse;
-			d_event.data1 = button_mask & SDL_BUTTON(SDL_BUTTON_LEFT) ? 1 : 0 |
-				button_mask & SDL_BUTTON(SDL_BUTTON_RIGHT) ? 2 : 0 |
-				button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE) ? 4 : 0;
-			d_event.data2 = sdl_event.motion.xrel << mouse_sensitivity_multiplier_x;
-			d_event.data3 = -sdl_event.motion.yrel << mouse_sensitivity_multiplier_y;
+				d_event.type = ev_mouse;
+				d_event.data1 = button_mask & SDL_BUTTON(SDL_BUTTON_LEFT) ? 1 : 0 |
+					button_mask & SDL_BUTTON(SDL_BUTTON_RIGHT) ? 2 : 0 |
+					button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE) ? 4 : 0;
+				d_event.data2 = sdl_event.motion.xrel << mouse_sensitivity_multiplier_x;
+				d_event.data3 = -sdl_event.motion.yrel << mouse_sensitivity_multiplier_y;
 
-			dispatch_event = SDL_TRUE;
-			break;
-		case SDL_MOUSEBUTTONUP:
-		case SDL_MOUSEBUTTONDOWN:
-			button_mask = SDL_GetMouseState(NULL, NULL);
+				dispatch_event = SDL_TRUE;
+				break;
+			case SDL_MOUSEBUTTONUP:
+			case SDL_MOUSEBUTTONDOWN:
+				button_mask = SDL_GetMouseState(NULL, NULL);
 
-			d_event.type = ev_mouse;
-			d_event.data1 = button_mask & SDL_BUTTON(SDL_BUTTON_LEFT) ? 1 : 0 |
-				button_mask & SDL_BUTTON(SDL_BUTTON_RIGHT) ? 2 : 0 |
-				button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE) ? 4 : 0;
-			d_event.data2 = d_event.data3 = 0;
+				d_event.type = ev_mouse;
+				d_event.data1 = button_mask & SDL_BUTTON(SDL_BUTTON_LEFT) ? 1 : 0 |
+					button_mask & SDL_BUTTON(SDL_BUTTON_RIGHT) ? 2 : 0 |
+					button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE) ? 4 : 0;
+				d_event.data2 = d_event.data3 = 0;
 
-			dispatch_event = SDL_TRUE;
-			break;
-		default:
-			continue;
+				dispatch_event = SDL_TRUE;
+				break;
+			case SDL_WINDOWEVENT:
+				HandleWindowEvent(sdl_event);
+				return;
+			default:
+				continue;
 		}
 
 		/* Handle keyboard events. */
-		if(d_event.type == ev_keydown || d_event.type == ev_keyup)
+		if((d_event.type == ev_keydown || d_event.type == ev_keyup) && !dispatch_event)
 			if((d_event.data1 = MapSDLKey(sdl_event.key.keysym)) != -1)
 				dispatch_event = SDL_TRUE;
 
