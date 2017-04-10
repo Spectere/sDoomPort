@@ -23,6 +23,7 @@
 #include "i_system.h"
 #include "z_zone.h"
 #include "m_random.h"
+#include "m_list.h"
 
 #include "doomdef.h"
 #include "p_local.h"
@@ -39,6 +40,7 @@
 void G_PlayerReborn(int player);
 void P_SpawnMapThing(mapthing_t* mthing);
 
+list mobjs;
 
 //
 // P_SetMobjState
@@ -429,8 +431,7 @@ mobj_t* P_SpawnMobj (fixed_t x, fixed_t y, fixed_t z, mobjtype_t type) {
 	state_t* st;
 	mobjinfo_t* info;
 
-	mobj = Z_Malloc(sizeof(*mobj), PU_LEVEL, NULL);
-	memset(mobj, 0, sizeof (*mobj));
+	mobj = list_insert_last(&mobjs);
 	info = &mobjinfo[type];
 
 	mobj->type = type;
@@ -485,6 +486,8 @@ int iquetail;
 
 
 void P_RemoveMobj(mobj_t* mobj) {
+	mobj_t* cur;
+
 	if((mobj->flags & MF_SPECIAL)
 	   && !(mobj->flags & MF_DROPPED)
 	   && (mobj->type != MT_INV)
@@ -883,4 +886,12 @@ void P_SpawnPlayerMissile(mobj_t* source, mobjtype_t type) {
 	th->momz = FixedMul(th->info->speed, slope);
 
 	P_CheckMissileSpawn(th);
+}
+
+void P_ReleaseMobjs(void) {
+	list_clear(&mobjs);
+}
+
+void P_InitMobjs(void) {
+	list_new(&mobjs, sizeof(mobj_t));
 }
