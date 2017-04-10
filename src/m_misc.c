@@ -137,7 +137,6 @@ int M_ReadFile(char const* name, Uint8** buffer) {
 //
 // DEFAULTS
 //
-int usemouse;
 int usejoystick;
 
 extern int key_right;
@@ -178,6 +177,7 @@ extern int showMessages;
 extern int numChannels;
 
 extern int scale;
+extern int use_mouse;
 extern int capture_mouse;
 extern int mouse_sensitivity_multiplier_x;
 extern int mouse_sensitivity_multiplier_y;
@@ -224,7 +224,6 @@ default_t defaults[] = {
     {"key_strafe",&key_strafe, KEY_RALT},
     {"key_speed",&key_speed, KEY_RSHIFT},
 
-	{"use_mouse",&usemouse, 1},
 	{"mouseb_fire",&mousebfire,0},
 	{"mouseb_strafe",&mousebstrafe,1},
 	{"mouseb_forward",&mousebforward,2},
@@ -241,6 +240,7 @@ default_t defaults[] = {
 	{"snd_channels",&numChannels, 3},
 
 	{"scale",&scale, 2},
+	{"use_mouse",&use_mouse, 1},
 	{"capture_mouse",&capture_mouse, 1},
 	{"mouse_sensitivity_multiplier_x",&mouse_sensitivity_multiplier_x, 5},
 	{"mouse_sensitivity_multiplier_y",&mouse_sensitivity_multiplier_y, 5},

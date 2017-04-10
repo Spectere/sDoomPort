@@ -23,6 +23,8 @@
 #include "d_main.h"
 #include "doomdef.h"
 
+extern int use_mouse;
+
 extern int mouse_sensitivity_multiplier_x;
 extern int mouse_sensitivity_multiplier_y;
 
@@ -130,6 +132,7 @@ void I_GetEvent(void) {
 				d_event.type = ev_keyup;
 				break;
 			case SDL_MOUSEMOTION:
+				if(!use_mouse) return;
 				button_mask = SDL_GetMouseState(NULL, NULL);
 
 				d_event.type = ev_mouse;
@@ -143,6 +146,7 @@ void I_GetEvent(void) {
 				break;
 			case SDL_MOUSEBUTTONUP:
 			case SDL_MOUSEBUTTONDOWN:
+				if(!use_mouse) return;
 				button_mask = SDL_GetMouseState(NULL, NULL);
 
 				d_event.type = ev_mouse;

@@ -85,7 +85,8 @@ char* messageString;
 // Display scaling multipler.
 int scale;
 
-// Capture mouse cursor.
+// Mouse options: enable/disable mouse input, capture mouse pointer by default.
+int use_mouse;
 int capture_mouse;
 
 // The sensitivity multiplier.

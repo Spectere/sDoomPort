@@ -48,6 +48,7 @@ void I_ShutdownGraphics(void) {
 }
 
 extern int scale;
+extern int use_mouse;
 extern int capture_mouse;
 
 //
@@ -150,7 +151,7 @@ void I_InitGraphics(void) {
 	if(texture == NULL) I_Error("I_InitGraphics(): Error creating texture!");
 
 	/* Capture the mouse cursor (if applicable). */
-	if(capture_mouse) {
+	if(use_mouse && capture_mouse) {
 		SDL_CaptureMouse(SDL_TRUE);
 		SDL_SetRelativeMouseMode(SDL_TRUE);
 	}
