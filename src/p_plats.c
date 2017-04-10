@@ -37,8 +37,12 @@
 #include "sounds.h"
 
 
-plat_t* activeplats[MAXPLATS];
+list activeplats;
 
+
+void T_InitPlats(void) {
+	list_new(&activeplats, sizeof(plat_t));
+}
 
 //
 // Move a plat up and down
@@ -148,7 +152,7 @@ int EV_DoPlat(line_t* line, plattype_e type, int amount) {
 
 		// Find lowest & highest floors around sector
 		rtn = 1;
-		plat = Z_Malloc(sizeof(*plat), PU_LEVSPEC, 0);
+		plat = list_insert_last(&activeplats);
 		plat->thinker = P_NewThinker(plat);
 
 		plat->type = type;
@@ -225,58 +229,45 @@ int EV_DoPlat(line_t* line, plattype_e type, int amount) {
 				S_StartSound((mobj_t *)&sec->soundorg, sfx_pstart);
 				break;
 		}
-		P_AddActivePlat(plat);
 	}
 	return rtn;
 }
 
 
 void P_ActivateInStasis(int tag) {
-	int i;
+	plat_t* plat;
 
-	for(i = 0; i < MAXPLATS; i++)
-		if(activeplats[i]
-		   && (activeplats[i])->tag == tag
-		   && (activeplats[i])->status == in_stasis) {
-			(activeplats[i])->status = (activeplats[i])->oldstatus;
-			(activeplats[i])->thinker->action.acp1
-					= (actionf_p1) T_PlatRaise;
+	LIST_ITERATE(plat, &activeplats) {
+		if(plat->tag == tag && plat->status == in_stasis) {
+			plat->status = plat->oldstatus;
+			plat->thinker->action.acp1 = (actionf_p1)T_PlatRaise;
 		}
+	}
 }
 
 void EV_StopPlat(line_t* line) {
-	int j;
+	plat_t* plat;
 
-	for(j = 0; j < MAXPLATS; j++)
-		if(activeplats[j]
-		   && ((activeplats[j])->status != in_stasis)
-		   && ((activeplats[j])->tag == line->tag)) {
-			(activeplats[j])->oldstatus = (activeplats[j])->status;
-			(activeplats[j])->status = in_stasis;
-			(activeplats[j])->thinker->action.acv = NULL;
+	LIST_ITERATE(plat, &activeplats) {
+		if(plat->status != in_stasis && plat->tag == line->tag) {
+			plat->oldstatus = plat->status;
+			plat->status = in_stasis;
+			plat->thinker->action.acv = NULL;
 		}
-}
-
-void P_AddActivePlat(plat_t* plat) {
-	int i;
-
-	for(i = 0; i < MAXPLATS; i++)
-		if(activeplats[i] == NULL) {
-			activeplats[i] = plat;
-			return;
-		}
-	I_Error("P_AddActivePlat: no more plats!");
+	}
 }
 
 void P_RemoveActivePlat(plat_t* plat) {
-	int i;
-	for(i = 0; i < MAXPLATS; i++)
-		if(plat == activeplats[i]) {
-			(activeplats[i])->sector->specialdata = NULL;
-			P_RemoveThinker(activeplats[i]->thinker);
-			activeplats[i] = NULL;
+	plat_t* cur;
+
+	LIST_ITERATE(cur, &activeplats) {
+		if(plat == cur) {
+			cur->sector->specialdata = NULL;
+			P_RemoveThinker(cur->thinker);
+			list_delete_current(&activeplats);
 
 			return;
 		}
+	}
 	I_Error("P_RemoveActivePlat: can't find plat!");
 }

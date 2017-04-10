@@ -26,6 +26,7 @@
 #define __P_SPEC__
 
 #include <SDL_stdinc.h>
+#include "m_list.h"
 
 //
 // End-level timer (-TIMER option)
@@ -226,11 +227,11 @@ typedef struct {
 
 #define PLATWAIT		3
 #define PLATSPEED		FRACUNIT
-#define MAXPLATS		30
 
 
-extern plat_t* activeplats[MAXPLATS];
+extern list activeplats;
 
+void T_InitPlats(void);
 void T_PlatRaise(think_t* plat);
 
 int EV_DoPlat(line_t* line, plattype_e type, int amount);
