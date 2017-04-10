@@ -40,10 +40,6 @@
 list activeplats;
 
 
-void T_InitPlats(void) {
-	list_new(&activeplats, sizeof(plat_t));
-}
-
 //
 // Move a plat up and down
 //
@@ -270,4 +266,11 @@ void P_RemoveActivePlat(plat_t* plat) {
 		}
 	}
 	I_Error("P_RemoveActivePlat: can't find plat!");
+}
+
+void T_InitPlats(void) {
+	if(activeplats.data_size == 0)
+		list_new(&activeplats, sizeof(plat_t));
+	else
+		list_clear(&activeplats);
 }

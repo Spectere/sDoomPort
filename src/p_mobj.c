@@ -486,8 +486,6 @@ int iquetail;
 
 
 void P_RemoveMobj(mobj_t* mobj) {
-	mobj_t* cur;
-
 	if((mobj->flags & MF_SPECIAL)
 	   && !(mobj->flags & MF_DROPPED)
 	   && (mobj->type != MT_INV)
@@ -888,10 +886,9 @@ void P_SpawnPlayerMissile(mobj_t* source, mobjtype_t type) {
 	P_CheckMissileSpawn(th);
 }
 
-void P_ReleaseMobjs(void) {
-	list_clear(&mobjs);
-}
-
 void P_InitMobjs(void) {
-	list_new(&mobjs, sizeof(mobj_t));
+	if(mobjs.data_size == 0)
+		list_new(&mobjs, sizeof(mobj_t));
+	else
+		list_clear(&mobjs);
 }
