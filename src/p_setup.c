@@ -563,6 +563,7 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill) {
 #endif
 	Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
+	P_ReleaseMobjs();
 	P_InitThinkers();
 
 	// if working with a devlopment map, reload it
@@ -642,4 +643,5 @@ void P_Init(void) {
 
 	/* Initialize all of the necessary linked lists. */
 	T_InitPlats();
+	P_InitMobjs();
 }
