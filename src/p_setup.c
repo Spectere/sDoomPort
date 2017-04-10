@@ -639,4 +639,7 @@ void P_Init(void) {
 	P_InitSwitchList();
 	P_InitPicAnims();
 	R_InitSprites(sprnames);
+
+	/* Initialize all of the necessary linked lists. */
+	T_InitPlats();
 }

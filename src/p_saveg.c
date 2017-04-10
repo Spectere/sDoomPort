@@ -472,7 +472,7 @@ void P_UnArchiveSpecials(void) {
 
 			case tc_plat:
 				PADSAVEP();
-				plat = Z_Malloc(sizeof(*plat), PU_LEVEL, NULL);
+				plat = list_insert_last(&activeplats);
 				memcpy(plat, save_p, sizeof(*plat));
 				save_p += sizeof(*plat);
 				plat->sector = &sectors[(int)plat->sector];
@@ -482,7 +482,6 @@ void P_UnArchiveSpecials(void) {
 				if(plat->thinker->action.acp1)
 					plat->thinker->action.acp1 = (actionf_p1)T_PlatRaise;
 
-				P_AddActivePlat(plat);
 				break;
 
 			case tc_flash:
