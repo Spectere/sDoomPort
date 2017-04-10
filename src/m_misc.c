@@ -182,18 +182,6 @@ extern int capture_mouse;
 extern int mouse_sensitivity_multiplier_x;
 extern int mouse_sensitivity_multiplier_y;
 
-
-// UNIX hack, to be removed.
-#ifdef SNDSERV
-extern char* sndserver_filename;
-extern int mb_used;
-#endif
-
-#ifdef LINUX
-char*		mousetype;
-char*		mousedev;
-#endif
-
 extern char* chat_macros[];
 
 

@@ -35,12 +35,7 @@
 #define __TABLES__
 
 
-#ifdef LINUX
-#include <math.h>
-#else
 #define PI				3.141592657
-#endif
-
 
 #include "m_fixed.h"
 
