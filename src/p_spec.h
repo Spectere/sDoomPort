@@ -231,7 +231,6 @@ typedef struct {
 
 extern list activeplats;
 
-void T_InitPlats(void);
 void T_PlatRaise(think_t* plat);
 
 int EV_DoPlat(line_t* line, plattype_e type, int amount);
@@ -241,6 +240,7 @@ void P_RemoveActivePlat(plat_t* plat);
 void EV_StopPlat(line_t* line);
 void P_ActivateInStasis(int tag);
 
+void T_InitPlats(void);
 
 //
 // P_DOORS
