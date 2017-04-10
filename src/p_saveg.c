@@ -424,6 +424,7 @@ void P_UnArchiveSpecials(void) {
 	lightflash_t* flash;
 	strobe_t* strobe;
 	glow_t* glow;
+	SDL_bool active_thinker;
 
 
 	// read in saved thinkers
@@ -436,13 +437,14 @@ void P_UnArchiveSpecials(void) {
 			case tc_ceiling:
 				PADSAVEP();
 				ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVEL, NULL);
+				active_thinker = ((ceiling_t*)save_p)->thinker != 0;
 				memcpy(ceiling, save_p, sizeof(*ceiling));
 				save_p += sizeof(*ceiling);
 				ceiling->sector = &sectors[(int)ceiling->sector];
 				ceiling->sector->specialdata = ceiling;
 
 				ceiling->thinker = P_NewThinker(ceiling);
-				if(ceiling->thinker->action.acp1)
+				if(active_thinker)
 					ceiling->thinker->action.acp1 = (actionf_p1)T_MoveCeiling;
 
 				P_AddActiveCeiling(ceiling);
@@ -473,13 +475,14 @@ void P_UnArchiveSpecials(void) {
 			case tc_plat:
 				PADSAVEP();
 				plat = list_insert_last(&activeplats);
+				active_thinker = ((plat_t*)save_p)->thinker != 0;
 				memcpy(plat, save_p, sizeof(*plat));
 				save_p += sizeof(*plat);
 				plat->sector = &sectors[(int)plat->sector];
 				plat->sector->specialdata = plat;
 
 				plat->thinker = P_NewThinker(plat);
-				if(plat->thinker->action.acp1)
+				if(active_thinker)
 					plat->thinker->action.acp1 = (actionf_p1)T_PlatRaise;
 
 				break;
