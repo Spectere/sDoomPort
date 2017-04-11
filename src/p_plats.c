@@ -274,3 +274,7 @@ void T_InitPlats(void) {
 	else
 		list_clear(&activeplats);
 }
+
+int T_PlatCount(void) {
+	return activeplats.count;
+}

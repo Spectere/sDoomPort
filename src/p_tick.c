@@ -124,3 +124,7 @@ void P_Ticker(void) {
 	// for par times
 	leveltime++;
 }
+
+int P_ThinkerCount(void) {
+	return thinkers.count;
+}

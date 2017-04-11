@@ -241,6 +241,7 @@ void EV_StopPlat(line_t* line);
 void P_ActivateInStasis(int tag);
 
 void T_InitPlats(void);
+int T_PlatCount(void);
 
 //
 // P_DOORS

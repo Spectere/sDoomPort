@@ -379,3 +379,7 @@ void R_DrawPlanes(void) {
 		Z_ChangeTag (ds_source, PU_CACHE);
 	}
 }
+
+int R_PlaneCount(void) {
+	return visplanes.count;
+}

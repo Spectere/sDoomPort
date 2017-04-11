@@ -892,3 +892,7 @@ void P_InitMobjs(void) {
 	else
 		list_clear(&mobjs);
 }
+
+int P_MobjCount(void) {
+	return mobjs.count;
+}
