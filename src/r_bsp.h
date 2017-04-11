@@ -61,4 +61,6 @@ void R_InitSegs(void);
 
 void R_RenderBSPNode(int bspnum);
 
+int R_SegCount(void);
+
 #endif

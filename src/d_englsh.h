@@ -355,6 +355,9 @@
 #define STSTR_INF_AMMO_ON	"Portable Ammo Generator ON"
 #define STSTR_INF_AMMO_OFF	"Portable Ammo Generator OFF"
 
+#define STSTR_SDP_DEBUG_ON	"Developer Vision Activated!"
+#define STSTR_SDP_DEBUG_OFF	"Welcome...to the real world."
+
 //
 //	F_Finale.C
 //

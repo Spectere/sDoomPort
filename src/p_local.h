@@ -119,6 +119,7 @@ void P_SpawnBlood(fixed_t x, fixed_t y, fixed_t z, int damage);
 mobj_t* P_SpawnMissile(mobj_t* source, mobj_t* dest, mobjtype_t type);
 void P_SpawnPlayerMissile(mobj_t* source, mobjtype_t type);
 void P_InitMobjs(void);
+int P_MobjCount(void);
 
 //
 // P_ENEMY

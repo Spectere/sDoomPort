@@ -429,8 +429,10 @@ cheatseq_t cheat_mypos = {cheat_mypos_seq, 0};
 
 /* sDoomPort Cheats */
 unsigned char cheat_infinite_ammo_seq[] = { 's', 'd', 'p', 'n', 'u', 't', 's', 0xff };
+unsigned char cheat_stats_seq[] = { 's', 'd', 'p', 'b', 'l', 'a', 'h', 0xff };
 
 cheatseq_t cheat_infinite_ammo = { cheat_infinite_ammo_seq, 0 };
+cheatseq_t cheat_stats = { cheat_stats_seq, 0 };
 
 // 
 extern char* mapnames[];
@@ -595,11 +597,16 @@ SDL_bool ST_Responder(event_t* ev) {
 			/* SDP cheats */
 			if(cht_CheckCheat(&cheat_infinite_ammo, ev->data1)) {
 				plyr->infinite_ammo = !plyr->infinite_ammo;
-				if(plyr->infinite_ammo) {
+				if(plyr->infinite_ammo)
 					plyr->message = STSTR_INF_AMMO_ON;
-				} else {
+				else
 					plyr->message = STSTR_INF_AMMO_OFF;
-				}
+			} else if(cht_CheckCheat(&cheat_stats, ev->data1)) {
+				plyr->stat_display = !plyr->stat_display;
+				if(plyr->stat_display)
+					plyr->message = STSTR_SDP_DEBUG_ON;
+				else
+					plyr->message = STSTR_SDP_DEBUG_OFF;
 			}
 		}
 

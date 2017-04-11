@@ -39,6 +39,7 @@ void init_list(list* list) {
 	new_node->data = create_data(list->data_size);
 	new_node->next = new_node->prev = NULL;
 	list->head = list->tail = list->current = new_node;
+	list->count++;
 }
 
 void list_clear(list *list) {
@@ -46,12 +47,16 @@ void list_clear(list *list) {
 
 	while(list_get_first(list) != NULL)
 		list_delete_current(list);
+
+	list->count = 0;
 }
 
 SDL_bool list_delete_current(list *list) {
 	list_node *new_current;
 
 	if(list_is_empty(list)) return SDL_FALSE;
+
+	list->count--;
 
 	if(list->current->prev == NULL) {
 		/* Current object is the first one in the list. */
@@ -110,6 +115,7 @@ void* list_get_prev(list *list) {
 }
 
 void* list_insert_after_current(list *list) {
+	list->count++;
 	if(list_is_empty(list)) {
 		init_list(list);
 		return list->current->data;
@@ -133,6 +139,7 @@ void* list_insert_after_current(list *list) {
 }
 
 void* list_insert_before_current(list *list) {
+	list->count++;
 	if(list_is_empty(list)) {
 		init_list(list);
 		return list->current->data;
@@ -156,6 +163,7 @@ void* list_insert_before_current(list *list) {
 }
 
 void* list_insert_first(list *list) {
+	list->count++;
 	if(list_is_empty(list)) {
 		init_list(list);
 		return list->current->data;
@@ -173,6 +181,7 @@ void* list_insert_first(list *list) {
 }
 
 void* list_insert_last(list *list) {
+	list->count++;
 	if(list_is_empty(list)) {
 		init_list(list);
 		return list->current->data;
@@ -203,4 +212,5 @@ SDL_bool list_is_empty(list *list) {
 
 void list_new(list *list, size_t data_size) {
 	list->data_size = data_size;
+	list->count = 0;
 }

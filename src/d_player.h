@@ -156,6 +156,9 @@ typedef struct player_s {
 	// SDP cheat: infinite ammo
 	SDL_bool infinite_ammo;
 
+	// SDP "cheat": debug stats
+	SDL_bool stat_display;
+
 } player_t;
 
 

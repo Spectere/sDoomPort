@@ -43,6 +43,7 @@ typedef struct list {
 	list_node *current;
 
 	size_t data_size;
+	int count;
 } list;
 
 SDL_bool list_delete_current(list *list);

@@ -48,5 +48,6 @@ void R_MakeSpans(int x, int t1, int b1, int t2, int b2);
 void R_DrawPlanes(void);
 void* R_FindPlane(fixed_t height, int picnum, int lightlevel);
 void* R_CheckPlane(visplane_t* pl, int start, int stop);
+int R_PlaneCount(void);
 
 #endif
