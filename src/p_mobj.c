@@ -486,6 +486,7 @@ int iquetail;
 
 
 void P_RemoveMobj(mobj_t* mobj) {
+	mobj_t* cur;
 	if((mobj->flags & MF_SPECIAL)
 	   && !(mobj->flags & MF_DROPPED)
 	   && (mobj->type != MT_INV)
@@ -507,6 +508,15 @@ void P_RemoveMobj(mobj_t* mobj) {
 
 	// remove thinker
 	P_RemoveThinker(mobj->thinker);
+
+	/* Remove mobj if it's not on the blockmap. */
+	if(!(mobj->flags & MF_NOBLOCKMAP)) return;
+	LIST_ITERATE(cur, &mobjs) {
+		if(cur == mobj) {
+			list_delete_current(&mobjs);
+			return;
+		}
+	}
 }
 
 
