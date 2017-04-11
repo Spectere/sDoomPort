@@ -427,6 +427,10 @@ cheatseq_t cheat_choppers = {cheat_choppers_seq, 0};
 cheatseq_t cheat_clev = {cheat_clev_seq, 0};
 cheatseq_t cheat_mypos = {cheat_mypos_seq, 0};
 
+/* sDoomPort Cheats */
+unsigned char cheat_infinite_ammo_seq[] = { 's', 'd', 'p', 'n', 'u', 't', 's', 0xff };
+
+cheatseq_t cheat_infinite_ammo = { cheat_infinite_ammo_seq, 0 };
 
 // 
 extern char* mapnames[];
@@ -586,6 +590,16 @@ SDL_bool ST_Responder(event_t* ev) {
 				        players[consoleplayer].mo->x,
 				        players[consoleplayer].mo->y);
 				plyr->message = buf;
+			}
+
+			/* SDP cheats */
+			if(cht_CheckCheat(&cheat_infinite_ammo, ev->data1)) {
+				plyr->infinite_ammo = !plyr->infinite_ammo;
+				if(plyr->infinite_ammo) {
+					plyr->message = STSTR_INF_AMMO_ON;
+				} else {
+					plyr->message = STSTR_INF_AMMO_OFF;
+				}
 			}
 		}
 

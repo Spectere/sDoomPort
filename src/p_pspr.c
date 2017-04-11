@@ -157,7 +157,7 @@ SDL_bool P_CheckAmmo(player_t* player) {
 
 	// Some do not need ammunition anyway.
 	// Return if current ammunition sufficient.
-	if(ammo == am_noammo || player->ammo[ammo] >= count)
+	if(ammo == am_noammo || player->ammo[ammo] >= count || player->infinite_ammo)
 		return SDL_TRUE;
 
 	// Out of ammo, pick a weapon to change to.
@@ -456,7 +456,8 @@ void A_Saw(player_t* player, pspdef_t* psp) {
 // A_FireMissile
 //
 void A_FireMissile(player_t* player, pspdef_t* psp) {
-	player->ammo[weaponinfo[player->readyweapon].ammo]--;
+	if(!player->infinite_ammo)
+		player->ammo[weaponinfo[player->readyweapon].ammo]--;
 	P_SpawnPlayerMissile(player->mo, MT_ROCKET);
 }
 
@@ -465,7 +466,8 @@ void A_FireMissile(player_t* player, pspdef_t* psp) {
 // A_FireBFG
 //
 void A_FireBFG(player_t* player, pspdef_t* psp) {
-	player->ammo[weaponinfo[player->readyweapon].ammo] -= BFGCELLS;
+	if(!player->infinite_ammo)
+		player->ammo[weaponinfo[player->readyweapon].ammo] -= BFGCELLS;
 	P_SpawnPlayerMissile(player->mo, MT_BFG);
 }
 
@@ -474,7 +476,8 @@ void A_FireBFG(player_t* player, pspdef_t* psp) {
 // A_FirePlasma
 //
 void A_FirePlasma(player_t* player, pspdef_t* psp) {
-	player->ammo[weaponinfo[player->readyweapon].ammo]--;
+	if(!player->infinite_ammo)
+		player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
 	P_SetPsprite(player,
 	             ps_flash,
@@ -534,7 +537,8 @@ void A_FirePistol(player_t* player, pspdef_t* psp) {
 	S_StartSound(player->mo, sfx_pistol);
 
 	P_SetMobjState(player->mo, S_PLAY_ATK2);
-	player->ammo[weaponinfo[player->readyweapon].ammo]--;
+	if(!player->infinite_ammo)
+		player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
 	P_SetPsprite(player,
 	             ps_flash,
@@ -554,7 +558,8 @@ void A_FireShotgun(player_t* player, pspdef_t* psp) {
 	S_StartSound(player->mo, sfx_shotgn);
 	P_SetMobjState(player->mo, S_PLAY_ATK2);
 
-	player->ammo[weaponinfo[player->readyweapon].ammo]--;
+	if(!player->infinite_ammo)
+		player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
 	P_SetPsprite(player,
 	             ps_flash,
@@ -579,7 +584,8 @@ void A_FireShotgun2(player_t* player, pspdef_t* psp) {
 	S_StartSound(player->mo, sfx_dshtgn);
 	P_SetMobjState(player->mo, S_PLAY_ATK2);
 
-	player->ammo[weaponinfo[player->readyweapon].ammo] -= 2;
+	if(!player->infinite_ammo)
+		player->ammo[weaponinfo[player->readyweapon].ammo] -= 2;
 
 	P_SetPsprite(player,
 	             ps_flash,
@@ -605,11 +611,12 @@ void A_FireShotgun2(player_t* player, pspdef_t* psp) {
 void A_FireCGun(player_t* player, pspdef_t* psp) {
 	S_StartSound(player->mo, sfx_pistol);
 
-	if(!player->ammo[weaponinfo[player->readyweapon].ammo])
+	if(!player->ammo[weaponinfo[player->readyweapon].ammo] && !player->infinite_ammo)
 		return;
 
 	P_SetMobjState(player->mo, S_PLAY_ATK2);
-	player->ammo[weaponinfo[player->readyweapon].ammo]--;
+	if(!player->infinite_ammo)
+		player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
 	P_SetPsprite(player,
 	             ps_flash,

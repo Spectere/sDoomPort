@@ -351,6 +351,10 @@
 #define STSTR_CHOPPERS	"... doesn't suck - GM"
 #define STSTR_CLEV		"Changing Level..."
 
+/* SDP Cheat Messages */
+#define STSTR_INF_AMMO_ON	"Portable Ammo Generator ON"
+#define STSTR_INF_AMMO_OFF	"Portable Ammo Generator OFF"
+
 //
 //	F_Finale.C
 //
