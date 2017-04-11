@@ -262,6 +262,10 @@
 #define STSTR_CHOPPERS		"... DOESN'T SUCK - GM"
 #define STSTR_CLEV		"CHANGEMENT DE NIVEAU..."
 
+/* French SDP Cheat Messages (via Google Translator) */
+#define STSTR_INF_AMMO_ON	"GENERATEUR PORTABLE DE MUNITIONS ON"
+#define STSTR_INF_AMMO_OFF	"GENERATEUR PORTABLE DE MUNITIONS OFF"
+
 //
 //	F_Finale.C
 //

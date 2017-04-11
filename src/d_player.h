@@ -153,6 +153,9 @@ typedef struct player_s {
 	// True if secret level has been done.
 	SDL_bool didsecret;
 
+	// SDP cheat: infinite ammo
+	SDL_bool infinite_ammo;
+
 } player_t;
 
 
