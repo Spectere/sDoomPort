@@ -25,6 +25,7 @@
 // Basics.
 #include "tables.h"
 #include "m_fixed.h"
+#include "m_list.h"
 
 // We need the thinker_t stuff.
 #include "d_think.h"
@@ -271,6 +272,9 @@ typedef struct mobj_s {
 
 	// Thing being chased/attacked for tracers.
 	struct mobj_s* tracer;
+
+	/* The list node that this mobj is tied to. */
+	list_node* link;
 
 } mobj_t;
 

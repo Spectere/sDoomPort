@@ -98,6 +98,12 @@ void* list_get_last(list *list) {
 	return list->current->data;
 }
 
+list_node* list_get_last_node(list *list) {
+	if(list->tail == NULL)
+		return NULL;
+	return list->tail;
+}
+
 void* list_get_next(list *list) {
 	/* If the current entry is NULL, set this to a valid value. */
 	if(list->current == NULL) return list_get_first(list);
