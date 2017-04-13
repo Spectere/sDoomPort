@@ -121,6 +121,10 @@ void P_Ticker(void) {
 	P_UpdateSpecials();
 	P_RespawnSpecials();
 
+	/* Do any necessary cleanup here. */
+	if(gametic % MOBJGARBAGETIME == 0)
+		P_MobjCleanGarbage();
+
 	// for par times
 	leveltime++;
 }

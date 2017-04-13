@@ -100,6 +100,14 @@ void P_PlayerThink(player_t* player);
 // Time interval for item respawning.
 #define ITEMQUESIZE		128
 
+/* Declares how often mobjs get released from memory.
+ *
+ * MOBJGARBAGECOUNT should only be hit if the user is playing something
+ * ridiculous, like NUTS.WAD. Generally, the 10 second timer will be more
+ * than enough to keep memory usage down. */
+#define MOBJGARBAGECOUNT	1024
+#define MOBJGARBAGETIME		(10 * TICRATE)
+
 extern mapthing_t itemrespawnque[ITEMQUESIZE];
 extern int itemrespawntime[ITEMQUESIZE];
 extern int iquehead;
@@ -109,6 +117,8 @@ extern int iquetail;
 void P_RespawnSpecials(void);
 
 mobj_t* P_SpawnMobj(fixed_t x, fixed_t y, fixed_t z, mobjtype_t type);
+
+void P_MobjCleanGarbage(void);
 
 void P_RemoveMobj(mobj_t* th);
 SDL_bool P_SetMobjState(mobj_t* mobj, statenum_t state);

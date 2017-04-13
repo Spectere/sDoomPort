@@ -50,6 +50,7 @@ SDL_bool list_delete_current(list *list);
 void list_clear(list *list);
 void* list_get_first(list *list);
 void* list_get_last(list *list);
+list_node* list_get_last_node(list *list);
 void* list_get_next(list *list);
 void* list_get_prev(list *list);
 void* list_insert_after_current(list *list);

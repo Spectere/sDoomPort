@@ -41,12 +41,24 @@ void G_PlayerReborn(int player);
 void P_SpawnMapThing(mapthing_t* mthing);
 
 list mobjs;
+list_node* mobj_garbage[MOBJGARBAGECOUNT];
+static int garbage_count = 0;
 
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
 //
 int test;
+
+void P_MobjCleanGarbage(void) {
+	int i = 0;
+	for(; i < garbage_count; i++) {
+		mobjs.current = mobj_garbage[i];
+		list_delete_current(&mobjs);
+	}
+
+	garbage_count = 0;
+}
 
 SDL_bool P_SetMobjState(mobj_t* mobj, statenum_t state) {
 	state_t* st;
@@ -472,6 +484,8 @@ mobj_t* P_SpawnMobj (fixed_t x, fixed_t y, fixed_t z, mobjtype_t type) {
 	mobj->thinker = P_NewThinker(mobj);
 	mobj->thinker->action.acp1 = (actionf_p1)P_MobjThinker;
 
+	mobj->link = list_get_last_node(&mobjs);
+
 	return mobj;
 }
 
@@ -486,7 +500,6 @@ int iquetail;
 
 
 void P_RemoveMobj(mobj_t* mobj) {
-	mobj_t* cur;
 	if((mobj->flags & MF_SPECIAL)
 	   && !(mobj->flags & MF_DROPPED)
 	   && (mobj->type != MT_INV)
@@ -511,12 +524,9 @@ void P_RemoveMobj(mobj_t* mobj) {
 
 	/* Remove mobj if it's not on the blockmap. */
 	if(!(mobj->flags & MF_NOBLOCKMAP)) return;
-	LIST_ITERATE(cur, &mobjs) {
-		if(cur == mobj) {
-			list_delete_current(&mobjs);
-			return;
-		}
-	}
+	mobj_garbage[garbage_count++] = mobj->link;
+	if(garbage_count == MOBJGARBAGECOUNT)
+		P_MobjCleanGarbage();
 }
 
 
