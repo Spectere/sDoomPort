@@ -911,6 +911,8 @@ void P_InitMobjs(void) {
 		list_new(&mobjs, sizeof(mobj_t));
 	else
 		list_clear(&mobjs);
+
+	garbage_count = 0;
 }
 
 int P_MobjCount(void) {
