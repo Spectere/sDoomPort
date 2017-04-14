@@ -1269,7 +1269,7 @@ void WI_drawStats(void) {
 	V_DrawPatch(SP_TIMEX, SP_TIMEY, FB, time);
 	WI_drawTime(SCREENWIDTH / 2 - SP_TIMEX, SP_TIMEY, cnt_time);
 
-	if(wbs->epsd < 3) {
+	if(wbs->partime != 0) {
 		V_DrawPatch(SCREENWIDTH / 2 + SP_TIMEX, SP_TIMEY, FB, par);
 		WI_drawTime(SCREENWIDTH - SP_TIMEX, SP_TIMEY, cnt_par);
 	}
