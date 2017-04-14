@@ -898,12 +898,12 @@ void G_ScreenShot(void) {
 
 
 // DOOM Par Times
-int pars[4][10] =
+int pars[4][9] =
 {
-	{0},
-	{0,30,75,120,90,165,180,180,30,165},
-	{0,90,90,90,120,90,360,240,30,170},
-	{0,90,45,90,150,90,90,165,30,135}
+	{30,75,120,90,165,180,180,30,165},
+	{90,90,90,120,90,360,240,30,170},
+	{90,45,90,150,90,90,165,30,135},
+	{0}
 };
 
 // DOOM II Par Times
@@ -1025,10 +1025,17 @@ void G_DoCompleted(void) {
 	wminfo.maxitems = totalitems;
 	wminfo.maxsecret = totalsecret;
 	wminfo.maxfrags = 0;
-	if(gamemode == commercial)
-		wminfo.partime = 35 * cpars[gamemap - 1];
-	else
-		wminfo.partime = 35 * pars[gameepisode][gamemap];
+	if(gamemode == commercial) {
+		if(gamemission == doom2)
+			wminfo.partime = 35 * cpars[gamemap - 1];
+		else
+			wminfo.partime = 0;
+	} else {
+		if(gamemission == doom)
+			wminfo.partime = 35 * pars[gameepisode - 1][gamemap - 1];
+		else
+			wminfo.partime = 0;
+	}
 	wminfo.pnum = consoleplayer;
 
 	for(i = 0; i < MAXPLAYERS; i++) {

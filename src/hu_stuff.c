@@ -399,7 +399,7 @@ char ForeignTranslation(unsigned char ch) {
 
 void DebugPrint(void) {
 	char buf[HU_DEBUGWIDTH];
-	int i = 0, x = 0;
+	int i, x;
 
 	HUD_DPRINT(w_debug_vis, "vis: %i / %i", R_PlaneCount(), max_vis);
 	HUD_DPRINT(w_debug_seg, "seg: %i / %i", R_SegCount(), max_seg);
@@ -491,16 +491,20 @@ void HU_Start(void) {
 			s = HU_TITLE;
 			break;
 
-			/* FIXME
-			      case pack_plut:
-				s = HU_TITLEP;
-				break;
-			      case pack_tnt:
-				s = HU_TITLET;
-				break;
-			*/
-
 		case commercial:
+			switch(gamemission) {
+				case pack_plut:
+					s = HU_TITLEP;
+					break;
+				case pack_tnt:
+					s = HU_TITLET;
+					break;
+				default:
+					s = HU_TITLE2;
+					break;
+			}
+			break;
+
 		default:
 			s = HU_TITLE2;
 			break;
