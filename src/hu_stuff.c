@@ -48,6 +48,8 @@
 #define HU_TITLE2	(mapnames2[gamemap-1])
 #define HU_TITLEP	(mapnamesp[gamemap-1])
 #define HU_TITLET	(mapnamest[gamemap-1])
+#define HU_TITLEFD1	(mapnamefd1[(gameepisode-1)*9+gamemap-1])
+#define HU_TITLEFD2	(mapnamefd2[gamemap-1])
 #define HU_TITLEHEIGHT	1
 #define HU_TITLEX	0
 #define HU_TITLEY	(167 - SDL_SwapLE16(hu_font[0]->height))
@@ -287,6 +289,92 @@ char* mapnamest[] = { // TNT WAD map names.
 	THUSTR_32
 };
 
+char* mapnamefd1[] = { /* Freedoom - Phase 1 */
+	FREEDM1_E1M1,
+	FREEDM1_E1M2,
+	FREEDM1_E1M3,
+	FREEDM1_E1M4,
+	FREEDM1_E1M5,
+	FREEDM1_E1M6,
+	FREEDM1_E1M7,
+	FREEDM1_E1M8,
+	FREEDM1_E1M9,
+
+	FREEDM1_E2M1,
+	FREEDM1_E2M2,
+	FREEDM1_E2M3,
+	FREEDM1_E2M4,
+	FREEDM1_E2M5,
+	FREEDM1_E2M6,
+	FREEDM1_E2M7,
+	FREEDM1_E2M8,
+	FREEDM1_E2M9,
+
+	FREEDM1_E3M1,
+	FREEDM1_E3M2,
+	FREEDM1_E3M3,
+	FREEDM1_E3M4,
+	FREEDM1_E3M5,
+	FREEDM1_E3M6,
+	FREEDM1_E3M7,
+	FREEDM1_E3M8,
+	FREEDM1_E3M9,
+
+	FREEDM1_E4M1,
+	FREEDM1_E4M2,
+	FREEDM1_E4M3,
+	FREEDM1_E4M4,
+	FREEDM1_E4M5,
+	FREEDM1_E4M6,
+	FREEDM1_E4M7,
+	FREEDM1_E4M8,
+	FREEDM1_E4M9,
+
+	"NEWLEVEL",
+	"NEWLEVEL",
+	"NEWLEVEL",
+	"NEWLEVEL",
+	"NEWLEVEL",
+	"NEWLEVEL",
+	"NEWLEVEL",
+	"NEWLEVEL",
+	"NEWLEVEL"
+};
+
+char* mapnamefd2[] = { /* Freedoom - Phase 2 */
+	FREEDM2_1,
+	FREEDM2_2,
+	FREEDM2_3,
+	FREEDM2_4,
+	FREEDM2_5,
+	FREEDM2_6,
+	FREEDM2_7,
+	FREEDM2_8,
+	FREEDM2_9,
+	FREEDM2_10,
+	FREEDM2_11,
+	FREEDM2_12,
+	FREEDM2_13,
+	FREEDM2_14,
+	FREEDM2_15,
+	FREEDM2_16,
+	FREEDM2_17,
+	FREEDM2_18,
+	FREEDM2_19,
+	FREEDM2_20,
+	FREEDM2_21,
+	FREEDM2_22,
+	FREEDM2_23,
+	FREEDM2_24,
+	FREEDM2_25,
+	FREEDM2_26,
+	FREEDM2_27,
+	FREEDM2_28,
+	FREEDM2_29,
+	FREEDM2_30,
+	FREEDM2_31,
+	FREEDM2_32
+};
 
 const char* shiftxform;
 
@@ -488,7 +576,10 @@ void HU_Start(void) {
 		case shareware:
 		case registered:
 		case retail:
-			s = HU_TITLE;
+			if(gamemission == freedoom)
+				s = HU_TITLEFD1;
+			else
+				s = HU_TITLE;
 			break;
 
 		case commercial:
@@ -498,6 +589,9 @@ void HU_Start(void) {
 					break;
 				case pack_tnt:
 					s = HU_TITLET;
+					break;
+				case freedoom2:
+					s = HU_TITLEFD2;
 					break;
 				default:
 					s = HU_TITLE2;

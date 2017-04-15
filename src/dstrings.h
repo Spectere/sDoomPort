@@ -35,6 +35,8 @@
 #include "d_englsh.h"
 #endif
 
+#include "d_freedm.h"
+
 // Misc. other strings.
 #define SAVEGAMENAME	"doomsav"
 

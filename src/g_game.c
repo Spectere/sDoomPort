@@ -915,6 +915,21 @@ int cpars[32] =
 	120,30 // 31-32
 };
 
+/* Freedoom - Phase 1 Par Times */
+int fd1pars[4][9] = {
+	{30,120,150,180,420,390,690,60,30},
+	{120,150,180,270,300,150,120,120,360},
+	{30,120,240,270,0,180,300,60,570},
+	{0}
+};
+
+/* Freedoom - Phase 2 Par Times */
+int fd2pars[32] = {
+	30,90,120,120,150,90,150,330,150,120,
+	420,630,180,150,510,120,120,180,210,420,
+	330,420,240,420,600,270,690,450,300,60,
+	60,210
+};
 
 //
 // G_DoCompleted 
@@ -1028,11 +1043,15 @@ void G_DoCompleted(void) {
 	if(gamemode == commercial) {
 		if(gamemission == doom2)
 			wminfo.partime = 35 * cpars[gamemap - 1];
+		else if(gamemission == freedoom2)
+			wminfo.partime = 35 * fd2pars[gamemap - 1];
 		else
 			wminfo.partime = 0;
 	} else {
 		if(gamemission == doom)
 			wminfo.partime = 35 * pars[gameepisode - 1][gamemap - 1];
+		else if(gamemission == freedoom)
+			wminfo.partime = 35 * fd1pars[gameepisode - 1][gamemap - 1];
 		else
 			wminfo.partime = 0;
 	}

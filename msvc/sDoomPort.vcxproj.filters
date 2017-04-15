@@ -398,5 +398,8 @@
     <ClInclude Include="..\src\m_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\d_freedm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

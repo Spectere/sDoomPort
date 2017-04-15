@@ -274,6 +274,8 @@ SDL_bool P_GivePower(player_t* player, int /*powertype_t*/ power) {
 	return SDL_TRUE;
 }
 
+/* TODO: Improve the Freedoom string handling. */
+#define USING_FREEDOOM (gamemission == freedoom || gamemission == freedoom2)
 
 //
 // P_TouchSpecialThing
@@ -303,7 +305,7 @@ void P_TouchSpecialThing(mobj_t* special, mobj_t* toucher) {
 
 	// Identify by sprite.
 	switch(special->sprite) {
-			// armor
+		// armor
 		case SPR_ARM1:
 			if(!P_GiveArmor(player, 1))
 				return;
@@ -475,49 +477,73 @@ void P_TouchSpecialThing(mobj_t* special, mobj_t* toucher) {
 				if(!P_GiveAmmo(player, am_clip, 1))
 					return;
 			}
-			player->message = GOTCLIP;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTCLIP;
+			else
+				player->message = GOTCLIP;
 			break;
 
 		case SPR_AMMO:
 			if(!P_GiveAmmo(player, am_clip, 5))
 				return;
-			player->message = GOTCLIPBOX;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTCLIPBOX;
+			else
+				player->message = GOTCLIPBOX;
 			break;
 
 		case SPR_ROCK:
 			if(!P_GiveAmmo(player, am_misl, 1))
 				return;
-			player->message = GOTROCKET;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTROCKET;
+			else
+				player->message = GOTROCKET;
 			break;
 
 		case SPR_BROK:
 			if(!P_GiveAmmo(player, am_misl, 5))
 				return;
-			player->message = GOTROCKBOX;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTROCKBOX;
+			else
+				player->message = GOTROCKBOX;
 			break;
 
 		case SPR_CELL:
 			if(!P_GiveAmmo(player, am_cell, 1))
 				return;
-			player->message = GOTCELL;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTCELL;
+			else
+				player->message = GOTCELL;
 			break;
 
 		case SPR_CELP:
 			if(!P_GiveAmmo(player, am_cell, 5))
 				return;
-			player->message = GOTCELLBOX;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTCELLBOX;
+			else
+				player->message = GOTCELLBOX;
 			break;
 
 		case SPR_SHEL:
 			if(!P_GiveAmmo(player, am_shell, 1))
 				return;
-			player->message = GOTSHELLS;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTSHELLS;
+			else
+				player->message = GOTSHELLS;
 			break;
 
 		case SPR_SBOX:
 			if(!P_GiveAmmo(player, am_shell, 5))
 				return;
-			player->message = GOTSHELLBOX;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTSHELLBOX;
+			else
+				player->message = GOTSHELLBOX;
 			break;
 
 		case SPR_BPAK:
@@ -528,56 +554,80 @@ void P_TouchSpecialThing(mobj_t* special, mobj_t* toucher) {
 			}
 			for(i = 0; i < NUMAMMO; i++)
 				P_GiveAmmo(player, i, 1);
-			player->message = GOTBACKPACK;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTBACKPACK;
+			else
+				player->message = GOTBACKPACK;
 			break;
 
 			// weapons
 		case SPR_BFUG:
 			if(!P_GiveWeapon(player, wp_bfg, SDL_FALSE))
 				return;
-			player->message = GOTBFG9000;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTBFG9000;
+			else
+				player->message = GOTBFG9000;
 			sound = sfx_wpnup;
 			break;
 
 		case SPR_MGUN:
 			if(!P_GiveWeapon(player, wp_chaingun, special->flags & MF_DROPPED))
 				return;
-			player->message = GOTCHAINGUN;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTCHAINGUN;
+			else
+				player->message = GOTCHAINGUN;
 			sound = sfx_wpnup;
 			break;
 
 		case SPR_CSAW:
 			if(!P_GiveWeapon(player, wp_chainsaw, SDL_FALSE))
 				return;
-			player->message = GOTCHAINSAW;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTCHAINSAW;
+			else
+				player->message = GOTCHAINSAW;
 			sound = sfx_wpnup;
 			break;
 
 		case SPR_LAUN:
 			if(!P_GiveWeapon(player, wp_missile, SDL_FALSE))
 				return;
-			player->message = GOTLAUNCHER;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTLAUNCHER;
+			else
+				player->message = GOTLAUNCHER;
 			sound = sfx_wpnup;
 			break;
 
 		case SPR_PLAS:
 			if(!P_GiveWeapon(player, wp_plasma, SDL_FALSE))
 				return;
-			player->message = GOTPLASMA;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTPLASMA;
+			else
+				player->message = GOTPLASMA;
 			sound = sfx_wpnup;
 			break;
 
 		case SPR_SHOT:
 			if(!P_GiveWeapon(player, wp_shotgun, special->flags & MF_DROPPED))
 				return;
-			player->message = GOTSHOTGUN;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTSHOTGUN;
+			else
+				player->message = GOTSHOTGUN;
 			sound = sfx_wpnup;
 			break;
 
 		case SPR_SGN2:
 			if(!P_GiveWeapon(player, wp_supershotgun, special->flags & MF_DROPPED))
 				return;
-			player->message = GOTSHOTGUN2;
+			if(USING_FREEDOOM)
+				player->message = FD_GOTSHOTGUN2;
+			else
+				player->message = GOTSHOTGUN2;
 			sound = sfx_wpnup;
 			break;
 
