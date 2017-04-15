@@ -52,6 +52,7 @@ extern SDL_bool devparm; // DEBUG: launched with -devparm
 //
 extern GameMode_t gamemode;
 extern GameMission_t gamemission;
+extern SDL_bool bfg_edition;
 
 // Set if homebrew PWAD stuff has been added.
 extern SDL_bool modifiedgame;

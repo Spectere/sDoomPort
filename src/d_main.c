@@ -422,7 +422,10 @@ void D_DoAdvanceDemo(void) {
 			else
 				pagetic = 170;
 			gamestate = GS_DEMOSCREEN;
-			pagename = "TITLEPIC";
+			if(bfg_edition)
+				pagename = "DMENUPIC";
+			else
+				pagename = "TITLEPIC";
 			if(gamemode == commercial)
 				S_StartMusic(mus_dm2ttl);
 			else
@@ -443,7 +446,10 @@ void D_DoAdvanceDemo(void) {
 			gamestate = GS_DEMOSCREEN;
 			if(gamemode == commercial) {
 				pagetic = 35 * 11;
-				pagename = "TITLEPIC";
+				if(bfg_edition)
+					pagename = "DMENUPIC";
+				else
+					pagename = "TITLEPIC";
 				S_StartMusic(mus_dm2ttl);
 			} else {
 				pagetic = 200;
@@ -1036,6 +1042,13 @@ void D_DoomMain(void) {
 	// (IWADs upgraded from previous versions will keep the doom.wad name)
 	if(gamemode == registered && gamemission == doom && W_CheckNumForName("e4m1"))
 		gamemode = retail;
+
+	/* Check for the lack of the TITLEPIC lump. This happens when using the
+	 * version of DOOM2.WAD bundled in with Doom 3 BFG Edition. */
+	if(gamemission == doom2 && W_CheckNumForName("titlepic") == -1) {
+		printf("D_DoomMain: BFG Edition WAD detected.\n");
+		bfg_edition = SDL_TRUE;
+	}
 
 	// Check for -file in shareware
 	if(modifiedgame) {
