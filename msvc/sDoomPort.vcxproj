@@ -236,6 +236,7 @@
     <ClInclude Include="..\src\dstrings.h" />
     <ClInclude Include="..\src\d_englsh.h" />
     <ClInclude Include="..\src\d_event.h" />
+    <ClInclude Include="..\src\d_freedm.h" />
     <ClInclude Include="..\src\d_french.h" />
     <ClInclude Include="..\src\d_items.h" />
     <ClInclude Include="..\src\d_main.h" />

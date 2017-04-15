@@ -70,6 +70,18 @@ char* t4text = T4TEXT;
 char* t5text = T5TEXT;
 char* t6text = T6TEXT;
 
+char* fd1e1text = FREEDM1_E1TEXT;
+char* fd1e2text = FREEDM1_E2TEXT;
+char* fd1e3text = FREEDM1_E3TEXT;
+char* fd1e4text = FREEDM1_E4TEXT;
+
+char* fd2c1text = FREEDM2_C1TEXT;
+char* fd2c2text = FREEDM2_C2TEXT;
+char* fd2c3text = FREEDM2_C3TEXT;
+char* fd2c4text = FREEDM2_C4TEXT;
+char* fd2c5text = FREEDM2_C5TEXT;
+char* fd2c6text = FREEDM2_C6TEXT;
+
 char* finaletext;
 char* finaleflat;
 
@@ -98,22 +110,39 @@ void F_StartFinale(void) {
 		case retail: {
 			S_ChangeMusic(mus_victor, SDL_TRUE);
 
+			/* TODO: This is ugly. Fix it. */
 			switch(gameepisode) {
 				case 1:
 					finaleflat = "FLOOR4_8";
-					finaletext = e1text;
+					if(gamemission == freedoom) {
+						finaletext = fd1e1text;
+						finaleflat = FD_BGFLATE1;
+					} else
+						finaletext = e1text;
 					break;
 				case 2:
 					finaleflat = "SFLR6_1";
-					finaletext = e2text;
+					if(gamemission == freedoom) {
+						finaletext = fd1e2text;
+						finaleflat = FD_BGFLATE2;
+					} else
+						finaletext = e2text;
 					break;
 				case 3:
 					finaleflat = "MFLR8_4";
-					finaletext = e3text;
+					if(gamemission == freedoom) {
+						finaletext = fd1e3text;
+						finaleflat = FD_BGFLATE3;
+					} else
+						finaletext = e3text;
 					break;
 				case 4:
 					finaleflat = "MFLR8_3";
-					finaletext = e4text;
+					if(gamemission == freedoom) {
+						finaletext = fd1e4text;
+						finaleflat = FD_BGFLATE4;
+					} else
+						finaletext = e4text;
 					break;
 				default:
 					// Ouch.
@@ -126,30 +155,79 @@ void F_StartFinale(void) {
 		case commercial: {
 			S_ChangeMusic(mus_read_m, SDL_TRUE);
 
+			/* TODO: This is even uglier. Fix it! */
 			switch(gamemap) {
 				case 6:
 					finaleflat = "SLIME16";
-					finaletext = c1text;
+					if(gamemission == pack_tnt)
+						finaletext = t1text;
+					else if(gamemission == pack_plut)
+						finaletext = p1text;
+					else if(gamemission == freedoom2) {
+						finaletext = fd2c1text;
+						finaleflat = FD_BGFLAT06;
+					} else
+						finaletext = c1text;
 					break;
 				case 11:
 					finaleflat = "RROCK14";
-					finaletext = c2text;
+					if(gamemission == pack_tnt)
+						finaletext = t2text;
+					else if(gamemission == pack_plut)
+						finaletext = p2text;
+					else if(gamemission == freedoom2) {
+						finaletext = fd2c2text;
+						finaleflat = FD_BGFLAT11;
+					} else
+						finaletext = c2text;
 					break;
 				case 20:
 					finaleflat = "RROCK07";
-					finaletext = c3text;
+					if(gamemission == pack_tnt)
+						finaletext = t3text;
+					else if(gamemission == pack_plut)
+						finaletext = p3text;
+					else if(gamemission == freedoom2) {
+						finaletext = fd2c3text;
+						finaleflat = FD_BGFLAT20;
+					} else
+						finaletext = c3text;
 					break;
 				case 30:
 					finaleflat = "RROCK17";
-					finaletext = c4text;
+					if(gamemission == pack_tnt)
+						finaletext = t4text;
+					else if(gamemission == pack_plut)
+						finaletext = p4text;
+					else if(gamemission == freedoom2) {
+						finaletext = fd2c4text;
+						finaleflat = FD_BGFLAT30;
+					} else
+						finaletext = c4text;
 					break;
 				case 15:
 					finaleflat = "RROCK13";
-					finaletext = c5text;
+					if(gamemission == pack_tnt)
+						finaletext = t5text;
+					else if(gamemission == pack_plut)
+						finaletext = p5text;
+					else if(gamemission == freedoom2) {
+						finaletext = fd2c5text;
+						finaleflat = FD_BGFLAT15;
+					} else
+						finaletext = c5text;
 					break;
 				case 31:
 					finaleflat = "RROCK19";
-					finaletext = c6text;
+					if(gamemission == pack_tnt)
+						finaletext = t6text;
+					else if(gamemission == pack_plut)
+						finaletext = p6text;
+					else if(gamemission == freedoom2) {
+						finaletext = fd2c6text;
+						finaleflat = FD_BGFLAT31;
+					} else
+						finaletext = c6text;
 					break;
 				default:
 					// Ouch.
@@ -325,6 +403,30 @@ castinfo_t castorder[] = {
 	{NULL,0}
 };
 
+castinfo_t fdcastorder[] = {
+	{ FD_ZOMBIE, MT_POSSESSED },
+	{ FD_SHOTGUN, MT_SHOTGUY },
+	{ FD_HEAVY, MT_CHAINGUY },
+	{ FD_IMP, MT_TROOP },
+	{ FD_DEMON, MT_SERGEANT },
+	{ FD_LOST, MT_SKULL },
+	{ FD_CACO, MT_HEAD },
+	{ FD_HELL, MT_KNIGHT },
+	{ FD_BARON, MT_BRUISER },
+	{ FD_ARACH, MT_BABY },
+	{ FD_PAIN, MT_PAIN },
+	{ FD_REVEN, MT_UNDEAD },
+	{ FD_MANCU, MT_FATSO },
+	{ FD_ARCH, MT_VILE },
+	{ FD_SPIDER, MT_SPIDER },
+	{ FD_CYBER, MT_CYBORG },
+	{ FD_HERO, MT_PLAYER },
+
+	{ NULL,0 }
+};
+
+castinfo_t* activecast;
+
 int castnum;
 int casttics;
 state_t* caststate;
@@ -343,7 +445,11 @@ extern gamestate_t wipegamestate;
 void F_StartCast(void) {
 	wipegamestate = -1; // force a screen wipe
 	castnum = 0;
-	caststate = &states[mobjinfo[castorder[castnum].type].seestate];
+	if(gamemission == freedoom2)
+		activecast = fdcastorder;
+	else
+		activecast = castorder;
+	caststate = &states[mobjinfo[activecast[castnum].type].seestate];
 	casttics = caststate->tics;
 	castdeath = SDL_FALSE;
 	finalestage = 2;
@@ -368,11 +474,11 @@ void F_CastTicker(void) {
 		// switch from deathstate to next monster
 		castnum++;
 		castdeath = SDL_FALSE;
-		if(castorder[castnum].name == NULL)
+		if(activecast[castnum].name == NULL)
 			castnum = 0;
-		if(mobjinfo[castorder[castnum].type].seesound)
-			S_StartSound(NULL, mobjinfo[castorder[castnum].type].seesound);
-		caststate = &states[mobjinfo[castorder[castnum].type].seestate];
+		if(mobjinfo[activecast[castnum].type].seesound)
+			S_StartSound(NULL, mobjinfo[activecast[castnum].type].seesound);
+		caststate = &states[mobjinfo[activecast[castnum].type].seestate];
 		castframes = 0;
 	} else {
 		// just advance to next state in animation
@@ -439,27 +545,27 @@ void F_CastTicker(void) {
 		// go into attack frame
 		castattacking = SDL_TRUE;
 		if(castonmelee)
-			caststate = &states[mobjinfo[castorder[castnum].type].meleestate];
+			caststate = &states[mobjinfo[activecast[castnum].type].meleestate];
 		else
-			caststate = &states[mobjinfo[castorder[castnum].type].missilestate];
+			caststate = &states[mobjinfo[activecast[castnum].type].missilestate];
 		castonmelee ^= 1;
 		if(caststate == &states[S_NULL]) {
 			if(castonmelee)
 				caststate =
-						&states[mobjinfo[castorder[castnum].type].meleestate];
+						&states[mobjinfo[activecast[castnum].type].meleestate];
 			else
 				caststate =
-						&states[mobjinfo[castorder[castnum].type].missilestate];
+						&states[mobjinfo[activecast[castnum].type].missilestate];
 		}
 	}
 
 	if(castattacking) {
 		if(castframes == 24
-		   || caststate == &states[mobjinfo[castorder[castnum].type].seestate]) {
+		   || caststate == &states[mobjinfo[activecast[castnum].type].seestate]) {
 		stopattack:
 			castattacking = SDL_FALSE;
 			castframes = 0;
-			caststate = &states[mobjinfo[castorder[castnum].type].seestate];
+			caststate = &states[mobjinfo[activecast[castnum].type].seestate];
 		}
 	}
 
@@ -482,12 +588,12 @@ SDL_bool F_CastResponder(event_t* ev) {
 
 	// go into death frame
 	castdeath = SDL_TRUE;
-	caststate = &states[mobjinfo[castorder[castnum].type].deathstate];
+	caststate = &states[mobjinfo[activecast[castnum].type].deathstate];
 	casttics = caststate->tics;
 	castframes = 0;
 	castattacking = SDL_FALSE;
-	if(mobjinfo[castorder[castnum].type].deathsound)
-		S_StartSound(NULL, mobjinfo[castorder[castnum].type].deathsound);
+	if(mobjinfo[activecast[castnum].type].deathsound)
+		S_StartSound(NULL, mobjinfo[activecast[castnum].type].deathsound);
 
 	return SDL_TRUE;
 }
@@ -554,7 +660,7 @@ void F_CastDrawer(void) {
 	// erase the entire screen to a background
 	V_DrawPatch(0, 0, 0, W_CacheLumpName("BOSSBACK", PU_CACHE));
 
-	F_CastPrint(castorder[castnum].name);
+	F_CastPrint(activecast[castnum].name);
 
 	// draw the current frame in the middle of the screen
 	sprdef = &sprites[caststate->sprite];
