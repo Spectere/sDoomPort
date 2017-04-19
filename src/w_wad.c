@@ -406,7 +406,8 @@ void* W_CacheLumpNum(int lump, xmemtag_t tag) {
 		W_ReadLump(lump, lumpcache[lump]);
 	} else {
 		//printf ("cache hit on lump %i\n",lump);
-		X_ChangeTag (lumpcache[lump],tag);
+		/* TODO: XMEM: Reimplement me. */
+		/* Z_ChangeTag(lumpcache[lump], tag); */
 	}
 
 	return lumpcache[lump];

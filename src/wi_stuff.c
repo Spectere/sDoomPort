@@ -1496,7 +1496,7 @@ void WI_unloadData(void) {
 	
 	if(gamemode == commercial) {
 		for(i = 0; i < NUMCMAPS; i++)
-		Z_ChangeTag(lnames[i], PU_CACHE);
+		X_ChangeTag(lnames[i], XTag_Cache);
 	} else {
 		X_ChangeTag(yah[0], XTag_Cache);
 		X_ChangeTag(yah[1], XTag_Cache);
@@ -1504,7 +1504,7 @@ void WI_unloadData(void) {
 		X_ChangeTag(splat, XTag_Cache);
 
 		for(i = 0; i < NUMMAPS; i++)
-		Z_ChangeTag(lnames[i], PU_CACHE);
+		X_ChangeTag(lnames[i], XTag_Cache);
 
 		if(wbs->epsd < 3) {
 			for(j = 0; j < NUMANIMS[wbs->epsd]; j++) {

@@ -376,7 +376,8 @@ void R_DrawPlanes(void) {
 			            pl->bottom[x]);
 		}
 
-		X_ChangeTag(ds_source, XTag_Cache);
+		/* TODO: XMEM: Reimplement me. */
+		/*X_ChangeTag(ds_source, XTag_Cache);*/
 	}
 }
 

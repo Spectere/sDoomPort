@@ -482,7 +482,7 @@ void AM_unloadPics(void) {
 	int i;
 
 	for(i = 0; i < 10; i++)
-	Z_ChangeTag(marknums[i], PU_CACHE);
+	X_ChangeTag(marknums[i], XTag_Cache);
 
 }
 
