@@ -68,6 +68,8 @@
 
 #include "d_main.h"
 
+#include "x_memmgr.h"
+
 //
 // D-DoomLoop()
 // Not a globally visible function,
@@ -250,7 +252,7 @@ void D_Display(void) {
 
 	// clean up border stuff
 	if(gamestate != oldgamestate && gamestate != GS_LEVEL)
-		I_SetPalette(W_CacheLumpName("PLAYPAL",PU_CACHE));
+		I_SetPalette(W_CacheLumpName("PLAYPAL",XTag_Cache));
 
 	// see if the border needs to be initially drawn
 	if(gamestate == GS_LEVEL && oldgamestate != GS_LEVEL) {
@@ -281,7 +283,7 @@ void D_Display(void) {
 		else
 			y = viewwindowy + 4;
 		V_DrawPatchDirect(viewwindowx + (scaledviewwidth - 68) / 2,
-		                  y, 0, W_CacheLumpName("M_PAUSE", PU_CACHE));
+		                  y, 0, W_CacheLumpName("M_PAUSE", XTag_Cache));
 	}
 
 
@@ -386,7 +388,7 @@ void D_PageTicker(void) {
 // D_PageDrawer
 //
 void D_PageDrawer(void) {
-	V_DrawPatch(0, 0, 0, W_CacheLumpName(pagename, PU_CACHE));
+	V_DrawPatch(0, 0, 0, W_CacheLumpName(pagename, XTag_Cache));
 }
 
 
@@ -1033,6 +1035,9 @@ void D_DoomMain(void) {
 
 	printf("Z_Init: Init zone memory allocation daemon. \n");
 	Z_Init();
+
+	printf("X_Init: Init XMem allocation system.\n");
+	X_Init();
 
 	printf("W_Init: Init WADfiles.\n");
 	W_InitMultipleFiles(wadfiles);

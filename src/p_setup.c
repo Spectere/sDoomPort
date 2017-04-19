@@ -37,6 +37,7 @@
 #include "s_sound.h"
 
 #include "doomstat.h"
+#include "x_memmgr.h"
 
 
 void P_SpawnMapThing(mapthing_t* mthing);
@@ -123,7 +124,7 @@ void P_LoadVertexes(int lump) {
 	vertexes = Z_Malloc(numvertexes * sizeof(vertex_t),PU_LEVEL, 0);
 
 	// Load data into cache.
-	data = W_CacheLumpNum(lump,PU_STATIC);
+	data = W_CacheLumpNum(lump, XTag_Static);
 
 	ml = (mapvertex_t *)data;
 	li = vertexes;
@@ -136,7 +137,7 @@ void P_LoadVertexes(int lump) {
 	}
 
 	// Free buffer memory.
-	Z_Free(data);
+	X_Free(data);
 }
 
 
@@ -155,7 +156,7 @@ void P_LoadSegs(int lump) {
 	numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
 	segs = Z_Malloc(numsegs * sizeof(seg_t),PU_LEVEL, 0);
 	memset(segs, 0, numsegs * sizeof(seg_t));
-	data = W_CacheLumpNum(lump,PU_STATIC);
+	data = W_CacheLumpNum(lump, XTag_Static);
 
 	ml = (mapseg_t *)data;
 	li = segs;
@@ -177,7 +178,7 @@ void P_LoadSegs(int lump) {
 			li->backsector = 0;
 	}
 
-	Z_Free(data);
+	X_Free(data);
 }
 
 
@@ -192,7 +193,7 @@ void P_LoadSubsectors(int lump) {
 
 	numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
 	subsectors = Z_Malloc(numsubsectors * sizeof(subsector_t),PU_LEVEL, 0);
-	data = W_CacheLumpNum(lump,PU_STATIC);
+	data = W_CacheLumpNum(lump, XTag_Static);
 
 	ms = (mapsubsector_t *)data;
 	memset(subsectors, 0, numsubsectors * sizeof(subsector_t));
@@ -203,7 +204,7 @@ void P_LoadSubsectors(int lump) {
 		ss->firstline = SDL_SwapLE16(ms->firstseg);
 	}
 
-	Z_Free(data);
+	X_Free(data);
 }
 
 
@@ -219,7 +220,7 @@ void P_LoadSectors(int lump) {
 	numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
 	sectors = Z_Malloc(numsectors * sizeof(sector_t),PU_LEVEL, 0);
 	memset(sectors, 0, numsectors * sizeof(sector_t));
-	data = W_CacheLumpNum(lump,PU_STATIC);
+	data = W_CacheLumpNum(lump, XTag_Static);
 
 	ms = (mapsector_t *)data;
 	ss = sectors;
@@ -234,7 +235,7 @@ void P_LoadSectors(int lump) {
 		ss->thinglist = NULL;
 	}
 
-	Z_Free(data);
+	X_Free(data);
 }
 
 
@@ -251,7 +252,7 @@ void P_LoadNodes(int lump) {
 
 	numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
 	nodes = Z_Malloc(numnodes * sizeof(node_t),PU_LEVEL, 0);
-	data = W_CacheLumpNum(lump,PU_STATIC);
+	data = W_CacheLumpNum(lump, XTag_Static);
 
 	mn = (mapnode_t *)data;
 	no = nodes;
@@ -268,7 +269,7 @@ void P_LoadNodes(int lump) {
 		}
 	}
 
-	Z_Free(data);
+	X_Free(data);
 }
 
 
@@ -282,7 +283,7 @@ void P_LoadThings(int lump) {
 	int numthings;
 	SDL_bool spawn;
 
-	data = W_CacheLumpNum(lump,PU_STATIC);
+	data = W_CacheLumpNum(lump, XTag_Static);
 	numthings = W_LumpLength(lump) / sizeof(mapthing_t);
 
 	mt = (mapthing_t *)data;
@@ -319,7 +320,7 @@ void P_LoadThings(int lump) {
 		P_SpawnMapThing(mt);
 	}
 
-	Z_Free(data);
+	X_Free(data);
 }
 
 
@@ -338,7 +339,7 @@ void P_LoadLineDefs(int lump) {
 	numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
 	lines = Z_Malloc(numlines * sizeof(line_t),PU_LEVEL, 0);
 	memset(lines, 0, numlines * sizeof(line_t));
-	data = W_CacheLumpNum(lump,PU_STATIC);
+	data = W_CacheLumpNum(lump, XTag_Static);
 
 	mld = (maplinedef_t *)data;
 	ld = lines;
@@ -392,7 +393,7 @@ void P_LoadLineDefs(int lump) {
 			ld->backsector = 0;
 	}
 
-	Z_Free(data);
+	X_Free(data);
 }
 
 
@@ -408,7 +409,7 @@ void P_LoadSideDefs(int lump) {
 	numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
 	sides = Z_Malloc(numsides * sizeof(side_t),PU_LEVEL, 0);
 	memset(sides, 0, numsides * sizeof(side_t));
-	data = W_CacheLumpNum(lump,PU_STATIC);
+	data = W_CacheLumpNum(lump, XTag_Static);
 
 	msd = (mapsidedef_t *)data;
 	sd = sides;
@@ -421,7 +422,7 @@ void P_LoadSideDefs(int lump) {
 		sd->sector = &sectors[SDL_SwapLE16(msd->sector)];
 	}
 
-	Z_Free(data);
+	X_Free(data);
 }
 
 
@@ -432,7 +433,7 @@ void P_LoadBlockMap(int lump) {
 	int i;
 	int count;
 
-	blockmaplump = W_CacheLumpNum(lump,PU_LEVEL);
+	blockmaplump = W_CacheLumpNum(lump, XTag_Level);
 	blockmap = blockmaplump + 4;
 	count = W_LumpLength(lump) / 2;
 
@@ -562,6 +563,7 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill) {
     else
 #endif
 	Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
+	X_FreeTags(XTag_Level, XTag_Purge - 1);
 
 	T_InitPlats();
 	P_InitMobjs();
@@ -599,7 +601,7 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill) {
 	P_LoadNodes(lumpnum + ML_NODES);
 	P_LoadSegs(lumpnum + ML_SEGS);
 
-	rejectmatrix = W_CacheLumpNum(lumpnum + ML_REJECT,PU_LEVEL);
+	rejectmatrix = W_CacheLumpNum(lumpnum + ML_REJECT, XTag_Level);
 	P_GroupLines();
 
 	bodyqueslot = 0;

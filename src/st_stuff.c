@@ -53,6 +53,7 @@
 // Data.
 #include "dstrings.h"
 #include "sounds.h"
+#include "x_memmgr.h"
 
 //
 // STATUS BAR DATA
@@ -925,7 +926,7 @@ void ST_doPaletteStuff(void) {
 
 	if(palette != st_palette) {
 		st_palette = palette;
-		pal = (Uint8 *) W_CacheLumpNum(lu_palette, PU_CACHE) + palette * 768;
+		pal = (Uint8 *) W_CacheLumpNum(lu_palette, XTag_Cache) + palette * 768;
 		I_SetPalette(pal);
 	}
 }
@@ -1000,31 +1001,31 @@ void ST_loadGraphics(void) {
 	// Load the numbers, tall and short
 	for(i = 0; i < 10; i++) {
 		sprintf(namebuf, "STTNUM%d", i);
-		tallnum[i] = (patch_t *) W_CacheLumpName(namebuf, PU_STATIC);
+		tallnum[i] = (patch_t *) W_CacheLumpName(namebuf, XTag_Static);
 
 		sprintf(namebuf, "STYSNUM%d", i);
-		shortnum[i] = (patch_t *) W_CacheLumpName(namebuf, PU_STATIC);
+		shortnum[i] = (patch_t *) W_CacheLumpName(namebuf, XTag_Static);
 	}
 
 	// Load percent key.
 	//Note: why not load STMINUS here, too?
-	tallpercent = (patch_t *) W_CacheLumpName("STTPRCNT", PU_STATIC);
+	tallpercent = (patch_t *) W_CacheLumpName("STTPRCNT", XTag_Static);
 
 	// key cards
 	for(i = 0; i < NUMCARDS; i++) {
 		sprintf(namebuf, "STKEYS%d", i);
-		keys[i] = (patch_t *) W_CacheLumpName(namebuf, PU_STATIC);
+		keys[i] = (patch_t *) W_CacheLumpName(namebuf, XTag_Static);
 	}
 
 	// arms background
-	armsbg = (patch_t *) W_CacheLumpName("STARMS", PU_STATIC);
+	armsbg = (patch_t *) W_CacheLumpName("STARMS", XTag_Static);
 
 	// arms ownership widgets
 	for(i = 0; i < 6; i++) {
 		sprintf(namebuf, "STGNUM%d", i + 2);
 
 		// gray #
-		arms[i][0] = (patch_t *) W_CacheLumpName(namebuf, PU_STATIC);
+		arms[i][0] = (patch_t *) W_CacheLumpName(namebuf, XTag_Static);
 
 		// yellow #
 		arms[i][1] = shortnum[i + 2];
@@ -1032,31 +1033,31 @@ void ST_loadGraphics(void) {
 
 	// face backgrounds for different color players
 	sprintf(namebuf, "STFB%d", consoleplayer);
-	faceback = (patch_t *) W_CacheLumpName(namebuf, PU_STATIC);
+	faceback = (patch_t *) W_CacheLumpName(namebuf, XTag_Static);
 
 	// status bar background bits
-	sbar = (patch_t *) W_CacheLumpName("STBAR", PU_STATIC);
+	sbar = (patch_t *) W_CacheLumpName("STBAR", XTag_Static);
 
 	// face states
 	facenum = 0;
 	for(i = 0; i < ST_NUMPAINFACES; i++) {
 		for(j = 0; j < ST_NUMSTRAIGHTFACES; j++) {
 			sprintf(namebuf, "STFST%d%d", i, j);
-			faces[facenum++] = W_CacheLumpName(namebuf, PU_STATIC);
+			faces[facenum++] = W_CacheLumpName(namebuf, XTag_Static);
 		}
 		sprintf(namebuf, "STFTR%d0", i); // turn right
-		faces[facenum++] = W_CacheLumpName(namebuf, PU_STATIC);
+		faces[facenum++] = W_CacheLumpName(namebuf, XTag_Static);
 		sprintf(namebuf, "STFTL%d0", i); // turn left
-		faces[facenum++] = W_CacheLumpName(namebuf, PU_STATIC);
+		faces[facenum++] = W_CacheLumpName(namebuf, XTag_Static);
 		sprintf(namebuf, "STFOUCH%d", i); // ouch!
-		faces[facenum++] = W_CacheLumpName(namebuf, PU_STATIC);
+		faces[facenum++] = W_CacheLumpName(namebuf, XTag_Static);
 		sprintf(namebuf, "STFEVL%d", i); // evil grin ;)
-		faces[facenum++] = W_CacheLumpName(namebuf, PU_STATIC);
+		faces[facenum++] = W_CacheLumpName(namebuf, XTag_Static);
 		sprintf(namebuf, "STFKILL%d", i); // pissed off
-		faces[facenum++] = W_CacheLumpName(namebuf, PU_STATIC);
+		faces[facenum++] = W_CacheLumpName(namebuf, XTag_Static);
 	}
-	faces[facenum++] = W_CacheLumpName("STFGOD0", PU_STATIC);
-	faces[facenum] = W_CacheLumpName("STFDEAD0", PU_STATIC);
+	faces[facenum++] = W_CacheLumpName("STFGOD0", XTag_Static);
+	faces[facenum] = W_CacheLumpName("STFDEAD0", XTag_Static);
 }
 
 void ST_loadData(void) {
@@ -1303,7 +1304,7 @@ void ST_Stop(void) {
 	if(st_stopped)
 		return;
 
-	I_SetPalette(W_CacheLumpNum(lu_palette, PU_CACHE));
+	I_SetPalette(W_CacheLumpNum(lu_palette, XTag_Cache));
 
 	st_stopped = SDL_TRUE;
 }

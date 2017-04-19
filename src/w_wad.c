@@ -29,6 +29,7 @@
 #include "z_zone.h"
 
 #include "w_wad.h"
+#include "x_memmgr.h"
 
 
 //
@@ -393,7 +394,7 @@ void W_ReadLump(int lump, void* dest) {
 //
 // W_CacheLumpNum
 //
-void* W_CacheLumpNum(int lump, int tag) {
+void* W_CacheLumpNum(int lump, xmemtag_t tag) {
 	if((unsigned)lump >= numlumps)
 		I_Error("W_CacheLumpNum: %i >= numlumps", lump);
 
@@ -401,11 +402,11 @@ void* W_CacheLumpNum(int lump, int tag) {
 		// read the lump in
 
 		//printf ("cache miss on lump %i\n",lump);
-		Z_Malloc(W_LumpLength(lump), tag, &lumpcache[lump]);
+		lumpcache[lump] = X_Malloc(W_LumpLength(lump), tag);
 		W_ReadLump(lump, lumpcache[lump]);
 	} else {
 		//printf ("cache hit on lump %i\n",lump);
-		Z_ChangeTag (lumpcache[lump],tag);
+		X_ChangeTag (lumpcache[lump],tag);
 	}
 
 	return lumpcache[lump];
@@ -415,7 +416,7 @@ void* W_CacheLumpNum(int lump, int tag) {
 //
 // W_CacheLumpName
 //
-void* W_CacheLumpName(char* name, int tag) {
+void* W_CacheLumpName(char* name, xmemtag_t tag) {
 	return W_CacheLumpNum(W_GetNumForName(name), tag);
 }
 

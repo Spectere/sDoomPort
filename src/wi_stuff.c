@@ -42,6 +42,7 @@
 #include "v_video.h"
 
 #include "wi_stuff.h"
+#include "x_memmgr.h"
 
 //
 // Data needed to add patches to full screen intermission pics.
@@ -1348,7 +1349,7 @@ void WI_loadData(void) {
 	}
 
 	// background
-	bg = W_CacheLumpName(name, PU_CACHE);
+	bg = W_CacheLumpName(name, XTag_Cache);
 	V_DrawPatch(0, 0, 1, bg);
 
 
@@ -1369,24 +1370,24 @@ void WI_loadData(void) {
 		                               PU_STATIC, 0);
 		for(i = 0; i < NUMCMAPS; i++) {
 			sprintf(name, "CWILV%2.2d", i);
-			lnames[i] = W_CacheLumpName(name, PU_STATIC);
+			lnames[i] = W_CacheLumpName(name, XTag_Static);
 		}
 	} else {
 		lnames = (patch_t **) Z_Malloc(sizeof(patch_t*) * NUMMAPS,
 		                               PU_STATIC, 0);
 		for(i = 0; i < NUMMAPS; i++) {
 			sprintf(name, "WILV%d%d", wbs->epsd, i);
-			lnames[i] = W_CacheLumpName(name, PU_STATIC);
+			lnames[i] = W_CacheLumpName(name, XTag_Static);
 		}
 
 		// you are here
-		yah[0] = W_CacheLumpName("WIURH0", PU_STATIC);
+		yah[0] = W_CacheLumpName("WIURH0", XTag_Static);
 
 		// you are here (alt.)
-		yah[1] = W_CacheLumpName("WIURH1", PU_STATIC);
+		yah[1] = W_CacheLumpName("WIURH1", XTag_Static);
 
 		// splat
-		splat = W_CacheLumpName("WISPLAT", PU_STATIC);
+		splat = W_CacheLumpName("WISPLAT", XTag_Static);
 
 		if(wbs->epsd < 3) {
 			for(j = 0; j < NUMANIMS[wbs->epsd]; j++) {
@@ -1396,7 +1397,7 @@ void WI_loadData(void) {
 					if(wbs->epsd != 1 || j != 8) {
 						// animations
 						sprintf(name, "WIA%d%.2d%.2d", wbs->epsd, j, i);
-						a->p[i] = W_CacheLumpName(name, PU_STATIC);
+						a->p[i] = W_CacheLumpName(name, XTag_Static);
 					} else {
 						// HACK ALERT!
 						a->p[i] = anims[1][4].p[i];
@@ -1407,80 +1408,80 @@ void WI_loadData(void) {
 	}
 
 	// More hacks on minus sign.
-	wiminus = W_CacheLumpName("WIMINUS", PU_STATIC);
+	wiminus = W_CacheLumpName("WIMINUS", XTag_Static);
 
 	for(i = 0; i < 10; i++) {
 		// numbers 0-9
 		sprintf(name, "WINUM%d", i);
-		num[i] = W_CacheLumpName(name, PU_STATIC);
+		num[i] = W_CacheLumpName(name, XTag_Static);
 	}
 
 	// percent sign
-	percent = W_CacheLumpName("WIPCNT", PU_STATIC);
+	percent = W_CacheLumpName("WIPCNT", XTag_Static);
 
 	// "finished"
-	finished = W_CacheLumpName("WIF", PU_STATIC);
+	finished = W_CacheLumpName("WIF", XTag_Static);
 
 	// "entering"
-	entering = W_CacheLumpName("WIENTER", PU_STATIC);
+	entering = W_CacheLumpName("WIENTER", XTag_Static);
 
 	// "kills"
-	kills = W_CacheLumpName("WIOSTK", PU_STATIC);
+	kills = W_CacheLumpName("WIOSTK", XTag_Static);
 
 	// "scrt"
-	secret = W_CacheLumpName("WIOSTS", PU_STATIC);
+	secret = W_CacheLumpName("WIOSTS", XTag_Static);
 
 	// "secret"
-	sp_secret = W_CacheLumpName("WISCRT2", PU_STATIC);
+	sp_secret = W_CacheLumpName("WISCRT2", XTag_Static);
 
 	// Yuck. 
 	if(language == french) {
 		// "items"
 		if(netgame && !deathmatch)
-			items = W_CacheLumpName("WIOBJ", PU_STATIC);
+			items = W_CacheLumpName("WIOBJ", XTag_Static);
 		else
-			items = W_CacheLumpName("WIOSTI", PU_STATIC);
+			items = W_CacheLumpName("WIOSTI", XTag_Static);
 	} else
-		items = W_CacheLumpName("WIOSTI", PU_STATIC);
+		items = W_CacheLumpName("WIOSTI", XTag_Static);
 
 	// "frgs"
-	frags = W_CacheLumpName("WIFRGS", PU_STATIC);
+	frags = W_CacheLumpName("WIFRGS", XTag_Static);
 
 	// ":"
-	colon = W_CacheLumpName("WICOLON", PU_STATIC);
+	colon = W_CacheLumpName("WICOLON", XTag_Static);
 
 	// "time"
-	time = W_CacheLumpName("WITIME", PU_STATIC);
+	time = W_CacheLumpName("WITIME", XTag_Static);
 
 	// "sucks"
-	sucks = W_CacheLumpName("WISUCKS", PU_STATIC);
+	sucks = W_CacheLumpName("WISUCKS", XTag_Static);
 
 	// "par"
-	par = W_CacheLumpName("WIPAR", PU_STATIC);
+	par = W_CacheLumpName("WIPAR", XTag_Static);
 
 	// "killers" (vertical)
-	killers = W_CacheLumpName("WIKILRS", PU_STATIC);
+	killers = W_CacheLumpName("WIKILRS", XTag_Static);
 
 	// "victims" (horiz)
-	victims = W_CacheLumpName("WIVCTMS", PU_STATIC);
+	victims = W_CacheLumpName("WIVCTMS", XTag_Static);
 
 	// "total"
-	total = W_CacheLumpName("WIMSTT", PU_STATIC);
+	total = W_CacheLumpName("WIMSTT", XTag_Static);
 
 	// your face
-	star = W_CacheLumpName("STFST01", PU_STATIC);
+	star = W_CacheLumpName("STFST01", XTag_Static);
 
 	// dead face
-	bstar = W_CacheLumpName("STFDEAD0", PU_STATIC);
+	bstar = W_CacheLumpName("STFDEAD0", XTag_Static);
 
 	for(i = 0; i < MAXPLAYERS; i++) {
 		// "1,2,3,4"
 		sprintf(name, "STPB%d", i);
-		p[i] = W_CacheLumpName(name, PU_STATIC);
+		p[i] = W_CacheLumpName(name, XTag_Static);
 
 		// "1,2,3,4"
 		sprintf(name, "WIBP%d", i + 1);
-		bp[i] = W_CacheLumpName(name, PU_STATIC);
+		bp[i] = W_CacheLumpName(name, XTag_Static);
 	}
 }
 
@@ -1488,19 +1489,19 @@ void WI_unloadData(void) {
 	int i;
 	int j;
 
-	Z_ChangeTag(wiminus, PU_CACHE);
+	X_ChangeTag(wiminus, XTag_Cache);
 
 	for(i = 0; i < 10; i++)
-	Z_ChangeTag(num[i], PU_CACHE);
-
+	X_ChangeTag(num[i], XTag_Cache);
+	
 	if(gamemode == commercial) {
 		for(i = 0; i < NUMCMAPS; i++)
 		Z_ChangeTag(lnames[i], PU_CACHE);
 	} else {
-		Z_ChangeTag(yah[0], PU_CACHE);
-		Z_ChangeTag(yah[1], PU_CACHE);
+		X_ChangeTag(yah[0], XTag_Cache);
+		X_ChangeTag(yah[1], XTag_Cache);
 
-		Z_ChangeTag(splat, PU_CACHE);
+		X_ChangeTag(splat, XTag_Cache);
 
 		for(i = 0; i < NUMMAPS; i++)
 		Z_ChangeTag(lnames[i], PU_CACHE);
@@ -1509,37 +1510,37 @@ void WI_unloadData(void) {
 			for(j = 0; j < NUMANIMS[wbs->epsd]; j++) {
 				if(wbs->epsd != 1 || j != 8)
 					for(i = 0; i < anims[wbs->epsd][j].nanims; i++)
-				Z_ChangeTag(anims[wbs->epsd][j].p[i], PU_CACHE);
+				X_ChangeTag(anims[wbs->epsd][j].p[i], XTag_Cache);
 			}
 		}
 	}
 
 	Z_Free(lnames);
 
-	Z_ChangeTag(percent, PU_CACHE);
-	Z_ChangeTag(colon, PU_CACHE);
-	Z_ChangeTag(finished, PU_CACHE);
-	Z_ChangeTag(entering, PU_CACHE);
-	Z_ChangeTag(kills, PU_CACHE);
-	Z_ChangeTag(secret, PU_CACHE);
-	Z_ChangeTag(sp_secret, PU_CACHE);
-	Z_ChangeTag(items, PU_CACHE);
-	Z_ChangeTag(frags, PU_CACHE);
-	Z_ChangeTag(time, PU_CACHE);
-	Z_ChangeTag(sucks, PU_CACHE);
-	Z_ChangeTag(par, PU_CACHE);
+	X_ChangeTag(percent, XTag_Cache);
+	X_ChangeTag(colon, XTag_Cache);
+	X_ChangeTag(finished, XTag_Cache);
+	X_ChangeTag(entering, XTag_Cache);
+	X_ChangeTag(kills, XTag_Cache);
+	X_ChangeTag(secret, XTag_Cache);
+	X_ChangeTag(sp_secret, XTag_Cache);
+	X_ChangeTag(items, XTag_Cache);
+	X_ChangeTag(frags, XTag_Cache);
+	X_ChangeTag(time, XTag_Cache);
+	X_ChangeTag(sucks, XTag_Cache);
+	X_ChangeTag(par, XTag_Cache);
 
-	Z_ChangeTag(victims, PU_CACHE);
-	Z_ChangeTag(killers, PU_CACHE);
-	Z_ChangeTag(total, PU_CACHE);
+	X_ChangeTag(victims, XTag_Cache);
+	X_ChangeTag(killers, XTag_Cache);
+	X_ChangeTag(total, XTag_Cache);
 	//  Z_ChangeTag(star, PU_CACHE);
 	//  Z_ChangeTag(bstar, PU_CACHE);
 
 	for(i = 0; i < MAXPLAYERS; i++)
-	Z_ChangeTag(p[i], PU_CACHE);
+	X_ChangeTag(p[i], XTag_Cache);
 
 	for(i = 0; i < MAXPLAYERS; i++)
-	Z_ChangeTag(bp[i], PU_CACHE);
+	X_ChangeTag(bp[i], XTag_Cache);
 }
 
 void WI_Drawer(void) {

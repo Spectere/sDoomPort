@@ -38,6 +38,7 @@
 
 
 #include "r_data.h"
+#include "x_memmgr.h"
 
 //
 // Graphics.
@@ -221,7 +222,7 @@ void R_GenerateComposite(int texnum) {
 
 	// Composite the columns together.
 	for(i = 0, patch = texture->patches; i < texture->patchcount; i++, patch++) {
-		realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
+		realpatch = W_CacheLumpNum(patch->patch, XTag_Cache);
 		x1 = patch->originx;
 		x2 = x1 + SDL_SwapLE16(realpatch->width);
 
@@ -286,7 +287,7 @@ void R_GenerateLookup(int texnum) {
 	memset(patchcount, 0, texture->width);
 
 	for(i = 0, patch = texture->patches; i < texture->patchcount; i++, patch++) {
-		realpatch = W_CacheLumpNum(patch->patch, PU_CACHE);
+		realpatch = W_CacheLumpNum(patch->patch, XTag_Cache);
 		x1 = patch->originx;
 		x2 = x1 + SDL_SwapLE16(realpatch->width);
 
@@ -340,7 +341,7 @@ Uint8* R_GetColumn(int tex, int col) {
 	ofs = texturecolumnofs[tex][col];
 
 	if(lump > 0)
-		return (Uint8 *)W_CacheLumpNum(lump,PU_CACHE) + ofs;
+		return (Uint8 *)W_CacheLumpNum(lump, XTag_Cache) + ofs;
 
 	if(!texturecomposite[tex])
 		R_GenerateComposite(tex);
@@ -390,7 +391,7 @@ void R_InitTextures(void) {
 
 	// Load the patch names from pnames.lmp.
 	name[8] = 0;
-	names = W_CacheLumpName("PNAMES", PU_STATIC);
+	names = W_CacheLumpName("PNAMES", XTag_Static);
 	nummappatches = SDL_SwapLE32( *((int *)names) );
 	name_p = names + 4;
 	patchlookup = alloca(nummappatches * sizeof(*patchlookup));
@@ -399,18 +400,18 @@ void R_InitTextures(void) {
 		strncpy(name, name_p + i * 8, 8);
 		patchlookup[i] = W_CheckNumForName(name);
 	}
-	Z_Free(names);
+	X_Free(names);
 
 	// Load the map texture definitions from textures.lmp.
 	// The data is contained in one or two lumps,
 	//  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
-	maptex = maptex1 = W_CacheLumpName("TEXTURE1", PU_STATIC);
+	maptex = maptex1 = W_CacheLumpName("TEXTURE1", XTag_Static);
 	numtextures1 = SDL_SwapLE32(*maptex);
 	maxoff = W_LumpLength(W_GetNumForName("TEXTURE1"));
 	directory = maptex + 1;
 
 	if(W_CheckNumForName("TEXTURE2") != -1) {
-		maptex2 = W_CacheLumpName("TEXTURE2", PU_STATIC);
+		maptex2 = W_CacheLumpName("TEXTURE2", XTag_Static);
 		numtextures2 = SDL_SwapLE32(*maptex2);
 		maxoff2 = W_LumpLength(W_GetNumForName("TEXTURE2"));
 	} else {
@@ -495,7 +496,7 @@ void R_InitTextures(void) {
 		totalwidth += texture->width;
 	}
 
-	Z_Free(maptex1);
+	X_Free(maptex1);
 	if(maptex2)
 		Z_Free(maptex2);
 
@@ -551,7 +552,7 @@ void R_InitSpriteLumps(void) {
 		if(!(i & 63))
 			printf(".");
 
-		patch = W_CacheLumpNum(firstspritelump + i, PU_CACHE);
+		patch = W_CacheLumpNum(firstspritelump + i, XTag_Cache);
 		spritewidth[i] = SDL_SwapLE16(patch->width) << FRACBITS;
 		spriteoffset[i] = SDL_SwapLE16(patch->leftoffset) << FRACBITS;
 		spritetopoffset[i] = SDL_SwapLE16(patch->topoffset) << FRACBITS;
@@ -685,7 +686,7 @@ void R_PrecacheLevel(void) {
 		if(flatpresent[i]) {
 			lump = firstflat + i;
 			flatmemory += lumpinfo[lump].size;
-			W_CacheLumpNum(lump, PU_CACHE);
+			W_CacheLumpNum(lump, XTag_Cache);
 		}
 	}
 
@@ -717,7 +718,7 @@ void R_PrecacheLevel(void) {
 		for(j = 0; j < texture->patchcount; j++) {
 			lump = texture->patches[j].patch;
 			texturememory += lumpinfo[lump].size;
-			W_CacheLumpNum(lump, PU_CACHE);
+			W_CacheLumpNum(lump, XTag_Cache);
 		}
 	}
 
@@ -740,7 +741,7 @@ void R_PrecacheLevel(void) {
 			for(k = 0; k < 8; k++) {
 				lump = firstspritelump + sf->lump[k];
 				spritememory += lumpinfo[lump].size;
-				W_CacheLumpNum(lump, PU_CACHE);
+				W_CacheLumpNum(lump, XTag_Cache);
 			}
 		}
 	}

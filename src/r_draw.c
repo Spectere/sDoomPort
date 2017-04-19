@@ -33,6 +33,7 @@
 
 // State.
 #include "doomstat.h"
+#include "x_memmgr.h"
 
 
 // ?
@@ -700,7 +701,7 @@ void R_FillBackScreen(void) {
 	else
 		name = name1;
 
-	src = W_CacheLumpName(name, PU_CACHE);
+	src = W_CacheLumpName(name, XTag_Cache);
 	dest = screens[1];
 
 	for(y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++) {
@@ -716,19 +717,19 @@ void R_FillBackScreen(void) {
 		}*/
 	}
 
-	patch = W_CacheLumpName("brdr_t",PU_CACHE);
+	patch = W_CacheLumpName("brdr_t", XTag_Cache);
 
 	for(x = 0; x < scaledviewwidth; x += 8)
 		V_DrawPatch(viewwindowx + x, viewwindowy - 8, 1, patch);
-	patch = W_CacheLumpName("brdr_b",PU_CACHE);
+	patch = W_CacheLumpName("brdr_b", XTag_Cache);
 
 	for(x = 0; x < scaledviewwidth; x += 8)
 		V_DrawPatch(viewwindowx + x, viewwindowy + viewheight, 1, patch);
-	patch = W_CacheLumpName("brdr_l",PU_CACHE);
+	patch = W_CacheLumpName("brdr_l", XTag_Cache);
 
 	for(y = 0; y < viewheight; y += 8)
 		V_DrawPatch(viewwindowx - 8, viewwindowy + y, 1, patch);
-	patch = W_CacheLumpName("brdr_r",PU_CACHE);
+	patch = W_CacheLumpName("brdr_r", XTag_Cache);
 
 	for(y = 0; y < viewheight; y += 8)
 		V_DrawPatch(viewwindowx + scaledviewwidth, viewwindowy + y, 1, patch);
@@ -738,22 +739,22 @@ void R_FillBackScreen(void) {
 	V_DrawPatch(viewwindowx - 8,
 	            viewwindowy - 8,
 	            1,
-	            W_CacheLumpName("brdr_tl",PU_CACHE));
+	            W_CacheLumpName("brdr_tl", XTag_Cache));
 
 	V_DrawPatch(viewwindowx + scaledviewwidth,
 	            viewwindowy - 8,
 	            1,
-	            W_CacheLumpName("brdr_tr",PU_CACHE));
+	            W_CacheLumpName("brdr_tr", XTag_Cache));
 
 	V_DrawPatch(viewwindowx - 8,
 	            viewwindowy + viewheight,
 	            1,
-	            W_CacheLumpName("brdr_bl",PU_CACHE));
+	            W_CacheLumpName("brdr_bl", XTag_Cache));
 
 	V_DrawPatch(viewwindowx + scaledviewwidth,
 	            viewwindowy + viewheight,
 	            1,
-	            W_CacheLumpName("brdr_br",PU_CACHE));
+	            W_CacheLumpName("brdr_br", XTag_Cache));
 }
 
 

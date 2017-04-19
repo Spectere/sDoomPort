@@ -581,7 +581,7 @@ void S_ChangeMusic(int musicnum, int looping) {
 	}
 
 	// load & register it
-	music->data = (void *) W_CacheLumpNum(music->lumpnum, PU_MUSIC);
+	music->data = (void *) W_CacheLumpNum(music->lumpnum, XTag_Music);
 	music->handle = I_RegisterSong(music->data);
 
 	// play it

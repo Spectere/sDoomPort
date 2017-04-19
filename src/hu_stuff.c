@@ -40,6 +40,7 @@
 // Data.
 #include "dstrings.h"
 #include "sounds.h"
+#include "x_memmgr.h"
 
 //
 // Locally used constants, shortcuts.
@@ -511,7 +512,7 @@ void HU_Init(void) {
 	j = HU_FONTSTART;
 	for(i = 0; i < HU_FONTSIZE; i++) {
 		sprintf(buffer, "STCFN%.3d", j++);
-		hu_font[i] = (patch_t *) W_CacheLumpName(buffer, PU_STATIC);
+		hu_font[i] = (patch_t *) W_CacheLumpName(buffer, XTag_Static);
 	}
 
 }

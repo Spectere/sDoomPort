@@ -62,6 +62,7 @@
 
 
 #include "g_game.h"
+#include "x_memmgr.h"
 
 
 #define SAVEGAMESIZE	0x2c000
@@ -1452,7 +1453,7 @@ void G_DoPlayDemo(void) {
 	int i, episode, map;
 
 	gameaction = ga_nothing;
-	demobuffer = demo_p = W_CacheLumpName(defdemoname, PU_STATIC);
+	demobuffer = demo_p = W_CacheLumpName(defdemoname, XTag_Static);
 	if(*demo_p++ < DEMOVER) {
 		fprintf(stderr, "Demo is from a different game version!\n");
 		gameaction = ga_nothing;

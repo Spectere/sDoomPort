@@ -32,6 +32,7 @@
 
 #include "st_stuff.h"
 #include "st_lib.h"
+#include "x_memmgr.h"
 
 
 // in AM_map.c
@@ -45,7 +46,7 @@ extern SDL_bool automapactive;
 patch_t* sttminus;
 
 void STlib_init(void) {
-	sttminus = (patch_t *) W_CacheLumpName("STTMINUS", PU_STATIC);
+	sttminus = (patch_t *) W_CacheLumpName("STTMINUS", XTag_Static);
 }
 
 

@@ -41,6 +41,7 @@
 #include "dstrings.h"
 
 #include "am_map.h"
+#include "x_memmgr.h"
 
 
 // For use if I do walls with outsides/insides
@@ -472,7 +473,7 @@ void AM_loadPics(void) {
 
 	for(i = 0; i < 10; i++) {
 		sprintf(namebuf, "AMMNUM%d", i);
-		marknums[i] = W_CacheLumpName(namebuf, PU_STATIC);
+		marknums[i] = W_CacheLumpName(namebuf, XTag_Static);
 	}
 
 }

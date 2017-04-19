@@ -50,6 +50,7 @@
 #include "dstrings.h"
 
 #include "m_misc.h"
+#include "x_memmgr.h"
 
 //
 // M_DrawText
@@ -452,7 +453,7 @@ void M_ScreenShot(void) {
 	// save the pcx file
 	WritePCXfile(lbmname, linear,
 	             SCREENWIDTH, SCREENHEIGHT,
-	             W_CacheLumpName("PLAYPAL",PU_CACHE));
+	             W_CacheLumpName("PLAYPAL", XTag_Cache));
 
 	players[consoleplayer].message = "screen shot";
 }

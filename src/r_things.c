@@ -354,7 +354,7 @@ void R_DrawVisSprite(vissprite_t* vis, int x1, int x2) {
 	patch_t* patch;
 
 
-	patch = W_CacheLumpNum(vis->patch + firstspritelump, PU_CACHE);
+	patch = W_CacheLumpNum(vis->patch + firstspritelump, XTag_Cache);
 
 	dc_colormap = vis->colormap;
 
