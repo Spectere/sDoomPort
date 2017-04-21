@@ -498,7 +498,7 @@ void R_InitTextures(void) {
 
 	X_Free(maptex1);
 	if(maptex2)
-		Z_Free(maptex2);
+		X_Free(maptex2);
 
 	// Precalculate whatever possible.	
 	for(i = 0; i < numtextures; i++)
