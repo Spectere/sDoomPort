@@ -23,7 +23,7 @@
 
 // Functions.
 #include "i_system.h"
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "v_video.h"
 #include "w_wad.h"
 #include "s_sound.h"
@@ -34,7 +34,6 @@
 
 #include "doomstat.h"
 #include "r_state.h"
-#include "x_memmgr.h"
 
 // Stage of animation:
 //  0 = text, 1 = art screen, 2 = character cast

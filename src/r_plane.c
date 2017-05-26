@@ -23,7 +23,7 @@
 #include <stdlib.h>
 
 #include "i_system.h"
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "w_wad.h"
 
 #include "doomdef.h"

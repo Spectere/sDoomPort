@@ -39,7 +39,7 @@
 #include "dstrings.h"
 #include "sounds.h"
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "w_wad.h"
 #include "s_sound.h"
 #include "v_video.h"
@@ -67,8 +67,6 @@
 #include "r_local.h"
 
 #include "d_main.h"
-
-#include "x_memmgr.h"
 
 //
 // D-DoomLoop()
@@ -1032,9 +1030,6 @@ void D_DoomMain(void) {
 
 	printf("M_LoadDefaults: Load system defaults.\n");
 	M_LoadDefaults(); // load before initing other systems
-
-	printf("Z_Init: Init zone memory allocation daemon. \n");
-	Z_Init();
 
 	printf("X_Init: Init XMem allocation system.\n");
 	X_Init();

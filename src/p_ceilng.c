@@ -19,7 +19,7 @@
 
 #include <SDL_stdinc.h>
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "doomdef.h"
 #include "p_local.h"
 
@@ -177,7 +177,7 @@ int EV_DoCeiling(line_t* line, ceiling_e type) {
 
 		// new door thinker
 		rtn = 1;
-		ceiling = Z_Malloc(sizeof(*ceiling), PU_LEVSPEC, 0);
+		ceiling = X_Malloc(sizeof(*ceiling), XTag_LevelSpec);
 		ceiling->thinker = P_NewThinker(ceiling);
 		sec->specialdata = ceiling;
 		ceiling->thinker->action.acp1 = (actionf_p1)T_MoveCeiling;

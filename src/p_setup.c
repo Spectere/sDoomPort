@@ -22,7 +22,7 @@
 #include <math.h>
 #include <SDL_stdinc.h>
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 
 #include "m_bbox.h"
 
@@ -121,7 +121,7 @@ void P_LoadVertexes(int lump) {
 	numvertexes = W_LumpLength(lump) / sizeof(mapvertex_t);
 
 	// Allocate zone memory for buffer.
-	vertexes = Z_Malloc(numvertexes * sizeof(vertex_t),PU_LEVEL, 0);
+	vertexes = X_Malloc(numvertexes * sizeof(vertex_t), XTag_Level);
 
 	// Load data into cache.
 	data = W_CacheLumpNum(lump, XTag_Static);
@@ -135,9 +135,6 @@ void P_LoadVertexes(int lump) {
 		li->x = SDL_SwapLE16(ml->x) << FRACBITS;
 		li->y = SDL_SwapLE16(ml->y) << FRACBITS;
 	}
-
-	// Free buffer memory.
-	X_Free(data);
 }
 
 
@@ -154,7 +151,7 @@ void P_LoadSegs(int lump) {
 	int side;
 
 	numsegs = W_LumpLength(lump) / sizeof(mapseg_t);
-	segs = Z_Malloc(numsegs * sizeof(seg_t),PU_LEVEL, 0);
+	segs = X_Malloc(numsegs * sizeof(seg_t), XTag_Level);
 	memset(segs, 0, numsegs * sizeof(seg_t));
 	data = W_CacheLumpNum(lump, XTag_Static);
 
@@ -177,8 +174,6 @@ void P_LoadSegs(int lump) {
 		else
 			li->backsector = 0;
 	}
-
-	X_Free(data);
 }
 
 
@@ -192,7 +187,7 @@ void P_LoadSubsectors(int lump) {
 	subsector_t* ss;
 
 	numsubsectors = W_LumpLength(lump) / sizeof(mapsubsector_t);
-	subsectors = Z_Malloc(numsubsectors * sizeof(subsector_t),PU_LEVEL, 0);
+	subsectors = X_Malloc(numsubsectors * sizeof(subsector_t), XTag_Level);
 	data = W_CacheLumpNum(lump, XTag_Static);
 
 	ms = (mapsubsector_t *)data;
@@ -203,8 +198,6 @@ void P_LoadSubsectors(int lump) {
 		ss->numlines = SDL_SwapLE16(ms->numsegs);
 		ss->firstline = SDL_SwapLE16(ms->firstseg);
 	}
-
-	X_Free(data);
 }
 
 
@@ -218,7 +211,7 @@ void P_LoadSectors(int lump) {
 	sector_t* ss;
 
 	numsectors = W_LumpLength(lump) / sizeof(mapsector_t);
-	sectors = Z_Malloc(numsectors * sizeof(sector_t),PU_LEVEL, 0);
+	sectors = X_Malloc(numsectors * sizeof(sector_t), XTag_Level);
 	memset(sectors, 0, numsectors * sizeof(sector_t));
 	data = W_CacheLumpNum(lump, XTag_Static);
 
@@ -234,8 +227,6 @@ void P_LoadSectors(int lump) {
 		ss->tag = SDL_SwapLE16(ms->tag);
 		ss->thinglist = NULL;
 	}
-
-	X_Free(data);
 }
 
 
@@ -251,7 +242,7 @@ void P_LoadNodes(int lump) {
 	node_t* no;
 
 	numnodes = W_LumpLength(lump) / sizeof(mapnode_t);
-	nodes = Z_Malloc(numnodes * sizeof(node_t),PU_LEVEL, 0);
+	nodes = X_Malloc(numnodes * sizeof(node_t), XTag_Level);
 	data = W_CacheLumpNum(lump, XTag_Static);
 
 	mn = (mapnode_t *)data;
@@ -268,8 +259,6 @@ void P_LoadNodes(int lump) {
 				no->bbox[j][k] = SDL_SwapLE16(mn->bbox[j][k]) << FRACBITS;
 		}
 	}
-
-	X_Free(data);
 }
 
 
@@ -319,8 +308,6 @@ void P_LoadThings(int lump) {
 
 		P_SpawnMapThing(mt);
 	}
-
-	X_Free(data);
 }
 
 
@@ -337,7 +324,7 @@ void P_LoadLineDefs(int lump) {
 	vertex_t* v2;
 
 	numlines = W_LumpLength(lump) / sizeof(maplinedef_t);
-	lines = Z_Malloc(numlines * sizeof(line_t),PU_LEVEL, 0);
+	lines = X_Malloc(numlines * sizeof(line_t), XTag_Level);
 	memset(lines, 0, numlines * sizeof(line_t));
 	data = W_CacheLumpNum(lump, XTag_Static);
 
@@ -392,8 +379,6 @@ void P_LoadLineDefs(int lump) {
 		else
 			ld->backsector = 0;
 	}
-
-	X_Free(data);
 }
 
 
@@ -407,7 +392,7 @@ void P_LoadSideDefs(int lump) {
 	side_t* sd;
 
 	numsides = W_LumpLength(lump) / sizeof(mapsidedef_t);
-	sides = Z_Malloc(numsides * sizeof(side_t),PU_LEVEL, 0);
+	sides = X_Malloc(numsides * sizeof(side_t), XTag_Level);
 	memset(sides, 0, numsides * sizeof(side_t));
 	data = W_CacheLumpNum(lump, XTag_Static);
 
@@ -421,8 +406,6 @@ void P_LoadSideDefs(int lump) {
 		sd->midtexture = R_TextureNumForName(msd->midtexture);
 		sd->sector = &sectors[SDL_SwapLE16(msd->sector)];
 	}
-
-	X_Free(data);
 }
 
 
@@ -447,7 +430,7 @@ void P_LoadBlockMap(int lump) {
 
 	// clear out mobj chains
 	count = sizeof(*blocklinks) * bmapwidth * bmapheight;
-	blocklinks = Z_Malloc(count,PU_LEVEL, 0);
+	blocklinks = X_Malloc(count, XTag_Level);
 	memset(blocklinks, 0, count);
 }
 
@@ -490,7 +473,7 @@ void P_GroupLines(void) {
 	}
 
 	// build line tables for each sector	
-	linebuffer = Z_Malloc(total * PTRSIZE, PU_LEVEL, 0);
+	linebuffer = X_Malloc(total * PTRSIZE, XTag_Level);
 	sector = sectors;
 	for(i = 0; i < numsectors; i++ , sector++) {
 		M_ClearBox(bbox);
@@ -562,7 +545,6 @@ void P_SetupLevel(int episode, int map, int playermask, skill_t skill) {
     }
     else
 #endif
-	Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 	X_FreeTags(XTag_Level, XTag_Purge - 1);
 
 	T_InitPlats();

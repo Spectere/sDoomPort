@@ -26,6 +26,7 @@
 #include "i_system.h"
 
 static list xmem;
+static size_t mem_used;
 
 typedef struct {
 	xmemtag_t tag;
@@ -63,14 +64,20 @@ void X_FreeTags(xmemtag_t start, xmemtag_t end) {
 
 	LIST_ITERATE(mem, &xmem) {
 		if(mem->tag >= start && mem->tag <= end) {
+			mem_used -= mem->size;
 			free(mem->data);
 			list_delete_current(&xmem);
 		}
 	}
 }
 
+size_t X_GetUsed(void) {
+	return mem_used;
+}
+
 void X_Init(void) {
 	list_new(&xmem, sizeof(xmementry_t));
+	mem_used = 0;
 }
 
 void* X_Malloc(size_t size, xmemtag_t tag) {
@@ -80,6 +87,7 @@ void* X_Malloc(size_t size, xmemtag_t tag) {
 	mem->size = size;
 	mem->tag = tag;
 	mem->data = malloc(size);
+	mem_used += size;
 
 	return mem->data;
 }

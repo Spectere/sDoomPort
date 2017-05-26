@@ -25,7 +25,7 @@
 #include "doomdef.h"
 
 #include "i_system.h"
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "w_wad.h"
 
 #include "r_local.h"
@@ -170,7 +170,7 @@ void R_InitSpriteDefs(char** namelist) {
 	if(!numsprites)
 		return;
 
-	sprites = Z_Malloc(numsprites * sizeof(*sprites), PU_STATIC, NULL);
+	sprites = X_Malloc(numsprites * sizeof(*sprites), XTag_Static);
 
 	start = firstspritelump - 1;
 	end = lastspritelump + 1;
@@ -241,7 +241,7 @@ void R_InitSpriteDefs(char** namelist) {
 		// allocate space for the frames present and copy sprtemp to it
 		sprites[i].numframes = maxframe;
 		sprites[i].spriteframes =
-				Z_Malloc(maxframe * sizeof(spriteframe_t), PU_STATIC, NULL);
+				X_Malloc(maxframe * sizeof(spriteframe_t), XTag_Static);
 		memcpy(sprites[i].spriteframes, sprtemp, maxframe * sizeof(spriteframe_t));
 	}
 

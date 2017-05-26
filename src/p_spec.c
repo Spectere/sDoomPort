@@ -29,7 +29,7 @@
 #include "doomstat.h"
 
 #include "i_system.h"
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "m_argv.h"
 #include "m_random.h"
 #include "w_wad.h"
@@ -1084,7 +1084,7 @@ int EV_DoDonut(line_t* line) {
 			s3 = s2->lines[i]->backsector;
 
 			//	Spawn rising slime
-			floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+			floor = X_Malloc(sizeof(*floor), XTag_LevelSpec);
 			floor->thinker = P_NewThinker(floor);
 			s2->specialdata = floor;
 			floor->thinker->action.acp1 = (actionf_p1) T_MoveFloor;
@@ -1098,7 +1098,7 @@ int EV_DoDonut(line_t* line) {
 			floor->floordestheight = s3->floorheight;
 
 			//	Spawn lowering donut-hole
-			floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+			floor = X_Malloc(sizeof(*floor), XTag_LevelSpec);
 			floor->thinker = P_NewThinker(floor);
 			s1->specialdata = floor;
 			floor->thinker->action.acp1 = (actionf_p1) T_MoveFloor;

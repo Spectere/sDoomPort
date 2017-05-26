@@ -19,7 +19,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "m_random.h"
 
 #include "p_local.h"
@@ -62,7 +62,7 @@ void P_SpawnFireFlicker(sector_t* sector) {
 	// Nothing special about it during gameplay.
 	sector->special = 0;
 
-	flick = Z_Malloc(sizeof(*flick), PU_LEVSPEC, 0);
+	flick = X_Malloc(sizeof(*flick), XTag_LevelSpec);
 
 	flick->thinker = P_NewThinker(flick);
 
@@ -110,7 +110,7 @@ void P_SpawnLightFlash(sector_t* sector) {
 	// nothing special about it during gameplay
 	sector->special = 0;
 
-	flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
+	flash = X_Malloc(sizeof(*flash), XTag_LevelSpec);
 
 	flash->thinker = P_NewThinker(flash);
 
@@ -157,7 +157,7 @@ void T_StrobeFlash(think_t* th) {
 void P_SpawnStrobeFlash(sector_t* sector, int fastOrSlow, int inSync) {
 	strobe_t* flash;
 
-	flash = Z_Malloc(sizeof(*flash), PU_LEVSPEC, 0);
+	flash = X_Malloc(sizeof(*flash), XTag_LevelSpec);
 
 	flash->thinker = P_NewThinker(flash);
 
@@ -295,7 +295,7 @@ void T_Glow(think_t* th) {
 void P_SpawnGlowingLight(sector_t* sector) {
 	glow_t* g;
 
-	g = Z_Malloc(sizeof(*g), PU_LEVSPEC, 0);
+	g = X_Malloc(sizeof(*g), XTag_LevelSpec);
 
 	g->thinker = P_NewThinker(g);
 

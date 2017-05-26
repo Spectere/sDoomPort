@@ -23,7 +23,7 @@
 
 #include "doomdef.h"
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "v_video.h"
 
 #include "i_system.h"

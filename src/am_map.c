@@ -21,7 +21,7 @@
 #include <SDL_stdinc.h>
 #include <stdio.h>
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "doomdef.h"
 #include "st_stuff.h"
 #include "p_local.h"
@@ -41,7 +41,6 @@
 #include "dstrings.h"
 
 #include "am_map.h"
-#include "x_memmgr.h"
 
 
 // For use if I do walls with outsides/insides

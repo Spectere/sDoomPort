@@ -19,7 +19,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "p_local.h"
 #include "m_list.h"
 

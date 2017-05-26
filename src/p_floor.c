@@ -20,7 +20,7 @@
 
 #include <SDL_stdinc.h>
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "doomdef.h"
 #include "p_local.h"
 
@@ -222,7 +222,7 @@ int EV_DoFloor(line_t* line, floor_e floortype) {
 
 		// new floor thinker
 		rtn = 1;
-		floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+		floor = X_Malloc(sizeof(*floor), XTag_LevelSpec);
 		floor->thinker = P_NewThinker(floor);
 		sec->specialdata = floor;
 		floor->thinker->action.acp1 = (actionf_p1) T_MoveFloor;
@@ -407,7 +407,7 @@ int EV_BuildStairs(line_t* line, stair_e type) {
 
 		// new floor thinker
 		rtn = 1;
-		floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+		floor = X_Malloc(sizeof(*floor), XTag_LevelSpec);
 		floor->thinker = P_NewThinker(floor);
 		sec->specialdata = floor;
 		floor->thinker->action.acp1 = (actionf_p1) T_MoveFloor;
@@ -457,7 +457,7 @@ int EV_BuildStairs(line_t* line, stair_e type) {
 
 				sec = tsec;
 				secnum = newsecnum;
-				floor = Z_Malloc(sizeof(*floor), PU_LEVSPEC, 0);
+				floor = X_Malloc(sizeof(*floor), XTag_LevelSpec);
 
 				floor->thinker = P_NewThinker(floor);
 

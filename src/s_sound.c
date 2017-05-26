@@ -26,7 +26,7 @@
 #include "sounds.h"
 #include "s_sound.h"
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "m_random.h"
 #include "w_wad.h"
 
@@ -152,7 +152,7 @@ void S_Init(int sfxVolume, int musicVolume) {
 	// (the maximum numer of sounds rendered
 	// simultaneously) within zone memory.
 	channels =
-			(channel_t *) Z_Malloc(numChannels * sizeof(channel_t), PU_STATIC, 0);
+			(channel_t *) X_Malloc(numChannels * sizeof(channel_t), XTag_Static);
 
 	// Free all channels for use
 	for(i = 0; i < numChannels; i++)

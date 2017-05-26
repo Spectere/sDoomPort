@@ -23,7 +23,7 @@
 #include "doomdef.h"
 
 #include "i_system.h"
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "w_wad.h"
 
 #include "r_local.h"
@@ -33,7 +33,6 @@
 
 // State.
 #include "doomstat.h"
-#include "x_memmgr.h"
 
 
 // ?
@@ -430,7 +429,7 @@ void R_DrawTranslatedColumn(void) {
 void R_InitTranslationTables(void) {
 	int i;
 
-	translationtables = Z_Malloc(256 * 3 + 255, PU_STATIC, 0);
+	translationtables = X_Malloc(256 * 3 + 255, XTag_Static);
 
 	// translate just the 16 green colors
 	for(i = 0; i < 256; i++) {

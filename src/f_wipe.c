@@ -20,7 +20,6 @@
 
 #include <SDL_stdinc.h>
 
-#include "z_zone.h"
 #include "i_video.h"
 #include "v_video.h"
 #include "m_random.h"
@@ -28,6 +27,7 @@
 #include "doomdef.h"
 
 #include "f_wipe.h"
+#include "x_memmgr.h"
 
 //
 //                       SCREEN WIPE PACKAGE
@@ -46,7 +46,7 @@ void wipe_shittyColMajorXform(short* array, int width, int height) {
 	int y;
 	short* dest;
 
-	dest = (short*) Z_Malloc(width * height * 2, PU_STATIC, 0);
+	dest = (short*) X_Malloc(width * height * 2, XTag_Static);
 
 	for(y = 0; y < height; y++)
 		for(x = 0; x < width; x++)
@@ -54,7 +54,7 @@ void wipe_shittyColMajorXform(short* array, int width, int height) {
 
 	memcpy(array, dest, width * height * 2);
 
-	Z_Free(dest);
+	X_Free(dest);
 
 }
 
@@ -119,7 +119,7 @@ int wipe_initMelt(int width, int height, int ticks) {
 
 	// setup initial column positions
 	// (y<0 => not ready to scroll yet)
-	y = (int *) Z_Malloc(width * sizeof(int), PU_STATIC, 0);
+	y = (int *)X_Malloc(width * sizeof(int), XTag_Static);
 	y[0] = -(M_Random() % 16);
 	for(i = 1; i < width; i++) {
 		r = (M_Random() % 3) - 1;
@@ -176,7 +176,7 @@ int wipe_doMelt(int width, int height, int ticks) {
 }
 
 int wipe_exitMelt(int width, int height, int ticks) {
-	Z_Free(y);
+	X_Free(y);
 	return 0;
 }
 

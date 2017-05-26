@@ -25,7 +25,7 @@
 
 #include "i_system.h"
 #include "i_video.h"
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "m_random.h"
 #include "w_wad.h"
 
@@ -1070,28 +1070,28 @@ void ST_unloadGraphics(void) {
 
 	// unload the numbers, tall and short
 	for(i = 0; i < 10; i++) {
-		Z_ChangeTag(tallnum[i], PU_CACHE);
-		Z_ChangeTag(shortnum[i], PU_CACHE);
+		X_ChangeTag(tallnum[i], XTag_Cache);
+		X_ChangeTag(shortnum[i], XTag_Cache);
 	}
 	// unload tall percent
-	Z_ChangeTag(tallpercent, PU_CACHE);
+	X_ChangeTag(tallpercent, XTag_Cache);
 
 	// unload arms background
-	Z_ChangeTag(armsbg, PU_CACHE);
+	X_ChangeTag(armsbg, XTag_Cache);
 
 	// unload gray #'s
 	for(i = 0; i < 6; i++)
-	Z_ChangeTag(arms[i][0], PU_CACHE);
+		X_ChangeTag(arms[i][0], XTag_Cache);
 
 	// unload the key cards
 	for(i = 0; i < NUMCARDS; i++)
-	Z_ChangeTag(keys[i], PU_CACHE);
+		X_ChangeTag(keys[i], XTag_Cache);
 
-	Z_ChangeTag(sbar, PU_CACHE);
-	Z_ChangeTag(faceback, PU_CACHE);
+	X_ChangeTag(sbar, XTag_Cache);
+	X_ChangeTag(faceback, XTag_Cache);
 
 	for(i = 0; i < ST_NUMFACES; i++)
-	Z_ChangeTag(faces[i], PU_CACHE);
+		X_ChangeTag(faces[i], XTag_Cache);
 
 	// Note: nobody ain't seen no unloading
 	//   of stminus yet. Dude.
@@ -1312,5 +1312,5 @@ void ST_Stop(void) {
 void ST_Init(void) {
 	veryfirsttime = 0;
 	ST_loadData();
-	screens[4] = (Uint8 *) Z_Malloc(ST_WIDTH * ST_HEIGHT, PU_STATIC, 0);
+	screens[4] = (Uint8 *) X_Malloc(ST_WIDTH * ST_HEIGHT, XTag_Static);
 }

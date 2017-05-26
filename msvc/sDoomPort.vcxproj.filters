@@ -192,9 +192,6 @@
     <ClCompile Include="..\src\wi_stuff.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\z_zone.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\i_file.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -387,9 +384,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\wi_stuff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\z_zone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\i_file.h">

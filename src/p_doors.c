@@ -19,7 +19,7 @@
 
 #include <SDL_stdinc.h>
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "doomdef.h"
 #include "p_local.h"
 
@@ -250,7 +250,7 @@ int EV_DoDoor(line_t* line, vldoor_e type) {
 
 		// new door thinker
 		rtn = 1;
-		door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+		door = X_Malloc(sizeof(*door), XTag_LevelSpec);
 		door->thinker = P_NewThinker(door);
 		sec->specialdata = door;
 
@@ -410,7 +410,7 @@ void EV_VerticalDoor(line_t* line, mobj_t* thing) {
 
 
 	// new door thinker
-	door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+	door = X_Malloc(sizeof(*door), XTag_LevelSpec);
 	door->thinker = P_NewThinker(door);
 	sec->specialdata = door;
 	door->thinker->action.acp1 = (actionf_p1) T_VerticalDoor;
@@ -458,7 +458,7 @@ void EV_VerticalDoor(line_t* line, mobj_t* thing) {
 void P_SpawnDoorCloseIn30(sector_t* sec) {
 	vldoor_t* door;
 
-	door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+	door = X_Malloc(sizeof(*door), XTag_LevelSpec);
 
 	door->thinker = P_NewThinker(door);
 
@@ -479,7 +479,7 @@ void P_SpawnDoorCloseIn30(sector_t* sec) {
 void P_SpawnDoorRaiseIn5Mins(sector_t* sec, int secnum) {
 	vldoor_t* door;
 
-	door = Z_Malloc(sizeof(*door), PU_LEVSPEC, 0);
+	door = X_Malloc(sizeof(*door), XTag_LevelSpec);
 
 	door->thinker = P_NewThinker(door);
 
@@ -666,7 +666,7 @@ void EV_SlidingDoor(line_t*	line,  mobj_t*	thing) {
 
 	// Init sliding door vars
     if (!door) {
-		door = Z_Malloc (sizeof(*door), PU_LEVSPEC, 0);
+		door = X_Malloc(sizeof(*door), XTag_LevelSpec);
 		P_AddThinker (&door->thinker);
 		sec->specialdata = door;
 

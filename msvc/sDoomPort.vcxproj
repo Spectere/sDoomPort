@@ -226,7 +226,6 @@
     <ClCompile Include="..\src\wi_stuff.c" />
     <ClCompile Include="..\src\w_wad.c" />
     <ClCompile Include="..\src\x_memmgr.c" />
-    <ClCompile Include="..\src\z_zone.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\am_map.h" />
@@ -294,7 +293,6 @@
     <ClInclude Include="..\src\wi_stuff.h" />
     <ClInclude Include="..\src\w_wad.h" />
     <ClInclude Include="..\src\x_memmgr.h" />
-    <ClInclude Include="..\src\z_zone.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

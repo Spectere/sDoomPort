@@ -20,7 +20,7 @@
 #include <SDL_stdinc.h>
 #include <stdio.h>
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 
 #include "m_random.h"
 
@@ -1366,15 +1366,15 @@ void WI_loadData(void) {
 
 	if(gamemode == commercial) {
 		NUMCMAPS = 32;
-		lnames = (patch_t **) Z_Malloc(sizeof(patch_t*) * NUMCMAPS,
-		                               PU_STATIC, 0);
+		lnames = (patch_t **) X_Malloc(sizeof(patch_t*) * NUMCMAPS,
+		                               XTag_Static);
 		for(i = 0; i < NUMCMAPS; i++) {
 			sprintf(name, "CWILV%2.2d", i);
 			lnames[i] = W_CacheLumpName(name, XTag_Static);
 		}
 	} else {
-		lnames = (patch_t **) Z_Malloc(sizeof(patch_t*) * NUMMAPS,
-		                               PU_STATIC, 0);
+		lnames = (patch_t **) X_Malloc(sizeof(patch_t*) * NUMMAPS,
+		                               XTag_Static);
 		for(i = 0; i < NUMMAPS; i++) {
 			sprintf(name, "WILV%d%d", wbs->epsd, i);
 			lnames[i] = W_CacheLumpName(name, XTag_Static);
@@ -1496,6 +1496,7 @@ void WI_unloadData(void) {
 	
 	if(gamemode == commercial) {
 		for(i = 0; i < NUMCMAPS; i++)
+			X_ChangeTag(lnames[i], XTag_Cache);
 		X_ChangeTag(lnames[i], XTag_Cache);
 	} else {
 		X_ChangeTag(yah[0], XTag_Cache);
@@ -1514,8 +1515,6 @@ void WI_unloadData(void) {
 			}
 		}
 	}
-
-	Z_Free(lnames);
 
 	X_ChangeTag(percent, XTag_Cache);
 	X_ChangeTag(colon, XTag_Cache);

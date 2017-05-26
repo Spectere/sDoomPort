@@ -22,7 +22,7 @@
 
 #include "doomdef.h"
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 
 #include "hu_stuff.h"
 #include "hu_lib.h"
@@ -113,12 +113,14 @@ static hu_textline_t w_debug_seg;
 static hu_textline_t w_debug_plat;
 static hu_textline_t w_debug_think;
 static hu_textline_t w_debug_mobj;
+static hu_textline_t w_debug_xmem;
 
 static int max_vis;
 static int max_seg;
 static int max_think;
 static int max_plat;
 static int max_mobj;
+static size_t max_xmem;
 
 //
 // Builtin map names.
@@ -495,6 +497,7 @@ void DebugPrint(void) {
 	HUD_DPRINT(w_debug_think, "thinkers: %i / %i", P_ThinkerCount(), max_think);
 	HUD_DPRINT(w_debug_plat, "plat: %i / %i", T_PlatCount(), max_plat);
 	HUD_DPRINT(w_debug_mobj, "mobj: %i / %i", P_MobjCount(), max_mobj);
+	HUD_DPRINT(w_debug_xmem, "xmem: %i / %i", X_GetUsed(), max_xmem);
 }
 
 void HU_Init(void) {
@@ -549,26 +552,31 @@ void HU_Start(void) {
 
 	/* SDP debugging information */
 	HUlib_initTextLine(&w_debug_vis,
-		HU_DEBUGX, HU_DEBUGY(5),
+		HU_DEBUGX, HU_DEBUGY(6),
 		hu_font,
 		HU_FONTSTART);
 
 	HUlib_initTextLine(&w_debug_seg,
-		HU_DEBUGX, HU_DEBUGY(4),
+		HU_DEBUGX, HU_DEBUGY(5),
 		hu_font,
 		HU_FONTSTART);
 
 	HUlib_initTextLine(&w_debug_think,
-		HU_DEBUGX, HU_DEBUGY(3),
+		HU_DEBUGX, HU_DEBUGY(4),
 		hu_font,
 		HU_FONTSTART);
 
 	HUlib_initTextLine(&w_debug_plat,
-		HU_DEBUGX, HU_DEBUGY(2),
+		HU_DEBUGX, HU_DEBUGY(3),
 		hu_font,
 		HU_FONTSTART);
 
 	HUlib_initTextLine(&w_debug_mobj,
+		HU_DEBUGX, HU_DEBUGY(2),
+		hu_font,
+		HU_FONTSTART);
+
+	HUlib_initTextLine(&w_debug_xmem,
 		HU_DEBUGX, HU_DEBUGY(1),
 		hu_font,
 		HU_FONTSTART);
@@ -626,6 +634,7 @@ void HU_Start(void) {
 	max_think = 0;
 	max_plat = 0;
 	max_mobj = 0;
+	max_xmem = 0;
 }
 
 void HU_Drawer(void) {
@@ -647,6 +656,7 @@ void HU_Drawer(void) {
 		HUlib_drawTextLine(&w_debug_think, SDL_FALSE);
 		HUlib_drawTextLine(&w_debug_plat, SDL_FALSE);
 		HUlib_drawTextLine(&w_debug_mobj, SDL_FALSE);
+		HUlib_drawTextLine(&w_debug_xmem, SDL_FALSE);
 	}
 }
 

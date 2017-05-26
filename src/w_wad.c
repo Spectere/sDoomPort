@@ -26,7 +26,7 @@
 #include "doomdef.h"
 #include "doomtype.h"
 #include "i_system.h"
-#include "z_zone.h"
+#include "x_memmgr.h"
 
 #include "w_wad.h"
 #include "x_memmgr.h"
@@ -211,7 +211,7 @@ void W_Reload(void) {
 	    i < reloadlump + lumpcount;
 	    i++ , lump_p++ , fileinfo++) {
 		if(lumpcache[i])
-			Z_Free(lumpcache[i]);
+			X_Free(lumpcache[i]);
 
 		lump_p->position = SDL_SwapLE32(fileinfo->filepos);
 		lump_p->size = SDL_SwapLE32(fileinfo->size);
@@ -407,7 +407,7 @@ void* W_CacheLumpNum(int lump, xmemtag_t tag) {
 	} else {
 		//printf ("cache hit on lump %i\n",lump);
 		/* TODO: XMEM: Reimplement me. */
-		/* Z_ChangeTag(lumpcache[lump], tag); */
+		//X_ChangeTag(lumpcache[lump], tag);
 	}
 
 	return lumpcache[lump];
@@ -430,7 +430,6 @@ int profilecount;
 
 void W_Profile(void) {
 	int i;
-	memblock_t* block;
 	void* ptr;
 	char ch;
 	FILE* f;
@@ -443,11 +442,7 @@ void W_Profile(void) {
 		if(!ptr) {
 			continue;
 		} else {
-			block = (memblock_t *) ((Uint8 *)ptr - sizeof(memblock_t));
-			if(block->tag < PU_PURGELEVEL)
-				ch = 'S';
-			else
-				ch = 'P';
+			ch = '*';
 		}
 		info[i][profilecount] = ch;
 	}

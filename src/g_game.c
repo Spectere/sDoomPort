@@ -24,7 +24,7 @@
 #include "doomdef.h"
 #include "doomstat.h"
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "f_finale.h"
 #include "m_argv.h"
 #include "m_misc.h"
@@ -460,7 +460,6 @@ void G_DoLoadLevel(void) {
 	displayplayer = consoleplayer; // view the guy you are playing    
 	starttime = I_GetTime();
 	gameaction = ga_nothing;
-	Z_CheckHeap();
 
 	// clear cmd building stuff
 	memset(gamekeydown, 0, sizeof(gamekeydown));
@@ -1172,7 +1171,7 @@ void G_DoLoadGame(void) {
 		I_Error("Bad savegame");
 
 	// done 
-	Z_Free(savebuffer);
+	X_Free(savebuffer);
 
 	if(setsizeneeded)
 		R_ExecuteSetViewSize();
@@ -1410,7 +1409,7 @@ void G_RecordDemo(char* name) {
 	i = M_CheckParm("-maxdemo");
 	if(i && i < myargc - 1)
 		maxsize = atoi(myargv[i + 1]) * 1024;
-	demobuffer = Z_Malloc(maxsize,PU_STATIC,NULL);
+	demobuffer = X_Malloc(maxsize, XTag_Static);
 	demoend = demobuffer + maxsize;
 
 	demorecording = SDL_TRUE;
@@ -1522,7 +1521,7 @@ SDL_bool G_CheckDemoStatus(void) {
 		if(singledemo)
 			I_Quit();
 
-		Z_ChangeTag (demobuffer, PU_CACHE);
+		X_ChangeTag(demobuffer, XTag_Cache);
 		demoplayback = SDL_FALSE;
 		netdemo = SDL_FALSE;
 		netgame = SDL_FALSE;
@@ -1539,7 +1538,7 @@ SDL_bool G_CheckDemoStatus(void) {
 	if(demorecording) {
 		*demo_p++ = DEMOMARKER;
 		M_WriteFile(demoname, demobuffer, demo_p - demobuffer);
-		Z_Free(demobuffer);
+		X_Free(demobuffer);
 		demorecording = SDL_FALSE;
 		I_Error("Demo %s recorded", demoname);
 	}

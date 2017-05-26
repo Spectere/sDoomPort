@@ -21,7 +21,7 @@
 #include <SDL_stdinc.h>
 
 #include "i_system.h"
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "m_random.h"
 #include "m_list.h"
 

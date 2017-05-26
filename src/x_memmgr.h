@@ -24,19 +24,21 @@
 #include <SDL_stdinc.h>
 
 typedef enum {
-	XTag_Static = 0x00,
-	XTag_Sound  = 0x01,
-	XTag_Music  = 0x02,
+	XTag_Static		= 0x00,
+	XTag_Sound		= 0x01,
+	XTag_Music		= 0x02,
 
-	XTag_Level  = 0x40,
+	XTag_Level		= 0x40,
+	XTag_LevelSpec	= 0x41,
 
-	XTag_Purge  = 0x80,
-	XTag_Cache  = 0x81
+	XTag_Purge		= 0x80,
+	XTag_Cache		= 0x81
 } xmemtag_t;
 
 void X_ChangeTag(void* ptr, xmemtag_t newtag);
 void X_Free(void* ptr);
 void X_FreeTags(xmemtag_t start, xmemtag_t end);
+size_t X_GetUsed(void);
 void X_Init(void);
 void* X_Malloc(size_t size, xmemtag_t tag);
 

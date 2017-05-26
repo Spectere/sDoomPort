@@ -31,7 +31,7 @@
 
 #include "i_system.h"
 #include "i_video.h"
-#include "z_zone.h"
+#include "x_memmgr.h"
 #include "v_video.h"
 #include "w_wad.h"
 

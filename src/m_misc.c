@@ -30,7 +30,7 @@
 
 #include "doomdef.h"
 
-#include "z_zone.h"
+#include "x_memmgr.h"
 
 #include "m_argv.h"
 
@@ -123,7 +123,7 @@ int M_ReadFile(char const* name, Uint8** buffer) {
 	if(handle == NULL)
 		I_Error("Couldn't read file %s", name);
 	length = SDL_RWsize(handle);
-	buf = Z_Malloc(length, PU_STATIC, NULL);
+	buf = X_Malloc(length, XTag_Static);
 	count = SDL_RWread(handle, buf, length, 1);
 	SDL_RWclose(handle);
 
@@ -382,7 +382,7 @@ void WritePCXfile(char* filename, Uint8* data, int width, int height, Uint8* pal
 	pcx_t* pcx;
 	Uint8* pack;
 
-	pcx = Z_Malloc(width * height * 2 + 1000, PU_STATIC, NULL);
+	pcx = X_Malloc(width * height * 2 + 1000, XTag_Static);
 
 	pcx->manufacturer = 0x0a; // PCX id
 	pcx->version = 5; // 256 color
@@ -422,7 +422,7 @@ void WritePCXfile(char* filename, Uint8* data, int width, int height, Uint8* pal
 	length = pack - (Uint8 *)pcx;
 	M_WriteFile(filename, pcx, length);
 
-	Z_Free(pcx);
+	X_Free(pcx);
 }
 
 
