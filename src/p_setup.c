@@ -416,7 +416,7 @@ void P_LoadBlockMap(int lump) {
 	int i;
 	int count;
 
-	blockmaplump = W_CacheLumpNum(lump, XTag_Level);
+	blockmaplump = W_CacheLumpNum(lump, XTag_Static);
 	blockmap = blockmaplump + 4;
 	count = W_LumpLength(lump) / 2;
 
