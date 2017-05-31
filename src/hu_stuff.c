@@ -41,6 +41,8 @@
 #include "dstrings.h"
 #include "sounds.h"
 
+#include "hu_debug.h"
+
 //
 // Locally used constants, shortcuts.
 //
@@ -54,7 +56,6 @@
 #define HU_TITLEX	0
 #define HU_TITLEY	(167 - SDL_SwapLE16(hu_font[0]->height))
 #define HU_DEBUGX	0
-#define HU_DEBUGY(x) (167 - (SDL_SwapLE16(hu_font[0]->height + 1)) * (x + 1))
 #define HU_DEBUGWIDTH 80
 
 #define HU_INPUTTOGGLE	't'
@@ -62,7 +63,6 @@
 #define HU_INPUTY	(HU_MSGY + HU_MSGHEIGHT*(SDL_SwapLE16(hu_font[0]->height) +1))
 #define HU_INPUTWIDTH	64
 #define HU_INPUTHEIGHT	1
-
 
 char* chat_macros[] = {
 	HUSTR_CHATMACRO0,
@@ -107,17 +107,7 @@ extern SDL_bool automapactive;
 
 static SDL_bool headsupactive = SDL_FALSE;
 
-static hu_textline_t w_debug_vis;
-static hu_textline_t w_debug_seg;
-static hu_textline_t w_debug_plat;
-static hu_textline_t w_debug_think;
-static hu_textline_t w_debug_mobj;
-
-static int max_vis;
-static int max_seg;
-static int max_think;
-static int max_plat;
-static int max_mobj;
+static hu_textline_t* w_debug;
 
 //
 // Builtin map names.
@@ -473,6 +463,10 @@ char frenchKeyMap[128] = {
 	'P','A','R','S','T','U','V','Z','X','Y','W','^','\\','$','^',127
 };
 
+inline int DebugY(int offset) {
+	return 167 - (SDL_SwapLE16(hu_font[0]->height + 1)) * (offset + 2);
+}
+
 char ForeignTranslation(unsigned char ch) {
 	return ch < 128 ? frenchKeyMap[ch] : ch;
 }
@@ -487,13 +481,18 @@ char ForeignTranslation(unsigned char ch) {
 
 void DebugPrint(void) {
 	char buf[HU_DEBUGWIDTH];
-	int i, x;
+	int i, j;
 
-	HUD_DPRINT(w_debug_vis, "vis: %i / %i", R_PlaneCount(), max_vis);
-	HUD_DPRINT(w_debug_seg, "seg: %i / %i", R_SegCount(), max_seg);
-	HUD_DPRINT(w_debug_think, "thinkers: %i / %i", P_ThinkerCount(), max_think);
-	HUD_DPRINT(w_debug_plat, "plat: %i / %i", T_PlatCount(), max_plat);
-	HUD_DPRINT(w_debug_mobj, "mobj: %i / %i", P_MobjCount(), max_mobj);
+	HU_DebugUpdate();
+	for(i = 0; i < debug_count; i++) {
+		debug_stat_t dbg = debug_stat[i];
+
+		HUlib_clearTextLine(&w_debug[i]);
+		sprintf(buf, "%s: %i / %i", dbg.desc, dbg.cur, dbg.max);
+		j = 0;
+		while(buf[j])
+			HUlib_addCharToTextLine(&w_debug[i], buf[j++]);
+	}
 }
 
 void HU_Init(void) {
@@ -514,6 +513,8 @@ void HU_Init(void) {
 		hu_font[i] = (patch_t *) W_CacheLumpName(buffer, PU_STATIC);
 	}
 
+	HU_DebugInit();
+	w_debug = malloc(sizeof(hu_textline_t) * debug_count);
 }
 
 void HU_Stop(void) {
@@ -547,30 +548,10 @@ void HU_Start(void) {
 	                   HU_FONTSTART);
 
 	/* SDP debugging information */
-	HUlib_initTextLine(&w_debug_vis,
-		HU_DEBUGX, HU_DEBUGY(5),
-		hu_font,
-		HU_FONTSTART);
-
-	HUlib_initTextLine(&w_debug_seg,
-		HU_DEBUGX, HU_DEBUGY(4),
-		hu_font,
-		HU_FONTSTART);
-
-	HUlib_initTextLine(&w_debug_think,
-		HU_DEBUGX, HU_DEBUGY(3),
-		hu_font,
-		HU_FONTSTART);
-
-	HUlib_initTextLine(&w_debug_plat,
-		HU_DEBUGX, HU_DEBUGY(2),
-		hu_font,
-		HU_FONTSTART);
-
-	HUlib_initTextLine(&w_debug_mobj,
-		HU_DEBUGX, HU_DEBUGY(1),
-		hu_font,
-		HU_FONTSTART);
+	for(i = 0; i < debug_count; i++) {
+		HUlib_initTextLine(&w_debug[debug_count - 1 - i],
+			HU_DEBUGX, DebugY(i), hu_font, HU_FONTSTART);
+	}
 
 	switch(gamemode) {
 		case shareware:
@@ -620,15 +601,11 @@ void HU_Start(void) {
 	headsupactive = SDL_TRUE;
 
 	/* Reset the max stats for the developer overlay. */
-	max_vis = 0;
-	max_seg = 0;
-	max_think = 0;
-	max_plat = 0;
-	max_mobj = 0;
+	HU_DebugResetStats();
 }
 
 void HU_Drawer(void) {
-	int i;
+	int i, j;
 
 	HUlib_drawSText(&w_message);
 	HUlib_drawIText(&w_chat);
@@ -641,11 +618,8 @@ void HU_Drawer(void) {
 		if(!players[i].stat_display)
 			break;
 		
-		HUlib_drawTextLine(&w_debug_vis, SDL_FALSE);
-		HUlib_drawTextLine(&w_debug_seg, SDL_FALSE);
-		HUlib_drawTextLine(&w_debug_think, SDL_FALSE);
-		HUlib_drawTextLine(&w_debug_plat, SDL_FALSE);
-		HUlib_drawTextLine(&w_debug_mobj, SDL_FALSE);
+		for(j = 0; j < debug_count; j++)
+			HUlib_drawTextLine(&w_debug[j], SDL_FALSE);
 	}
 }
 

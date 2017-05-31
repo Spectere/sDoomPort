@@ -204,6 +204,9 @@
     <ClCompile Include="..\src\m_list.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\hu_debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\am_map.h">
@@ -399,6 +402,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\d_freedm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\hu_debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

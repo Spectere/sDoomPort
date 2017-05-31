@@ -172,6 +172,7 @@
     <ClCompile Include="..\src\f_finale.c" />
     <ClCompile Include="..\src\f_wipe.c" />
     <ClCompile Include="..\src\g_game.c" />
+    <ClCompile Include="..\src\hu_debug.c" />
     <ClCompile Include="..\src\hu_lib.c" />
     <ClCompile Include="..\src\hu_stuff.c" />
     <ClCompile Include="..\src\info.c" />
@@ -248,6 +249,7 @@
     <ClInclude Include="..\src\f_finale.h" />
     <ClInclude Include="..\src\f_wipe.h" />
     <ClInclude Include="..\src\g_game.h" />
+    <ClInclude Include="..\src\hu_debug.h" />
     <ClInclude Include="..\src\hu_lib.h" />
     <ClInclude Include="..\src\hu_stuff.h" />
     <ClInclude Include="..\src\info.h" />
