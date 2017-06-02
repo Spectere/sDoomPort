@@ -20,7 +20,6 @@
 #define __HUDEBUG_H__
 
 typedef struct {
-	int index;
 	char* desc;
 	int cur;
 	int max;

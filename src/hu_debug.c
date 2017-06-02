@@ -29,12 +29,12 @@
 #include "r_plane.h"
 
 debug_stat_t debug_stat[] = {
-	{  0,   "vis", 0, 0, R_PlaneCount },
-	{  1,   "seg", 0, 0, R_SegCount },
-	{  2, "think", 0, 0, P_ThinkerCount },
-	{  3,  "plat", 0, 0, T_PlatCount },
-	{  4,  "mobj", 0, 0, P_MobjCount },
-	{ -1,    NULL, 0, 0, NULL }
+	{   "vis", 0, 0, R_PlaneCount },
+	{   "seg", 0, 0, R_SegCount },
+	{ "think", 0, 0, P_ThinkerCount },
+	{  "plat", 0, 0, T_PlatCount },
+	{  "mobj", 0, 0, P_MobjCount },
+	{    NULL, 0, 0, NULL }
 };
 
 static int GetDebugCount(void) {
