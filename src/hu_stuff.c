@@ -463,7 +463,7 @@ char frenchKeyMap[128] = {
 	'P','A','R','S','T','U','V','Z','X','Y','W','^','\\','$','^',127
 };
 
-inline int DebugY(int offset) {
+static inline int DebugY(int offset) {
 	return 167 - (SDL_SwapLE16(hu_font[0]->height + 1)) * (offset + 2);
 }
 
