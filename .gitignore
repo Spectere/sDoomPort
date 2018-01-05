@@ -351,3 +351,6 @@ obj/
 # files in our source repo.
 assets/*.[wW][aA][dD]
 
+# Sublime Text
+*.sublime-workspace
+

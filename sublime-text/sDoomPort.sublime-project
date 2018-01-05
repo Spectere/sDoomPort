@@ -1,0 +1,38 @@
+{
+	"folders":
+	[
+		{
+			"path": "..",
+			"name": "Root",
+			"folder_exclude_patterns": ["*"],
+			"file_include_patterns":
+			[
+				".gitignore",
+				"Makefile",
+				"LICENSE"
+			]
+		},
+		{
+			"path": "../src",
+			"name": "Source"
+		},
+	],
+	"build_systems":
+	[
+		{
+			"name": "sDoomPort: make",
+			"cmd": ["make", "-j9"],
+			"working_dir": "$project_path/.."
+		},
+		{
+			"name": "sDoomPort: make clean",
+			"cmd": ["make", "clean"],
+			"working_dir": "$project_path/.."
+		},
+		{
+			"name": "sDoomPort: run",
+			"cmd": ["./sDoomPort"],
+			"working_dir": "$project_path/../bin"
+		}
+	]
+}
