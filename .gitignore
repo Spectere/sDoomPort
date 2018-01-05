@@ -347,6 +347,7 @@ __pycache__/
 bin/
 obj/
 
-# Let's keep from accidentally including any copyrighted and/or large
+# Let's try not to accidentally include any copyrighted and/or large
 # files in our source repo.
-assets/*.wad
+assets/*.[wW][aA][dD]
+
