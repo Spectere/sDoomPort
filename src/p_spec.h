@@ -249,8 +249,8 @@ int T_PlatCount(void);
 typedef enum {
 	normal,
 	close30ThenOpen,
-	close,
-	open,
+	doorClose,
+	doorOpen,
 	raiseIn5Mins,
 	blazeRaise,
 	blazeOpen,

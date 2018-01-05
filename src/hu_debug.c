@@ -28,6 +28,8 @@
 #include "r_bsp.h"
 #include "r_plane.h"
 
+int debug_count;
+
 debug_stat_t debug_stat[] = {
 	{   "vis", 0, 0, R_PlaneCount },
 	{   "seg", 0, 0, R_SegCount },

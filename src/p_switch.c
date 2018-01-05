@@ -367,7 +367,7 @@ SDL_bool P_UseSpecialLine(mobj_t* thing, line_t* line, int side) {
 
 		case 50:
 			// Close Door
-			if(EV_DoDoor(line, close))
+			if(EV_DoDoor(line, doorClose))
 				P_ChangeSwitchTexture(line, 0);
 			break;
 
@@ -397,7 +397,7 @@ SDL_bool P_UseSpecialLine(mobj_t* thing, line_t* line, int side) {
 
 		case 103:
 			// Open Door
-			if(EV_DoDoor(line, open))
+			if(EV_DoDoor(line, doorOpen))
 				P_ChangeSwitchTexture(line, 0);
 			break;
 
@@ -456,7 +456,7 @@ SDL_bool P_UseSpecialLine(mobj_t* thing, line_t* line, int side) {
 			// BUTTONS
 		case 42:
 			// Close Door
-			if(EV_DoDoor(line, close))
+			if(EV_DoDoor(line, doorClose))
 				P_ChangeSwitchTexture(line, 1);
 			break;
 
@@ -480,7 +480,7 @@ SDL_bool P_UseSpecialLine(mobj_t* thing, line_t* line, int side) {
 
 		case 61:
 			// Open Door
-			if(EV_DoDoor(line, open))
+			if(EV_DoDoor(line, doorOpen))
 				P_ChangeSwitchTexture(line, 1);
 			break;
 

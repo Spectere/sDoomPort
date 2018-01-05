@@ -27,7 +27,7 @@ typedef struct {
 } debug_stat_t;
 
 extern debug_stat_t debug_stat[];
-int debug_count;
+extern int debug_count;
 
 void HU_DebugInit(void);
 void HU_DebugResetStats(void);
