@@ -468,7 +468,7 @@ SDL_bool P_BlockThingsIterator(int x, int y, SDL_bool (*func)(mobj_t*)) {
 intercept_t intercepts[MAXINTERCEPTS];
 intercept_t* intercept_p;
 
-divline_t trace;
+divline_t d_trace;
 SDL_bool earlyout;
 int ptflags;
 
@@ -489,15 +489,15 @@ SDL_bool PIT_AddLineIntercepts(line_t* ld) {
 	divline_t dl;
 
 	// avoid precision problems with two routines
-	if(trace.dx > FRACUNIT * 16
-	   || trace.dy > FRACUNIT * 16
-	   || trace.dx < -FRACUNIT * 16
-	   || trace.dy < -FRACUNIT * 16) {
-		s1 = P_PointOnDivlineSide(ld->v1->x, ld->v1->y, &trace);
-		s2 = P_PointOnDivlineSide(ld->v2->x, ld->v2->y, &trace);
+	if(d_trace.dx > FRACUNIT * 16
+	   || d_trace.dy > FRACUNIT * 16
+	   || d_trace.dx < -FRACUNIT * 16
+	   || d_trace.dy < -FRACUNIT * 16) {
+		s1 = P_PointOnDivlineSide(ld->v1->x, ld->v1->y, &d_trace);
+		s2 = P_PointOnDivlineSide(ld->v2->x, ld->v2->y, &d_trace);
 	} else {
-		s1 = P_PointOnLineSide(trace.x, trace.y, ld);
-		s2 = P_PointOnLineSide(trace.x + trace.dx, trace.y + trace.dy, ld);
+		s1 = P_PointOnLineSide(d_trace.x, d_trace.y, ld);
+		s2 = P_PointOnLineSide(d_trace.x + d_trace.dx, d_trace.y + d_trace.dy, ld);
 	}
 
 	if(s1 == s2)
@@ -505,7 +505,7 @@ SDL_bool PIT_AddLineIntercepts(line_t* ld) {
 
 	// hit the line
 	P_MakeDivline(ld, &dl);
-	frac = P_InterceptVector(&trace, &dl);
+	frac = P_InterceptVector(&d_trace, &dl);
 
 	if(frac < 0)
 		return SDL_TRUE; // behind source
@@ -545,7 +545,7 @@ SDL_bool PIT_AddThingIntercepts(mobj_t* thing) {
 
 	fixed_t frac;
 
-	tracepositive = (trace.dx ^ trace.dy) > 0;
+	tracepositive = (d_trace.dx ^ d_trace.dy) > 0;
 
 	// check a corner to corner crossection for hit
 	if(tracepositive) {
@@ -562,8 +562,8 @@ SDL_bool PIT_AddThingIntercepts(mobj_t* thing) {
 		y2 = thing->y + thing->radius;
 	}
 
-	s1 = P_PointOnDivlineSide(x1, y1, &trace);
-	s2 = P_PointOnDivlineSide(x2, y2, &trace);
+	s1 = P_PointOnDivlineSide(x1, y1, &d_trace);
+	s2 = P_PointOnDivlineSide(x2, y2, &d_trace);
 
 	if(s1 == s2)
 		return SDL_TRUE; // line isn't crossed
@@ -573,7 +573,7 @@ SDL_bool PIT_AddThingIntercepts(mobj_t* thing) {
 	dl.dx = x2 - x1;
 	dl.dy = y2 - y1;
 
-	frac = P_InterceptVector(&trace, &dl);
+	frac = P_InterceptVector(&d_trace, &dl);
 
 	if(frac < 0)
 		return SDL_TRUE; // behind source
@@ -676,10 +676,10 @@ SDL_bool P_PathTraverse(fixed_t x1, fixed_t y1, fixed_t x2, fixed_t y2, int flag
 	if(((y1 - bmaporgy) & (MAPBLOCKSIZE - 1)) == 0)
 		y1 += FRACUNIT; // don't side exactly on a line
 
-	trace.x = x1;
-	trace.y = y1;
-	trace.dx = x2 - x1;
-	trace.dy = y2 - y1;
+	d_trace.x = x1;
+	d_trace.y = y1;
+	d_trace.dx = x2 - x1;
+	d_trace.dy = y2 - y1;
 
 	x1 -= bmaporgx;
 	y1 -= bmaporgy;

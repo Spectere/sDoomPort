@@ -122,7 +122,7 @@ void T_VerticalDoor(think_t* th) {
 						break;
 
 					case normal:
-					case close:
+					case doorClose:
 						door->sector->specialdata = NULL;
 						P_RemoveThinker(door->thinker); // unlink and free
 						break;
@@ -138,7 +138,7 @@ void T_VerticalDoor(think_t* th) {
 			} else if(res == crushed) {
 				switch(door->type) {
 					case blazeClose:
-					case close: // DO NOT GO BACK UP!
+					case doorClose: // DO NOT GO BACK UP!
 						break;
 
 					default:
@@ -167,7 +167,7 @@ void T_VerticalDoor(think_t* th) {
 
 					case close30ThenOpen:
 					case blazeOpen:
-					case open:
+					case doorOpen:
 						door->sector->specialdata = NULL;
 						P_RemoveThinker(door->thinker); // unlink and free
 						break;
@@ -270,7 +270,7 @@ int EV_DoDoor(line_t* line, vldoor_e type) {
 				             sfx_bdcls);
 				break;
 
-			case close:
+			case doorClose:
 				door->topheight = P_FindLowestCeilingSurrounding(sec);
 				door->topheight -= 4 * FRACUNIT;
 				door->direction = -1;
@@ -297,7 +297,7 @@ int EV_DoDoor(line_t* line, vldoor_e type) {
 				break;
 
 			case normal:
-			case open:
+			case doorOpen:
 				door->direction = 1;
 				door->topheight = P_FindLowestCeilingSurrounding(sec);
 				door->topheight -= 4 * FRACUNIT;
@@ -431,7 +431,7 @@ void EV_VerticalDoor(line_t* line, mobj_t* thing) {
 		case 32:
 		case 33:
 		case 34:
-			door->type = open;
+			door->type = doorOpen;
 			line->special = 0;
 			break;
 

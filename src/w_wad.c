@@ -19,7 +19,7 @@
 
 #include <ctype.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <SDL.h>
 

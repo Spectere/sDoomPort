@@ -20,7 +20,7 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <malloc.h>
+#include <stdlib.h>
 #include <SDL_stdinc.h>
 
 #include "i_system.h"
