@@ -92,7 +92,7 @@ void STlib_drawNum(st_number_t* n, SDL_bool refresh) {
 	// clear the area
 	x = n->x - numdigits * w;
 
-	V_CopyRect(x, n->y, BG, w * numdigits, h, x, n->y, FG);
+	V_CopyRect(x, n->y, BG, w * numdigits, h, x, n->y + ST_Y, FG);
 
 	// if non-number, do not draw it
 	if(num == 1994)
@@ -132,7 +132,7 @@ void STlib_initPercent(st_percent_t* p, int x, int y, patch_t** pl, int* num, SD
 
 void STlib_updatePercent(st_percent_t* per, int refresh) {
 	if(refresh && *per->n.on)
-		V_DrawPatch(per->n.x, per->n.y, FG, per->p);
+		V_DrawPatch(per->n.x, per->n.y + ST_Y, FG, per->p);
 
 	STlib_updateNum(&per->n, refresh);
 }
@@ -163,7 +163,7 @@ void STlib_updateMultIcon(st_multicon_t* mi, SDL_bool refresh) {
 			w = SDL_SwapLE16(mi->p[mi->oldinum]->width);
 			h = SDL_SwapLE16(mi->p[mi->oldinum]->height);
 
-			V_CopyRect(x, y, BG, w, h, x, y, FG);
+			V_CopyRect(x, y, BG, w, h, x, y + ST_Y, FG);
 		}
 		V_DrawPatch(mi->x, mi->y + ST_Y, FG, mi->p[*mi->inum]);
 		mi->oldinum = *mi->inum;
