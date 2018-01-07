@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
-// Copyright (C) 2017 by Ian Burgmyer
+// Copyright (C) 2017-2018 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -38,9 +38,6 @@
 // ?
 #define MAXWIDTH			1120
 #define MAXHEIGHT			832
-
-// status bar height at bottom of screen
-#define SBARHEIGHT		32
 
 //
 // All drawing to the view buffer is accomplished in this file.
@@ -663,7 +660,7 @@ void R_InitBuffer(int width, int height) {
 	if(width == SCREENWIDTH)
 		viewwindowy = 0;
 	else
-		viewwindowy = (SCREENHEIGHT - SBARHEIGHT - height) >> 1;
+		viewwindowy = (SCREENHEIGHT - height) >> 1;
 
 	// Preclaculate all row offsets.
 	for(i = 0; i < height; i++)
@@ -703,17 +700,16 @@ void R_FillBackScreen(void) {
 	src = W_CacheLumpName(name, PU_CACHE);
 	dest = screens[1];
 
-	for(y = 0; y < SCREENHEIGHT - SBARHEIGHT; y++) {
+	for(y = 0; y < SCREENHEIGHT; y++) {
 		for(x = 0; x < SCREENWIDTH / 64; x++) {
 			memcpy(dest, src + ((y & 63) << 6), 64);
 			dest += 64;
 		}
 
-		/* Might be necessary if we uncap the screen resolution. */
-		/*if(SCREENWIDTH & 63) {
+		if(SCREENWIDTH & 63) {
 			memcpy(dest, src + ((y & 63) << 6), SCREENWIDTH & 63);
 			dest += (SCREENWIDTH & 63);
-		}*/
+		}
 	}
 
 	patch = W_CacheLumpName("brdr_t",PU_CACHE);
@@ -786,7 +782,7 @@ void R_DrawViewBorder(void) {
 	if(scaledviewwidth == SCREENWIDTH)
 		return;
 
-	top = ((SCREENHEIGHT - SBARHEIGHT) - viewheight) / 2;
+	top = (SCREENHEIGHT - viewheight) / 2;
 	side = (SCREENWIDTH - scaledviewwidth) / 2;
 
 	// copy top and one line of left side 
@@ -804,7 +800,4 @@ void R_DrawViewBorder(void) {
 		R_VideoErase(ofs, side);
 		ofs += SCREENWIDTH;
 	}
-
-	// ? 
-	V_MarkRect(0, 0,SCREENWIDTH, SCREENHEIGHT - SBARHEIGHT);
 }

@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
-// Copyright (C) 2017 by Ian Burgmyer
+// Copyright (C) 2017-2018 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -92,7 +92,7 @@ void STlib_drawNum(st_number_t* n, SDL_bool refresh) {
 	// clear the area
 	x = n->x - numdigits * w;
 
-	V_CopyRect(x, n->y, BG, w * numdigits, h, x, n->y + ST_Y, FG);
+	V_CopyRect(x, n->y, BG, w * numdigits, h, x + ST_X, n->y + ST_Y, FG);
 
 	// if non-number, do not draw it
 	if(num == 1994)
@@ -102,18 +102,18 @@ void STlib_drawNum(st_number_t* n, SDL_bool refresh) {
 
 	// in the special case of 0, you draw 0
 	if(!num)
-		V_DrawPatch(x - w, n->y + ST_Y, FG, n->p[0]);
+		V_DrawPatch(x - w + ST_X, n->y + ST_Y, FG, n->p[0]);
 
 	// draw the new number
 	while(num && numdigits--) {
 		x -= w;
-		V_DrawPatch(x, n->y + ST_Y, FG, n->p[num % 10]);
+		V_DrawPatch(x + ST_X, n->y + ST_Y, FG, n->p[num % 10]);
 		num /= 10;
 	}
 
 	// draw a minus sign if necessary
 	if(neg)
-		V_DrawPatch(x - 8, n->y + ST_Y, FG, sttminus);
+		V_DrawPatch(x - 8 + ST_X, n->y + ST_Y, FG, sttminus);
 }
 
 
@@ -132,7 +132,7 @@ void STlib_initPercent(st_percent_t* p, int x, int y, patch_t** pl, int* num, SD
 
 void STlib_updatePercent(st_percent_t* per, int refresh) {
 	if(refresh && *per->n.on)
-		V_DrawPatch(per->n.x, per->n.y + ST_Y, FG, per->p);
+		V_DrawPatch(per->n.x + ST_X, per->n.y + ST_Y, FG, per->p);
 
 	STlib_updateNum(&per->n, refresh);
 }
@@ -163,9 +163,9 @@ void STlib_updateMultIcon(st_multicon_t* mi, SDL_bool refresh) {
 			w = SDL_SwapLE16(mi->p[mi->oldinum]->width);
 			h = SDL_SwapLE16(mi->p[mi->oldinum]->height);
 
-			V_CopyRect(x, y, BG, w, h, x, y + ST_Y, FG);
+			V_CopyRect(x, y, BG, w, h, x + ST_X, y + ST_Y, FG);
 		}
-		V_DrawPatch(mi->x, mi->y + ST_Y, FG, mi->p[*mi->inum]);
+		V_DrawPatch(mi->x + ST_X, mi->y + ST_Y, FG, mi->p[*mi->inum]);
 		mi->oldinum = *mi->inum;
 	}
 }
@@ -195,9 +195,9 @@ void STlib_updateBinIcon(st_binicon_t* bi, SDL_bool refresh) {
 		h = SDL_SwapLE16(bi->p->height);
 
 		if(*bi->val)
-			V_DrawPatch(bi->x, bi->y + ST_Y, FG, bi->p);
+			V_DrawPatch(bi->x + ST_X, bi->y + ST_Y, FG, bi->p);
 		else
-			V_CopyRect(x, y + ST_Y, BG, w, h, x, y, FG);
+			V_CopyRect(x + ST_X, y + ST_Y, BG, w, h, x, y, FG);
 
 		bi->oldval = *bi->val;
 	}

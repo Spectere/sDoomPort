@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
-// Copyright (C) 2017 by Ian Burgmyer
+// Copyright (C) 2017-2018 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -217,12 +217,7 @@ void D_Display(void) {
 				break;
 			if(automapactive)
 				AM_Drawer();
-			if(wipe || (viewheight != 200 && fullscreen))
-				redrawsbar = SDL_TRUE;
-			if(inhelpscreensstate && !inhelpscreens)
-				redrawsbar = SDL_TRUE; // just put away the help screen
-			ST_Drawer(viewheight == 200, redrawsbar);
-			fullscreen = viewheight == 200;
+			fullscreen = viewheight == SCREENHEIGHT;
 			break;
 
 		case GS_INTERMISSION:
@@ -243,8 +238,8 @@ void D_Display(void) {
 
 	// draw the view directly
 	if(gamestate == GS_LEVEL && !automapactive && gametic)
-		R_RenderPlayerView(&players[displayplayer]);
-
+        R_RenderPlayerView(&players[displayplayer]);
+    
 	if(gamestate == GS_LEVEL && gametic)
 		HU_Drawer();
 
@@ -268,6 +263,10 @@ void D_Display(void) {
 		}
 
 	}
+
+    // Draw the status bar after the player view.
+    if(gamestate == GS_LEVEL)
+        ST_Drawer(viewheight == SCREENHEIGHT);
 
 	menuactivestate = menuactive;
 	viewactivestate = viewactive;

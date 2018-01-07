@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
-// Copyright (C) 2017 by Ian Burgmyer
+// Copyright (C) 2017-2018 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -30,8 +30,9 @@
 // Size of statusbar.
 // Now sensitive for scaling.
 #define ST_HEIGHT	32*SCREEN_MUL
-#define ST_WIDTH	SCREENWIDTH
-#define ST_Y		(SCREENHEIGHT - ST_HEIGHT)
+#define ST_WIDTH	320
+#define ST_X        ((SCREENWIDTH - ST_WIDTH) / 2)
+#define ST_Y        (SCREENHEIGHT - ST_HEIGHT)
 
 
 //
@@ -45,7 +46,7 @@ SDL_bool ST_Responder(event_t* ev);
 void ST_Ticker(void);
 
 // Called by main loop.
-void ST_Drawer(SDL_bool fullscreen, SDL_bool refresh);
+void ST_Drawer(SDL_bool fullscreen);
 
 // Called when the console player is spawned on each level.
 void ST_Start(void);

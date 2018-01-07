@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
-// Copyright (C) 2017 by Ian Burgmyer
+// Copyright (C) 2017-2018 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -76,7 +76,6 @@
 #define ST_TOGGLECHAT		KEY_ENTER
 
 // Location of status bar
-#define ST_X				0
 #define ST_X2				104
 
 #define ST_FX  			143
@@ -445,12 +444,12 @@ void ST_Stop(void);
 
 void ST_refreshBackground(void) {
 	if(st_statusbaron) {
-		V_DrawPatch(ST_X, 0, BG, sbar);
+		V_DrawPatch(0, 0, BG, sbar);
 
 		if(netgame)
-			V_DrawPatch(ST_FX, 0, BG, faceback);
+			V_DrawPatch(0, 0, BG, faceback);
 
-		V_CopyRect(ST_X, 0, BG, ST_WIDTH, ST_HEIGHT, ST_X, ST_Y, FG);
+		V_CopyRect(0, 0, BG, ST_WIDTH, ST_HEIGHT, ST_X, ST_Y, FG);
 	}
 
 }
@@ -977,17 +976,13 @@ void ST_diffDraw(void) {
 	ST_drawWidgets(SDL_FALSE);
 }
 
-void ST_Drawer(SDL_bool fullscreen, SDL_bool refresh) {
+void ST_Drawer(SDL_bool fullscreen) {
 	st_statusbaron = (!fullscreen) || automapactive;
-	st_firsttime = st_firsttime || refresh;
 
 	// Do red-/gold-shifts from damage/items
 	ST_doPaletteStuff();
 
-	// If just after ST_Start(), refresh all
-	if(st_firsttime) ST_doRefresh();
-	// Otherwise, update as little as possible
-	else ST_diffDraw();
+	ST_doRefresh();
 }
 
 void ST_loadGraphics(void) {
