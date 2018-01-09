@@ -186,12 +186,9 @@ void D_Display(void) {
 	int y;
 	SDL_bool done;
 	SDL_bool wipe;
-	SDL_bool redrawsbar;
 
 	if(nodrawers)
 		return; // for comparative timing / profiling
-
-	redrawsbar = SDL_FALSE;
 
 	// change the view size if needed
 	if(setsizeneeded) {
@@ -217,7 +214,7 @@ void D_Display(void) {
 				break;
 			if(automapactive)
 				AM_Drawer();
-			fullscreen = viewheight == SCREENHEIGHT;
+			fullscreen = setblocks == 11;
 			break;
 
 		case GS_INTERMISSION:

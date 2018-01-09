@@ -35,10 +35,6 @@
 #include "doomstat.h"
 
 
-// ?
-#define MAXWIDTH			1120
-#define MAXHEIGHT			832
-
 //
 // All drawing to the view buffer is accomplished in this file.
 // The other refresh files only know about ccordinates,
@@ -55,8 +51,8 @@ int scaledviewwidth;
 int viewheight;
 int viewwindowx;
 int viewwindowy;
-Uint8* ylookup[MAXHEIGHT];
-int columnofs[MAXWIDTH];
+Uint8* ylookup[SCREENHEIGHT];
+int columnofs[SCREENWIDTH];
 
 // Color tables for different players,
 //  translate a limited part to another

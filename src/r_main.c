@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 //
 // Copyright (C) 1993-1996 by id Software, Inc.
-// Copyright (C) 2017 by Ian Burgmyer
+// Copyright (C) 2017-2018 by Ian Burgmyer
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -36,7 +36,6 @@
 
 // Fineangles in the SCREENWIDTH wide window.
 #define FIELDOFVIEW		2048
-
 
 int viewangleoffset;
 
@@ -577,8 +576,8 @@ void R_ExecuteSetViewSize(void) {
 		scaledviewwidth = SCREENWIDTH;
 		viewheight = SCREENHEIGHT;
 	} else {
-		scaledviewwidth = setblocks * 32;
-		viewheight = (setblocks * 168 / 10) & ~7;
+		scaledviewwidth = setblocks * (SCREENWIDTH / 10);
+		viewheight = (setblocks * SCREENHEIGHT / 10) & ~7;
 	}
 
 	/* TODO: Fix low detail mode. */
