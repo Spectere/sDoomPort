@@ -572,6 +572,7 @@ void R_ExecuteSetViewSize(void) {
 
 	setsizeneeded = SDL_FALSE;
 
+#if SCREENHEIGHT > 240
 	if(setblocks >= 10) {
 		scaledviewwidth = SCREENWIDTH;
 		viewheight = SCREENHEIGHT;
@@ -579,7 +580,16 @@ void R_ExecuteSetViewSize(void) {
 		scaledviewwidth = setblocks * (SCREENWIDTH / 10);
 		viewheight = (setblocks * SCREENHEIGHT / 10) & ~7;
 	}
-
+#else
+	if(setblocks == 11) {
+		scaledviewwidth = SCREENWIDTH;
+		viewheight = SCREENHEIGHT;
+	} else {
+		scaledviewwidth = setblocks * 32;
+		viewheight = (setblocks * 168 / 10) & ~7;
+	}
+#endif
+	
 	/* TODO: Fix low detail mode. */
 	detailshift = setdetail;
 	viewwidth = scaledviewwidth >> detailshift;
