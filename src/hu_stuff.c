@@ -54,7 +54,7 @@
 #define HU_TITLEFD2	(mapnamefd2[gamemap-1])
 #define HU_TITLEHEIGHT	1
 #define HU_TITLEX	0
-#define HU_TITLEY	(167 - SDL_SwapLE16(hu_font[0]->height))
+#define HU_TITLEY	((SCREENHEIGHT - 32) - SDL_SwapLE16(hu_font[0]->height))
 #define HU_DEBUGX	0
 #define HU_DEBUGWIDTH 80
 
@@ -464,7 +464,7 @@ char frenchKeyMap[128] = {
 };
 
 static inline int DebugY(int offset) {
-	return 167 - (SDL_SwapLE16(hu_font[0]->height + 1)) * (offset + 2);
+	return (SCREENHEIGHT - 32) - (SDL_SwapLE16(hu_font[0]->height + 1)) * (offset + 2);
 }
 
 char ForeignTranslation(unsigned char ch) {
