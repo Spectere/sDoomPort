@@ -34,7 +34,7 @@
 
 
 #define MINZ				(FRACUNIT*4)
-#define BASEYCENTER			100
+#define BASEYCENTER			(200 - (SCREENHEIGHT / 2) + (setblocks == 11 ? 0 : 32))
 
 //void R_DrawColumn (void);
 //void R_DrawFuzzColumn (void);
