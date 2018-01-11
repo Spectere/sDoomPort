@@ -572,7 +572,7 @@ void R_ExecuteSetViewSize(void) {
 
 	setsizeneeded = SDL_FALSE;
 
-	if(setblocks == 11) {
+	if(setblocks >= 10) {
 		scaledviewwidth = SCREENWIDTH;
 		viewheight = SCREENHEIGHT;
 	} else {
