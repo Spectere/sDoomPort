@@ -263,7 +263,7 @@ void D_Display(void) {
 
     // Draw the status bar after the player view.
     if(gamestate == GS_LEVEL)
-        ST_Drawer(viewheight == SCREENHEIGHT);
+        ST_Drawer(fullscreen);
 
 	menuactivestate = menuactive;
 	viewactivestate = viewactive;
