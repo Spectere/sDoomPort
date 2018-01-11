@@ -413,14 +413,14 @@ typedef struct {
 
 	// leave pads for [minx-1]/[maxx+1]
 
-	Uint8 pad1;
+	Uint16 pad1;
 	// Here lies the rub for all
 	//  dynamic resize/change of resolution.
-	Uint8 top[SCREENWIDTH];
+	Uint16 top[SCREENWIDTH];
 	Uint8 pad2;
-	Uint8 pad3;
+	Uint16 pad3;
 	// See above.
-	Uint8 bottom[SCREENWIDTH];
+	Uint16 bottom[SCREENWIDTH];
 	Uint8 pad4;
 
 } visplane_t;
