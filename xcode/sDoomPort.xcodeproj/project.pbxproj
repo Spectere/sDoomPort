@@ -232,6 +232,7 @@
 				BF90B5BB200036CD00807045 /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		BF90B5A82000369F00807045 /* Products */ = {
 			isa = PBXGroup;

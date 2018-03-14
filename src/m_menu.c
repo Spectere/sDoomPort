@@ -126,6 +126,9 @@ SDL_bool menuactive;
 #define SKULLXOFF		-32
 #define LINEHEIGHT		16
 
+#define XOFFSET			((SCREENWIDTH / 2) - 160)
+#define YOFFSET			((SCREENHEIGHT / 2) - 100)
+
 extern SDL_bool sendpause;
 char savegamestrings[10][SAVESTRINGSIZE];
 
@@ -254,7 +257,7 @@ menu_t MainDef = {
 	NULL,
 	MainMenu,
 	M_DrawMainMenu,
-	97,64,
+	XOFFSET + 97, YOFFSET + 64,
 	0
 };
 
@@ -282,7 +285,7 @@ menu_t EpiDef = {
 	&MainDef, // previous menu
 	EpisodeMenu, // menuitem_t ->
 	M_DrawEpisode, // drawing routine ->
-	48,63, // x,y
+	XOFFSET + 48, YOFFSET + 63, // x,y
 	ep1 // lastOn
 };
 
@@ -311,7 +314,7 @@ menu_t NewDef = {
 	&EpiDef, // previous menu
 	NewGameMenu, // menuitem_t ->
 	M_DrawNewGame, // drawing routine ->
-	48,63, // x,y
+	XOFFSET + 48, YOFFSET + 63, // x,y
 	hurtme // lastOn
 };
 
@@ -347,7 +350,7 @@ menu_t OptionsDef = {
 	&MainDef,
 	OptionsMenu,
 	M_DrawOptions,
-	60,37,
+	XOFFSET + 60, YOFFSET + 37,
 	0
 };
 
@@ -368,7 +371,7 @@ menu_t ReadDef1 = {
 	&MainDef,
 	ReadMenu1,
 	M_DrawReadThis1,
-	280,185,
+	XOFFSET + 280, YOFFSET + 185,
 	0
 };
 
@@ -386,7 +389,7 @@ menu_t ReadDef2 = {
 	&ReadDef1,
 	ReadMenu2,
 	M_DrawReadThis2,
-	330,175,
+	XOFFSET + 330, YOFFSET + 175,
 	0
 };
 
@@ -413,7 +416,7 @@ menu_t SoundDef = {
 	&OptionsDef,
 	SoundMenu,
 	M_DrawSound,
-	80,64,
+	XOFFSET + 80, YOFFSET + 64,
 	0
 };
 
@@ -444,7 +447,7 @@ menu_t LoadDef = {
 	&MainDef,
 	LoadMenu,
 	M_DrawLoad,
-	80,54,
+	XOFFSET + 80, YOFFSET + 54,
 	0
 };
 
@@ -465,7 +468,7 @@ menu_t SaveDef = {
 	&MainDef,
 	SaveMenu,
 	M_DrawSave,
-	80,54,
+	XOFFSET + 80, YOFFSET + 54,
 	0
 };
 
@@ -504,7 +507,7 @@ void M_ReadSaveStrings(void) {
 void M_DrawLoad(void) {
 	int i;
 
-	V_DrawPatchDirect(72, 28, 0, W_CacheLumpName("M_LOADG",PU_CACHE));
+	V_DrawPatchDirect(XOFFSET + 72, YOFFSET + 28, 0, W_CacheLumpName("M_LOADG",PU_CACHE));
 	for(i = 0; i < load_end; i++) {
 		M_DrawSaveLoadBorder(LoadDef.x, LoadDef.y + LINEHEIGHT * i);
 		M_WriteText(LoadDef.x, LoadDef.y + LINEHEIGHT * i, savegamestrings[i]);
@@ -563,7 +566,7 @@ void M_LoadGame(int choice) {
 void M_DrawSave(void) {
 	int i;
 
-	V_DrawPatchDirect(72, 28, 0, W_CacheLumpName("M_SAVEG",PU_CACHE));
+	V_DrawPatchDirect(XOFFSET + 72, YOFFSET + 28, 0, W_CacheLumpName("M_SAVEG",PU_CACHE));
 	for(i = 0; i < load_end; i++) {
 		M_DrawSaveLoadBorder(LoadDef.x, LoadDef.y + LINEHEIGHT * i);
 		M_WriteText(LoadDef.x, LoadDef.y + LINEHEIGHT * i, savegamestrings[i]);
@@ -571,7 +574,7 @@ void M_DrawSave(void) {
 
 	if(saveStringEnter) {
 		i = M_StringWidth(savegamestrings[saveSlot]);
-		M_WriteText(LoadDef.x + i, LoadDef.y + LINEHEIGHT * saveSlot, "_");
+		M_WriteText(XOFFSET + LoadDef.x + i, YOFFSET + LoadDef.y + LINEHEIGHT * saveSlot, "_");
 	}
 }
 
@@ -685,12 +688,12 @@ void M_DrawReadThis1(void) {
 	inhelpscreens = SDL_TRUE;
 	switch(gamemode) {
 		case commercial:
-			V_DrawPatchDirect(0, 0, 0, W_CacheLumpName("HELP",PU_CACHE));
+			V_DrawPatchDirect(XOFFSET, YOFFSET, 0, W_CacheLumpName("HELP",PU_CACHE));
 			break;
 		case shareware:
 		case registered:
 		case retail:
-			V_DrawPatchDirect(0, 0, 0, W_CacheLumpName("HELP1",PU_CACHE));
+			V_DrawPatchDirect(XOFFSET, YOFFSET, 0, W_CacheLumpName("HELP1",PU_CACHE));
 			break;
 		default:
 			break;
@@ -707,11 +710,11 @@ void M_DrawReadThis2(void) {
 		case retail:
 		case commercial:
 			// This hack keeps us from having to change menus.
-			V_DrawPatchDirect(0, 0, 0, W_CacheLumpName("CREDIT",PU_CACHE));
+			V_DrawPatchDirect(XOFFSET, YOFFSET, 0, W_CacheLumpName("CREDIT",PU_CACHE));
 			break;
 		case shareware:
 		case registered:
-			V_DrawPatchDirect(0, 0, 0, W_CacheLumpName("HELP2",PU_CACHE));
+			V_DrawPatchDirect(XOFFSET, YOFFSET, 0, W_CacheLumpName("HELP2",PU_CACHE));
 			break;
 		default:
 			break;
@@ -723,12 +726,12 @@ void M_DrawReadThis2(void) {
 // Change Sfx & Music volumes
 //
 void M_DrawSound(void) {
-	V_DrawPatchDirect(60, 38, 0, W_CacheLumpName("M_SVOL",PU_CACHE));
+	V_DrawPatchDirect(XOFFSET + 60, YOFFSET + 38, 0, W_CacheLumpName("M_SVOL",PU_CACHE));
 
-	M_DrawThermo(SoundDef.x, SoundDef.y + LINEHEIGHT * (sfx_vol + 1),
+	M_DrawThermo(XOFFSET + SoundDef.x, YOFFSET + SoundDef.y + LINEHEIGHT * (sfx_vol + 1),
 	             16, snd_SfxVolume);
 
-	M_DrawThermo(SoundDef.x, SoundDef.y + LINEHEIGHT * (music_vol + 1),
+	M_DrawThermo(XOFFSET + SoundDef.x, YOFFSET + SoundDef.y + LINEHEIGHT * (music_vol + 1),
 	             16, snd_MusicVolume);
 }
 
@@ -771,7 +774,7 @@ void M_MusicVol(int choice) {
 // M_DrawMainMenu
 //
 void M_DrawMainMenu(void) {
-	V_DrawPatchDirect(94, 2, 0, W_CacheLumpName("M_DOOM",PU_CACHE));
+	V_DrawPatchDirect(XOFFSET + 94, YOFFSET + 2, 0, W_CacheLumpName("M_DOOM",PU_CACHE));
 }
 
 
@@ -779,8 +782,8 @@ void M_DrawMainMenu(void) {
 // M_NewGame
 //
 void M_DrawNewGame(void) {
-	V_DrawPatchDirect(96, 14, 0, W_CacheLumpName("M_NEWG",PU_CACHE));
-	V_DrawPatchDirect(54, 38, 0, W_CacheLumpName("M_SKILL",PU_CACHE));
+	V_DrawPatchDirect(XOFFSET + 96, YOFFSET + 14, 0, W_CacheLumpName("M_NEWG",PU_CACHE));
+	V_DrawPatchDirect(XOFFSET + 54, YOFFSET + 38, 0, W_CacheLumpName("M_SKILL",PU_CACHE));
 }
 
 void M_NewGame(int choice) {
@@ -802,7 +805,7 @@ void M_NewGame(int choice) {
 int epi;
 
 void M_DrawEpisode(void) {
-	V_DrawPatchDirect(54, 38, 0, W_CacheLumpName("M_EPISOD",PU_CACHE));
+	V_DrawPatchDirect(XOFFSET + 54, YOFFSET + 38, 0, W_CacheLumpName("M_EPISOD",PU_CACHE));
 }
 
 void M_VerifyNightmare(int ch) {
@@ -852,7 +855,7 @@ char msgNames[2][9] = {"M_MSGOFF","M_MSGON"};
 
 
 void M_DrawOptions(void) {
-	V_DrawPatchDirect(108, 15, 0, W_CacheLumpName("M_OPTTTL",PU_CACHE));
+	V_DrawPatchDirect(XOFFSET + 108, YOFFSET + 15, 0, W_CacheLumpName("M_OPTTTL",PU_CACHE));
 
 	V_DrawPatchDirect(OptionsDef.x + 175, OptionsDef.y + LINEHEIGHT * detail, 0,
 	                  W_CacheLumpName(detailNames[detailLevel],PU_CACHE));
@@ -1520,7 +1523,7 @@ void M_Drawer(void) {
 	// Horiz. & Vertically center string and print it.
 	if(messageToPrint) {
 		start = 0;
-		y = 100 - M_StringHeight(messageString) / 2;
+		y = (YOFFSET + 100) - M_StringHeight(messageString) / 2;
 		while(*(messageString + start)) {
 			for(i = 0; i < strlen(messageString + start); i++)
 				if(*(messageString + start + i) == '\n') {
@@ -1535,7 +1538,7 @@ void M_Drawer(void) {
 				start += i;
 			}
 
-			x = 160 - M_StringWidth(string) / 2;
+			x = (XOFFSET + 160) - M_StringWidth(string) / 2;
 			M_WriteText(x, y, string);
 			y += SDL_SwapLE16(hu_font[0]->height);
 		}
