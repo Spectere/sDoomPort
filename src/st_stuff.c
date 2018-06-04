@@ -1306,5 +1306,5 @@ void ST_Stop(void) {
 void ST_Init(void) {
 	veryfirsttime = 0;
 	ST_loadData();
-	screens[4] = (Uint8 *) malloc(ST_WIDTH * ST_HEIGHT);
+	screens[4] = (Uint8 *) malloc(SCREENWIDTH * ST_HEIGHT);
 }
