@@ -203,21 +203,18 @@ void R_DrawColumnLow(void) {
 	   || dc_yl < 0
 	   || dc_yh >= SCREENHEIGHT) {
 
-		I_Error("R_DrawColumn: %i to %i at %i", dc_yl, dc_yh, dc_x);
+		I_Error("R_DrawColumnLow: %i to %i at %i", dc_yl, dc_yh, dc_x);
 	}
 	//	dccount++; 
 #endif
-	// Blocky mode, need to multiply by 2.
-	dc_x <<= 1;
-
-	dest = ylookup[dc_yl] + columnofs[dc_x];
-	dest2 = ylookup[dc_yl] + columnofs[dc_x + 1];
+	dest = ylookup[dc_yl] + columnofs[dc_x << 1];
+	dest2 = ylookup[dc_yl] + columnofs[(dc_x << 1) + 1];
 
 	fracstep = dc_iscale;
 	frac = dc_texturemid + (dc_yl - centery) * fracstep;
 
 	do {
-		// Hack. Does not work corretly.
+		// No longer a hack. Works correctly.
 		*dest2 = *dest = dc_colormap[dc_source[(frac >> FRACBITS) & 127]];
 		dest += SCREENWIDTH;
 		dest2 += SCREENWIDTH;
@@ -613,10 +610,8 @@ void R_DrawSpanLow(void) {
 	yfrac = ds_yfrac;
 
 	// Blocky mode, need to multiply by 2.
-	ds_x1 <<= 1;
-	ds_x2 <<= 1;
 
-	dest = ylookup[ds_y] + columnofs[ds_x1];
+	dest = ylookup[ds_y] + columnofs[ds_x1 << 1];
 
 
 	count = ds_x2 - ds_x1;
