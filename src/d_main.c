@@ -535,7 +535,7 @@ void IdentifyVersion(void) {
 	sprintf(doom2wad, "%s/doom2.wad", doomwaddir);
 
 	// Retail.
-	doomuwad = malloc(strlen(doomwaddir) + 1 + 8 + 1);
+	doomuwad = malloc(strlen(doomwaddir) + 1 + 9 + 1);
 	sprintf(doomuwad, "%s/doomu.wad", doomwaddir);
 
 	// Registered.
@@ -603,7 +603,7 @@ void IdentifyVersion(void) {
 			gamemission = doom2;
 		}
 
-		return;
+		goto cleanup;
 	}
 
 	if(M_CheckParm("-shdev")) {
@@ -614,7 +614,7 @@ void IdentifyVersion(void) {
 		D_AddFile(DEVMAPS"data_se/texture1.lmp");
 		D_AddFile(DEVMAPS"data_se/pnames.lmp");
 		strcpy(basedefault,DEVDATA"default.cfg");
-		return;
+		goto cleanup;
 	}
 
 	if(M_CheckParm("-regdev")) {
@@ -626,7 +626,7 @@ void IdentifyVersion(void) {
 		D_AddFile(DEVMAPS"data_se/texture2.lmp");
 		D_AddFile(DEVMAPS"data_se/pnames.lmp");
 		strcpy(basedefault,DEVDATA"default.cfg");
-		return;
+		goto cleanup;
 	}
 
 	if(M_CheckParm("-comdev")) {
@@ -644,7 +644,7 @@ void IdentifyVersion(void) {
 		D_AddFile(DEVMAPS"cdata/texture1.lmp");
 		D_AddFile(DEVMAPS"cdata/pnames.lmp");
 		strcpy(basedefault,DEVDATA"default.cfg");
-		return;
+		goto cleanup;
 	}
 
 	if(I_FileExists(doom2fwad)) {
@@ -655,63 +655,63 @@ void IdentifyVersion(void) {
 		language = french;
 		printf("French version\n");
 		D_AddFile(doom2fwad);
-		return;
+		goto cleanup;
 	}
 
 	if(I_FileExists(doom2wad)) {
 		gamemode = commercial;
 		gamemission = doom2;
 		D_AddFile(doom2wad);
-		return;
+		goto cleanup;
 	}
 
 	if(I_FileExists(plutoniawad)) {
 		gamemode = commercial;
 		gamemission = pack_plut;
 		D_AddFile(plutoniawad);
-		return;
+		goto cleanup;
 	}
 
 	if(I_FileExists(tntwad)) {
 		gamemode = commercial;
 		gamemission = pack_tnt;
 		D_AddFile(tntwad);
-		return;
+		goto cleanup;
 	}
 
 	if(I_FileExists(doomuwad)) {
 		gamemode = retail;
 		gamemission = doom;
 		D_AddFile(doomuwad);
-		return;
+		goto cleanup;
 	}
 
 	if(I_FileExists(doomwad)) {
 		gamemode = registered;
 		gamemission = doom;
 		D_AddFile(doomwad);
-		return;
+		goto cleanup;
 	}
 
 	if(I_FileExists(freedoom2wad)) {
 		gamemode = commercial;
 		gamemission = freedoom2;
 		D_AddFile(freedoom2wad);
-		return;
+		goto cleanup;
 	}
 
 	if(I_FileExists(freedoom1wad)) {
 		gamemode = retail;
 		gamemission = freedoom;
 		D_AddFile(freedoom1wad);
-		return;
+		goto cleanup;
 	}
 
 	if(I_FileExists(doom1wad)) {
 		gamemode = shareware;
 		gamemission = doom;
 		D_AddFile(doom1wad);
-		return;
+		goto cleanup;
 	}
 
 	printf("Game mode indeterminate.\n");
@@ -720,6 +720,18 @@ void IdentifyVersion(void) {
 	// We don't abort. Let's see what the PWAD contains.
 	//exit(1);
 	//I_Error ("Game mode indeterminate\n");
+
+cleanup:
+	// Clean up!
+	free(doom2wad);
+	free(doomuwad);
+	free(doomwad);
+	free(doom1wad);
+	free(plutoniawad);
+	free(tntwad);
+	free(doom2fwad);
+	free(freedoom1wad);
+	free(freedoom2wad);
 }
 
 //
@@ -791,6 +803,34 @@ void FindResponseFile(void) {
 		}
 }
 
+static inline void D_PrintStartupHeader(char* game) {
+	int i = 0;
+	int spacelen;
+	char* whitespace;
+
+	// Figure out how many spaces we need to center the text compared to the "====" strings used elsewhere..
+	spacelen = 36 - ((strlen(game) + 6) / 2);
+	whitespace = malloc(spacelen + 1);
+
+	if(whitespace == NULL) {
+		// Juuuuuuuust in case (though if a system doesn't have enough memory for this,
+		// good luck running Doom!).
+		sprintf(title,
+				"%s v%i.%i",
+				game, VERSION / 100, VERSION % 100);
+		return;
+	}
+
+	memset(whitespace, ' ', spacelen);
+	whitespace[spacelen] = 0;
+
+	sprintf(title,
+			"%s%s v%i.%i",
+			whitespace, game, VERSION / 100, VERSION % 100);
+
+	free(whitespace);
+}
+
 //
 // D_DoomMain
 //
@@ -818,73 +858,37 @@ void D_DoomMain(void) {
 		case retail:
 			switch(gamemission) {
 				case freedoom:
-					sprintf(title,
-						"                             "
-						"Freedoom: Phase 1 v%i.%i"
-						"                             ",
-						VERSION / 100, VERSION % 100);
+					D_PrintStartupHeader("Freedoom: Phase 1");
 					break;
 				default:
-					sprintf(title,
-						"                         "
-						"The Ultimate DOOM Startup v%i.%i"
-						"                           ",
-						VERSION / 100, VERSION % 100);
+					D_PrintStartupHeader("The Ultimate DOOM Startup");
 					break;
 			}
 			break;
 		case shareware:
-			sprintf(title,
-				"                            "
-				"DOOM Shareware Startup v%i.%i"
-				"                           ",
-				VERSION / 100, VERSION % 100);
+			D_PrintStartupHeader("DOOM Shareware Startup");
 			break;
 		case registered:
-			sprintf(title,
-				"                            "
-				"DOOM Registered Startup v%i.%i"
-				"                           ",
-				VERSION / 100, VERSION % 100);
+			D_PrintStartupHeader("DOOM Registered Startup");
 			break;
 		case commercial:
 			switch(gamemission) {
 				case pack_plut:
-					sprintf(title,
-						"                   "
-						"DOOM 2: Plutonia Experiment v%i.%i"
-						"                           ",
-						VERSION / 100, VERSION % 100);
+					D_PrintStartupHeader("DOOM 2: Plutonia Experiment");
 					break;
 				case pack_tnt:
-					sprintf(title,
-						"                     "
-						"DOOM 2: TNT - Evilution v%i.%i"
-						"                           ",
-						VERSION / 100, VERSION % 100);
+					D_PrintStartupHeader("DOOM 2: TNT - Evilution");
 					break;
 				case freedoom2:
-					sprintf(title,
-						"                             "
-						"Freedoom: Phase 2 v%i.%i"
-						"                             ",
-						VERSION / 100, VERSION % 100);
+					D_PrintStartupHeader("Freedoom: Phase 2");
 					break;
 				default:
-					sprintf(title,
-						"                         "
-						"DOOM 2: Hell on Earth v%i.%i"
-						"                           ",
-						VERSION / 100, VERSION % 100);
+					D_PrintStartupHeader("DOOM 2: Hell on Earth");
 					break;
 			}
 			break;
 		default:
-			sprintf(title,
-				"                     "
-				"Public DOOM - v%i.%i"
-				"                           ",
-				VERSION / 100, VERSION % 100);
+			D_PrintStartupHeader("Public DOOM");
 			break;
 	}
 
