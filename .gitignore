@@ -393,3 +393,10 @@ assets/*.[wW][aA][dD]
 # macOS Stuff
 .DS_Store
 
+# CMake/CLion stuff
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+build
+cmake-build-debug
+
