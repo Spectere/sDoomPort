@@ -379,7 +379,7 @@ void W_ReadLump(int lump, void* dest) {
 	SDL_RWseek(handle, l->position, RW_SEEK_SET);
 	c = SDL_RWread(handle, dest, l->size, 1);
 
-	if(c == 0)
+	if(c == 0 && l->size != 0)
 		I_Error("W_ReadLump: error reading lump %i",
 		        lump);
 
