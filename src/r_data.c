@@ -146,6 +146,8 @@ fixed_t* spritetopoffset;
 
 lighttable_t* colormaps;
 
+static Uint8* badtex = NULL;
+
 
 //
 // MAPTEXTURE_T CACHING
@@ -327,6 +329,16 @@ void R_GenerateLookup(int texnum) {
 	}
 }
 
+void R_GenerateBadTex() {
+	badtex = malloc(sizeof(Uint8) * SCREENHEIGHT);
+}
+
+Uint8* R_GetBadColumn() {
+	if(badtex == NULL)
+		R_GenerateBadTex();
+
+	return badtex;
+}
 
 //
 // R_GetColumn
@@ -633,15 +645,7 @@ int R_CheckTextureNumForName(char* name) {
 //  aborts with error message.
 //
 int R_TextureNumForName(char* name) {
-	int i;
-
-	i = R_CheckTextureNumForName(name);
-
-	if(i == -1) {
-		I_Error("R_TextureNumForName: %s not found",
-		        name);
-	}
-	return i;
+	return R_CheckTextureNumForName(name);
 }
 
 

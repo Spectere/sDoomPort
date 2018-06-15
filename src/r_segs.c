@@ -27,6 +27,7 @@
 #include "doomstat.h"
 
 #include "r_local.h"
+#include "r_defs.h"
 
 
 // OPTIMIZE: closed two sided lines as single sided
@@ -250,7 +251,11 @@ void R_RenderSegLoop(void) {
 			dc_yl = yl;
 			dc_yh = yh;
 			dc_texturemid = rw_midtexturemid;
-			dc_source = R_GetColumn(midtexture, texturecolumn);
+			if(midtexture)
+				dc_source = R_GetColumn(midtexture, texturecolumn);
+			else
+				dc_source = R_GetBadColumn();
+
 			colfunc();
 			ceilingclip[rw_x] = viewheight;
 			floorclip[rw_x] = -1;
@@ -268,7 +273,10 @@ void R_RenderSegLoop(void) {
 					dc_yl = yl;
 					dc_yh = mid;
 					dc_texturemid = rw_toptexturemid;
-					dc_source = R_GetColumn(toptexture, texturecolumn);
+					if(toptexture)
+						dc_source = R_GetColumn(toptexture, texturecolumn);
+					else
+						dc_source = R_GetBadColumn();
 					colfunc();
 					ceilingclip[rw_x] = mid;
 				} else
@@ -292,8 +300,12 @@ void R_RenderSegLoop(void) {
 					dc_yl = mid;
 					dc_yh = yh;
 					dc_texturemid = rw_bottomtexturemid;
-					dc_source = R_GetColumn(bottomtexture,
+					if(bottomtexture)
+						dc_source = R_GetColumn(bottomtexture,
 					                        texturecolumn);
+					else
+						dc_source = R_GetBadColumn();
+
 					colfunc();
 					floorclip[rw_x] = mid;
 				} else
@@ -397,7 +409,11 @@ void R_StoreWallRange(int start, int stop) {
 
 	if(!backsector) {
 		// single sided line
-		midtexture = texturetranslation[sidedef->midtexture];
+		if(sidedef->midtexture >= 0)
+			midtexture = texturetranslation[sidedef->midtexture];
+		else
+			midtexture = 0;
+
 		// a single sided line is terminal, so it must mark ends
 		markfloor = markceiling = SDL_TRUE;
 		if(linedef->flags & ML_DONTPEGBOTTOM) {
@@ -489,7 +505,11 @@ void R_StoreWallRange(int start, int stop) {
 
 		if(worldhigh < worldtop) {
 			// top texture
-			toptexture = texturetranslation[sidedef->toptexture];
+			if(sidedef->toptexture >= 0)
+				toptexture = texturetranslation[sidedef->toptexture];
+			else
+				toptexture = 0;
+
 			if(linedef->flags & ML_DONTPEGTOP) {
 				// top of texture at top
 				rw_toptexturemid = worldtop;
@@ -504,7 +524,10 @@ void R_StoreWallRange(int start, int stop) {
 		}
 		if(worldlow > worldbottom) {
 			// bottom texture
-			bottomtexture = texturetranslation[sidedef->bottomtexture];
+			if(sidedef->bottomtexture >= 0)
+				bottomtexture = texturetranslation[sidedef->bottomtexture];
+			else
+				bottomtexture = 0;
 
 			if(linedef->flags & ML_DONTPEGBOTTOM) {
 				// bottom of texture at bottom
