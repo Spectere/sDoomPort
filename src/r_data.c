@@ -146,8 +146,7 @@ fixed_t* spritetopoffset;
 
 lighttable_t* colormaps;
 
-static Uint8* badtex = NULL;
-
+static Uint8* invalidtex = NULL;
 
 //
 // MAPTEXTURE_T CACHING
@@ -329,15 +328,13 @@ void R_GenerateLookup(int texnum) {
 	}
 }
 
-void R_GenerateBadTex() {
-	badtex = malloc(sizeof(Uint8) * SCREENHEIGHT);
+void R_GenerateErrorTex() {
+	invalidtex = malloc(sizeof(Uint8) * SCREENHEIGHT);
+	memset(invalidtex, INVALID_TEX_COLOR, SCREENHEIGHT);
 }
 
-Uint8* R_GetBadColumn() {
-	if(badtex == NULL)
-		R_GenerateBadTex();
-
-	return badtex;
+Uint8* R_GetInvalidTexColumn() {
+	return invalidtex;
 }
 
 //
@@ -399,6 +396,8 @@ void R_InitTextures(void) {
 	int temp2;
 	int temp3;
 
+	// Generate solid error textures.
+	R_GenerateErrorTex();
 
 	// Load the patch names from pnames.lmp.
 	name[8] = 0;

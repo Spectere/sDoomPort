@@ -38,7 +38,8 @@
 #include "p_mobj.h"
 
 // Invalid textures will be flood filled with this color.
-#define MISSING_TEX_COLOR 175
+#define INVALID_TEX 65535
+#define INVALID_TEX_COLOR 175
 
 // Silhouette, needed for clipping Segs (mainly)
 // and sprites representing things.

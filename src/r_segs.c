@@ -251,10 +251,10 @@ void R_RenderSegLoop(void) {
 			dc_yl = yl;
 			dc_yh = yh;
 			dc_texturemid = rw_midtexturemid;
-			if(midtexture)
-				dc_source = R_GetColumn(midtexture, texturecolumn);
+			if(midtexture == INVALID_TEX)
+				dc_source = R_GetInvalidTexColumn();
 			else
-				dc_source = R_GetBadColumn();
+				dc_source = R_GetColumn(midtexture, texturecolumn);
 
 			colfunc();
 			ceilingclip[rw_x] = viewheight;
@@ -273,10 +273,10 @@ void R_RenderSegLoop(void) {
 					dc_yl = yl;
 					dc_yh = mid;
 					dc_texturemid = rw_toptexturemid;
-					if(toptexture)
-						dc_source = R_GetColumn(toptexture, texturecolumn);
+					if(toptexture == INVALID_TEX)
+						dc_source = R_GetInvalidTexColumn();
 					else
-						dc_source = R_GetBadColumn();
+						dc_source = R_GetColumn(toptexture, texturecolumn);
 					colfunc();
 					ceilingclip[rw_x] = mid;
 				} else
@@ -300,11 +300,10 @@ void R_RenderSegLoop(void) {
 					dc_yl = mid;
 					dc_yh = yh;
 					dc_texturemid = rw_bottomtexturemid;
-					if(bottomtexture)
-						dc_source = R_GetColumn(bottomtexture,
-					                        texturecolumn);
+					if(bottomtexture == INVALID_TEX)
+						dc_source = R_GetInvalidTexColumn();
 					else
-						dc_source = R_GetBadColumn();
+						dc_source = R_GetColumn(bottomtexture, texturecolumn);
 
 					colfunc();
 					floorclip[rw_x] = mid;
@@ -412,7 +411,7 @@ void R_StoreWallRange(int start, int stop) {
 		if(sidedef->midtexture >= 0)
 			midtexture = texturetranslation[sidedef->midtexture];
 		else
-			midtexture = 0;
+			midtexture = INVALID_TEX;
 
 		// a single sided line is terminal, so it must mark ends
 		markfloor = markceiling = SDL_TRUE;
@@ -508,7 +507,7 @@ void R_StoreWallRange(int start, int stop) {
 			if(sidedef->toptexture >= 0)
 				toptexture = texturetranslation[sidedef->toptexture];
 			else
-				toptexture = 0;
+				toptexture = INVALID_TEX;
 
 			if(linedef->flags & ML_DONTPEGTOP) {
 				// top of texture at top
@@ -527,7 +526,7 @@ void R_StoreWallRange(int start, int stop) {
 			if(sidedef->bottomtexture >= 0)
 				bottomtexture = texturetranslation[sidedef->bottomtexture];
 			else
-				bottomtexture = 0;
+				bottomtexture = INVALID_TEX;
 
 			if(linedef->flags & ML_DONTPEGBOTTOM) {
 				// bottom of texture at bottom

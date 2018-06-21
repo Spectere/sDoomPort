@@ -26,8 +26,9 @@
 #include "r_defs.h"
 #include "r_state.h"
 
-// Returns a placeholder for invalid textures/column data.
-Uint8* R_GetBadColumn();
+// Returns a placeholder for missing/invalid textures/column data.
+Uint8* R_GetMissingTexColumn();
+Uint8* R_GetInvalidTexColumn();
 
 // Retrieve column data for span blitting.
 Uint8* R_GetColumn(int tex, int col);
