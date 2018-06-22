@@ -349,9 +349,12 @@ void R_DrawPlanes(void) {
 		}
 
 		// regular flat
-		ds_source = W_CacheLumpNum(firstflat +
-		                           flattranslation[pl->picnum],
-		                           PU_STATIC);
+		if(pl->picnum == INVALID_FLAT)
+			ds_source = R_GetInvalidTex();
+		else
+			ds_source = W_CacheLumpNum(firstflat +
+									   flattranslation[pl->picnum],
+									   PU_STATIC);
 
 		planeheight = abs(pl->height - viewz);
 		light = (pl->lightlevel >> LIGHTSEGSHIFT) + extralight;
@@ -376,7 +379,8 @@ void R_DrawPlanes(void) {
 			            pl->bottom[x]);
 		}
 
-		Z_ChangeTag (ds_source, PU_CACHE);
+		if(pl->picnum != INVALID_FLAT)
+			Z_ChangeTag (ds_source, PU_CACHE);
 	}
 }
 

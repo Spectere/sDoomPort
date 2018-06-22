@@ -252,7 +252,7 @@ void R_RenderSegLoop(void) {
 			dc_yh = yh;
 			dc_texturemid = rw_midtexturemid;
 			if(midtexture == INVALID_TEX)
-				dc_source = R_GetInvalidTexColumn();
+				dc_source = R_GetInvalidTex();
 			else
 				dc_source = R_GetColumn(midtexture, texturecolumn);
 
@@ -274,7 +274,7 @@ void R_RenderSegLoop(void) {
 					dc_yh = mid;
 					dc_texturemid = rw_toptexturemid;
 					if(toptexture == INVALID_TEX)
-						dc_source = R_GetInvalidTexColumn();
+						dc_source = R_GetInvalidTex();
 					else
 						dc_source = R_GetColumn(toptexture, texturecolumn);
 					colfunc();
@@ -301,7 +301,7 @@ void R_RenderSegLoop(void) {
 					dc_yh = yh;
 					dc_texturemid = rw_bottomtexturemid;
 					if(bottomtexture == INVALID_TEX)
-						dc_source = R_GetInvalidTexColumn();
+						dc_source = R_GetInvalidTex();
 					else
 						dc_source = R_GetColumn(bottomtexture, texturecolumn);
 

@@ -39,6 +39,7 @@
 
 // Invalid textures will be flood filled with this color.
 #define INVALID_TEX 65535
+#define INVALID_FLAT -1
 #define INVALID_TEX_COLOR 175
 
 // Silhouette, needed for clipping Segs (mainly)

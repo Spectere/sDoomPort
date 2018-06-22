@@ -28,7 +28,7 @@
 
 // Returns a placeholder for missing/invalid textures/column data.
 Uint8* R_GetMissingTexColumn();
-Uint8* R_GetInvalidTexColumn();
+Uint8* R_GetInvalidTex();
 
 // Retrieve column data for span blitting.
 Uint8* R_GetColumn(int tex, int col);

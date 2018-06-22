@@ -329,11 +329,15 @@ void R_GenerateLookup(int texnum) {
 }
 
 void R_GenerateErrorTex() {
-	invalidtex = malloc(sizeof(Uint8) * SCREENHEIGHT);
-	memset(invalidtex, INVALID_TEX_COLOR, SCREENHEIGHT);
+	/* We use this for both wall textures and flats, so we need to make the
+	 * error texture as large as the largest texture. */
+	int texSize = (SCREENHEIGHT > 64 * 64) ? SCREENHEIGHT : 64 * 64;
+
+	invalidtex = malloc(sizeof(Uint8) * texSize);
+	memset(invalidtex, INVALID_TEX_COLOR, texSize);
 }
 
-Uint8* R_GetInvalidTexColumn() {
+Uint8* R_GetInvalidTex() {
 	return invalidtex;
 }
 
@@ -605,15 +609,12 @@ void R_InitData(void) {
 //
 int R_FlatNumForName(char* name) {
 	int i;
-	char namet[9];
 
 	i = W_CheckNumForName(name);
 
-	if(i == -1) {
-		namet[8] = 0;
-		memcpy(namet, name, 8);
-		I_Error("R_FlatNumForName: %s not found", namet);
-	}
+	if(i == -1)
+		return INVALID_FLAT;
+
 	return i - firstflat;
 }
 
