@@ -27,7 +27,6 @@
 #include "r_state.h"
 
 // Returns a placeholder for missing/invalid textures/column data.
-Uint8* R_GetMissingTexColumn();
 Uint8* R_GetInvalidTex();
 
 // Retrieve column data for span blitting.
